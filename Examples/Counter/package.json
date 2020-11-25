@@ -1,0 +1,10 @@
+{
+  "name": "Counter",
+  "version": "1.0.0",
+  "description": "A simple counter as an example of using Strohm",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "shadow-cljs": "^2.11.8"
+  }
+}
