@@ -6,5 +6,8 @@
   "license": "MIT",
   "devDependencies": {
     "shadow-cljs": "^2.11.8"
+  },
+  "scripts": {
+    "dev": "shadow-cljs watch app test"
   }
 }
