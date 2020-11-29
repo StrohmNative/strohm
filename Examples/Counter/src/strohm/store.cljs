@@ -1,5 +1,2 @@
-(ns strohm.store)
-
-(def store (atom nil))
-
-(defn state [] {})
+(ns strohm.store
+  (:require [strohm.impl.store :as impl]))
