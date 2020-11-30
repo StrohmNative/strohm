@@ -1,4 +1,5 @@
 .shadow-cljs/
 node_modules/
-target/
+target/*
+!target/index.html
 .calva/
