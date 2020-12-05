@@ -19,3 +19,6 @@
   {:state (or initial-state default-initial-state)
    :reducer reducer
    :dispatcher identity})
+
+(defn reduce-action [store action] 
+  (update store :state (partial (:reducer store) action)))
