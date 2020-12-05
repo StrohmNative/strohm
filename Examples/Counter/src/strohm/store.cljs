@@ -15,3 +15,13 @@
   [action]
   (swap! store (partial impl/reduce-action action))
   action)
+
+(defn subscribe!
+  [callback]
+  (let [key (random-uuid)]
+    (add-watch store key (fn [_key _ref _old-val _new-val] (callback)))
+    key))
+
+(defn unsubscribe!
+  [key]
+  (remove-watch store key))
