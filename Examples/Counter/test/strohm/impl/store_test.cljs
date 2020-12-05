@@ -17,7 +17,14 @@
                                  :initial-state {:test "foo"})))))
 
   (testing "it can reduce an action to a new state"
-    (let [reducer (fn [_action state] (inc state))
-          store   (create-store reducer :initial-state 0)
-          action  {:type :increment}]
-      (is (= 1 (:state (reduce-action action store)))))))
+    (let [reducer (fn incfn [_ state] (inc state))
+          store   (create-store reducer :initial-state 0)]
+      (is (= 1 (:state (reduce-action {:type :increment} store))))))
+  
+  (testing "a reducer can be a map"
+    (let [reducer {:increment (fn incfn [_ state] (inc state))
+                   :decrement (fn decfn [_ state] (dec state))}
+          store   (create-store reducer :initial-state 0)]
+      (is (= 1  (:state (reduce-action {:type :increment} store))))
+      (is (= -1 (:state (reduce-action {:type :decrement} store))))
+      (is (= 0  (:state (reduce-action {:type :unknown}   store)))))))
