@@ -9,13 +9,13 @@
   {:state (or initial-state default-initial-state)
    :reducer reducer})
 
-(defn- identity-reducer [_ state] state)
+(defn- identity-reducer [state _] state)
 
 (defn reduce-action [action store] 
-  (update store
-          :state
-          (partial (let [reducer (:reducer store)]
-                     (if (associative? reducer)
-                       (or ((:type action) reducer) identity-reducer)
-                       reducer))
-                   action)))
+  (let [reducer     (:reducer store)
+        reducing-fn (if (associative? reducer)
+                      (or ((:type action) reducer) identity-reducer)
+                      reducer)]
+    (update store
+            :state
+            (fn [state] (reducing-fn state action)))))
