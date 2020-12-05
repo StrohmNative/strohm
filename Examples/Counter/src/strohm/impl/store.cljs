@@ -2,6 +2,8 @@
 
 (def default-initial-state {})
 
+(defonce global-store (atom nil))
+
 (defn state
   [store]
   (:state store))
