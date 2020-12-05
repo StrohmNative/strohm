@@ -2,8 +2,6 @@
 
 (def default-initial-state {})
 
-(defonce global-store (atom nil))
-
 (defn create-store 
   [reducer & {:keys [initial-state]}]
   {:state (or initial-state default-initial-state)
