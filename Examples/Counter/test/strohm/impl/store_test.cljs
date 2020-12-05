@@ -20,4 +20,4 @@
     (let [reducer (fn [_action state] (inc state))
           store   (create-store reducer :initial-state 0)
           action  {:type :increment}]
-      (is (= 1 (:state (reduce-action store action)))))))
+      (is (= 1 (:state (reduce-action action store)))))))
