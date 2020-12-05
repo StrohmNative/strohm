@@ -19,7 +19,8 @@
 (defn subscribe!
   [callback]
   (let [key (random-uuid)]
-    (add-watch store key (fn [_key _ref _old-val _new-val] (callback)))
+    (add-watch store key (fn [_key _ref old new] 
+                           (callback (:state old) (:state new))))
     key))
 
 (defn unsubscribe!
