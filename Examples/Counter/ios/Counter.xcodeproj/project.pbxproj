@@ -11,6 +11,8 @@
 		F865BA4B257CD5F6007C3A0C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F865BA4A257CD5F6007C3A0C /* ContentView.swift */; };
 		F865BA4D257CD5F7007C3A0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F865BA4C257CD5F7007C3A0C /* Assets.xcassets */; };
 		F865BA50257CD5F7007C3A0C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F865BA4F257CD5F7007C3A0C /* Preview Assets.xcassets */; };
+		F865BA5A257CEEA9007C3A0C /* Strohm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F865BA59257CEEA9007C3A0C /* Strohm.swift */; };
+		F865BA5D257CEF0C007C3A0C /* Subscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F865BA5C257CEF0C007C3A0C /* Subscriptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		F865BA4C257CD5F7007C3A0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F865BA4F257CD5F7007C3A0C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F865BA51257CD5F7007C3A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F865BA59257CEEA9007C3A0C /* Strohm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strohm.swift; sourceTree = "<group>"; };
+		F865BA5C257CEF0C007C3A0C /* Subscriptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Subscriptions.swift; path = "../../../../../FlowNext/flownext-swift/Sources/FlowNext/Subscriptions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,8 @@
 			children = (
 				F865BA48257CD5F6007C3A0C /* CounterApp.swift */,
 				F865BA4A257CD5F6007C3A0C /* ContentView.swift */,
+				F865BA59257CEEA9007C3A0C /* Strohm.swift */,
+				F865BA5C257CEF0C007C3A0C /* Subscriptions.swift */,
 				F865BA4C257CD5F7007C3A0C /* Assets.xcassets */,
 				F865BA51257CD5F7007C3A0C /* Info.plist */,
 				F865BA4E257CD5F7007C3A0C /* Preview Content */,
@@ -139,6 +145,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F865BA4B257CD5F6007C3A0C /* ContentView.swift in Sources */,
+				F865BA5A257CEEA9007C3A0C /* Strohm.swift in Sources */,
+				F865BA5D257CEF0C007C3A0C /* Subscriptions.swift in Sources */,
 				F865BA49257CD5F6007C3A0C /* CounterApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
