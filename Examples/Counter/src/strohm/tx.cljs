@@ -6,5 +6,7 @@
       -messageHandlers
       -jsToSwift))
 
-(defn js->native [msg]
+(defn js->native
+  [msg]
+  {:pre [(associative? msg)]}
   (.postMessage (js->swift-handler) (clj->js msg)))
