@@ -1,6 +1,6 @@
 (ns strohm.tx)
 
-(defn js->swift [msg]
+(defn js->native [msg]
   (let [handler  (->> js/window
                       (.-webkit)
                       (.-messageHandlers)

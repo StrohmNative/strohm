@@ -1,6 +1,6 @@
 (ns app.main
   (:require [strohm.store :refer [create-store]]
-            [strohm.tx :refer [js->swift]]
+            [strohm.tx :refer [js->native]]
             [strohm.debug :refer [log]]
             [clojure.string :as str]))
 
@@ -12,8 +12,8 @@
   (let [time ((juxt #(.getHours %) #(.getMinutes %) #(.getSeconds %)) (js/Date.))]
     (log "send test message"
          (str/join ":" time))
-    (js->swift {:foo :bar 
-                :when time})))
+    (js->native {:foo :bar
+                 :when time})))
 
 (defn init []
   (js/setTimeout sendTestMessage 3000)
