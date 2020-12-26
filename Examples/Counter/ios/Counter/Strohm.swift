@@ -39,8 +39,9 @@ class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
         webView?.navigationDelegate = self
 
+        #if DEBUG
         let port = Strohm.determinePort(port: port,
-                                          env: ProcessInfo().environment)
+                                        env: ProcessInfo().environment)
         let myHtml = """
         <html>
         <body style='background-color: #ddd;font-size: 200%'>
@@ -55,7 +56,26 @@ class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
         </body>
         </html>
         """
-        webView?.loadHTMLString(myHtml, baseURL: nil)
+        #else
+        let mainJSURL = Bundle.main.url(forResource: "main", withExtension: "js")!
+        let jsUrlString = mainJSURL.absoluteString
+        let myHtml = """
+        <html>
+        <body style='background-color: #ddd;font-size: 200%'>
+            <h1>Hi!</h1><div id='content'></div>
+            <script type="text/javascript">
+                window.onload = function(e) {
+                    document.getElementById('content').innerHTML += 'onload<br />'
+                    globalThis.app.main.init()
+                }
+            </script>
+            <script src="\(jsUrlString)"></script>
+        </body>
+        </html>
+        """
+        #endif
+
+        webView?.loadHTMLString(myHtml, baseURL: Bundle.main.resourceURL)
     }
 
     public func subscribe(propsSpec: PropsSpec,
