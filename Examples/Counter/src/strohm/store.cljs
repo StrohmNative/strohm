@@ -1,7 +1,7 @@
 (ns strohm.store
   (:require [strohm.impl.store :as impl]))
 
-(defonce store (atom nil))
+(defonce ^:export store (atom nil))
 
 (defn create-store
   [& args]

@@ -4,7 +4,7 @@
             [strohm.debug :refer [log]]
             [clojure.string :as str]))
 
-(defn main! []
+(defn ^:export main! []
   (create-store (fn [_action state] state))
   (println "[main] started"))
 
@@ -15,7 +15,7 @@
     (js->native {:foo :bar
                  :when time})))
 
-(defn init []
+(defn ^:export init []
   (js/setTimeout sendTestMessage 3000)
   (log "init done"))
 
