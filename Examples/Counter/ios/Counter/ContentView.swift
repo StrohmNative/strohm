@@ -9,7 +9,7 @@ struct ContentView: View {
                 Button(action: { Strohm.default.reload() },
                        label: { Text("Reload") })
             }
-            WebViewWrapper()
+            StrohmHolder()
         }
     }
 }

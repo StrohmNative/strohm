@@ -2,7 +2,7 @@ import Foundation
 import WebKit
 import SwiftUI
 
-struct WebViewWrapper: UIViewRepresentable {
+struct StrohmHolder: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         Strohm.default.install(appJsPath: "main.js")
         return Strohm.default.webView!
