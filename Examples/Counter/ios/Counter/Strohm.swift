@@ -52,7 +52,7 @@ class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
                     globalThis.app.main.init()
                 }
             </script>
-            <script src="http://localhost:\(port)/\(appJsPath)"></script>
+            <script src="https://localhost:\(port)/\(appJsPath)"></script>
         </body>
         </html>
         """
