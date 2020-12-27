@@ -30,15 +30,15 @@ struct ContentView: View {
     }
 
     func decrement() {
-        print("–")
+        Strohm.default.dispatch(type: "decrement")
     }
 
     func increment() {
-        print("+")
+        Strohm.default.dispatch(type: "increment")
     }
 
     func setCounter(count: Int) {
-        print("setCounter", count)
+        Strohm.default.dispatch(type: "setCounter", payload: ["count": count])
     }
 }
 

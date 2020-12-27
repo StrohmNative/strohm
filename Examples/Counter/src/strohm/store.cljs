@@ -1,5 +1,6 @@
 (ns strohm.store
-  (:require [strohm.impl.store :as impl]))
+  (:require [clojure.string :as str]
+            [strohm.impl.store :as impl]))
 
 (defonce ^:export store (atom nil))
 
@@ -11,10 +12,17 @@
   []
   (:state @store))
 
-(defn dispatch!
+(defn ^:export dispatch!
   [action]
+  (js/console.debug "dispatch!" action)
   (swap! store (partial impl/reduce-action action))
   action)
+
+(defn ^:export dispatch-json!
+  [encoded-action]
+  (js/console.debug "dispatch-encoded!" encoded-action)
+  (let [action (js/JSON.parse encoded-action)] 
+    (dispatch! action)))
 
 (defn subscribe!
   [callback]

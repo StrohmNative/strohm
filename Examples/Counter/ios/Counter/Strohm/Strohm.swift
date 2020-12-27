@@ -107,6 +107,23 @@ class Strohm: NSObject, WKNavigationDelegate {
         print("Please make sure dev server is running")
     }
 
+    func call(method: String) {
+        webView?.evaluateJavaScript(method) { (result, error) in
+            print("result: \(String(describing: result)), error: \(String(describing: error))")
+        }
+    }
+
+    public func dispatch(type: String, payload: [String: Any] = [:]) {
+        print("dispatch", type, payload)
+        let action: [String: Any] = ["type": type, "payload": payload]
+        guard let serializedAction = comms.encode(object: action) else {
+            return
+        }
+        let method = "globalThis.strohm.store.dispatch_json_BANG_(\"\(serializedAction)\")"
+        print(method)
+        call(method: method)
+    }
+
     enum Status {
         case uninitialized
         case serverNotRunning
