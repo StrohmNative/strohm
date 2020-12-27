@@ -1,21 +1,7 @@
 import Foundation
 import WebKit
-import SwiftUI
 
-struct StrohmHolder: UIViewRepresentable {
-    func makeUIView(context: Context) -> WKWebView {
-        Strohm.default.install(appJsPath: "main.js")
-        return Strohm.default.webView!
-    }
-
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-
-    }
-
-    typealias UIViewType = WKWebView
-}
-
-class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
+class Strohm: NSObject, WKNavigationDelegate {
     static var `default` = Strohm()
 
     var webView: WKWebView?
@@ -23,6 +9,7 @@ class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     var status: Status = .uninitialized
     var appJsPath: String?
     var port: Int?
+    var comms = JsonComms()
 
     static func determinePort(port: Int?, env: [String: String]) -> Int {
         if let portString = env["DEVSERVER_PORT"],
@@ -39,7 +26,7 @@ class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
         self.port = port
 
         webConfiguration = WKWebViewConfiguration()
-        webConfiguration.userContentController.add(self, name: "jsToSwift")
+        webConfiguration.userContentController.add(comms, name: "jsToSwift")
 
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
         webView?.navigationDelegate = self
@@ -99,9 +86,6 @@ class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        webView.evaluateJavaScript("Object.getOwnPropertyNames(strohm.store)") { (result, error) in
-            print(result)
-        }
         webView.evaluateJavaScript("this.hasOwnProperty('strohm')") { (result, error) in
             guard let returnValue = result as? Int,
                 returnValue == 1,
@@ -121,11 +105,6 @@ class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     func loadingFailed() {
         self.status = .serverNotRunning
         print("Please make sure dev server is running")
-    }
-
-    func userContentController(_ userContentController: WKUserContentController,
-                               didReceive message: WKScriptMessage) {
-        print("jsToSwift", message.name, message.body)
     }
 
     enum Status {

@@ -14,6 +14,8 @@
 		F865BA5A257CEEA9007C3A0C /* Strohm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F865BA59257CEEA9007C3A0C /* Strohm.swift */; };
 		F8C499D1259774F300571293 /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = F8C499D0259774F300571293 /* main.js */; };
 		F8C499D82598C58200571293 /* Subscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C499D72598C58200571293 /* Subscriptions.swift */; };
+		F8C499DC2598C63300571293 /* Holder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C499DB2598C63300571293 /* Holder.swift */; };
+		F8C499E02598C7EE00571293 /* JsonComms.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C499DF2598C7EE00571293 /* JsonComms.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		F865BA59257CEEA9007C3A0C /* Strohm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strohm.swift; sourceTree = "<group>"; };
 		F8C499D0259774F300571293 /* main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
 		F8C499D72598C58200571293 /* Subscriptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subscriptions.swift; sourceTree = "<group>"; };
+		F8C499DB2598C63300571293 /* Holder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Holder.swift; sourceTree = "<group>"; };
+		F8C499DF2598C7EE00571293 /* JsonComms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonComms.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +95,8 @@
 			children = (
 				F865BA59257CEEA9007C3A0C /* Strohm.swift */,
 				F8C499D72598C58200571293 /* Subscriptions.swift */,
+				F8C499DB2598C63300571293 /* Holder.swift */,
+				F8C499DF2598C7EE00571293 /* JsonComms.swift */,
 			);
 			path = Strohm;
 			sourceTree = "<group>";
@@ -165,10 +171,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8C499DC2598C63300571293 /* Holder.swift in Sources */,
 				F865BA4B257CD5F6007C3A0C /* ContentView.swift in Sources */,
 				F865BA5A257CEEA9007C3A0C /* Strohm.swift in Sources */,
 				F8C499D82598C58200571293 /* Subscriptions.swift in Sources */,
 				F865BA49257CD5F6007C3A0C /* CounterApp.swift in Sources */,
+				F8C499E02598C7EE00571293 /* JsonComms.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
