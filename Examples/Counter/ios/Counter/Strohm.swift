@@ -62,7 +62,7 @@ class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
                     globalThis.app.main.init()
                 }
             </script>
-            <script src="https://localhost:\(port)/\(appJsPath)"></script>
+            <script src="http://localhost:\(port)/\(appJsPath)"></script>
         </body>
         </html>
         """
@@ -121,19 +121,6 @@ class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     func loadingFailed() {
         self.status = .serverNotRunning
         print("Please make sure dev server is running")
-    }
-
-    func webView(_ webView: WKWebView,
-                 didReceive challenge: URLAuthenticationChallenge,
-                 completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if challenge.protectionSpace.host == "localhost",
-            challenge.protectionSpace.protocol == "https",
-            let serverTrust = challenge.protectionSpace.serverTrust {
-            let credential = URLCredential(trust: serverTrust)
-            completionHandler(.useCredential, credential)
-        } else {
-            completionHandler(.performDefaultHandling, nil)
-        }
     }
 
     func userContentController(_ userContentController: WKUserContentController,

@@ -7,12 +7,7 @@
  :dependencies
  []
 
- :ssl {:keystore ".strohm/keystore.jks"
-       :password "dev-only"}
- :http {:port 1234
-        :ssl-port 8234}
- :dev-http {8080 {:root "target/"
-                  :ssl-port 8443}}
+ :dev-http {8080  "target/"}
 
  :builds
  {:app {:output-dir "target/"
