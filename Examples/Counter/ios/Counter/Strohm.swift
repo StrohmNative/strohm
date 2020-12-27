@@ -21,6 +21,8 @@ class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     var webView: WKWebView?
     var webConfiguration: WKWebViewConfiguration!
     var status: Status = .uninitialized
+    var appJsPath: String?
+    var port: Int?
 
     static func determinePort(port: Int?, env: [String: String]) -> Int {
         if let portString = env["DEVSERVER_PORT"],
@@ -33,14 +35,22 @@ class Strohm: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     }
 
     public func install(appJsPath: String, port: Int? = nil) {
+        self.appJsPath = appJsPath
+        self.port = port
+
         webConfiguration = WKWebViewConfiguration()
         webConfiguration.userContentController.add(self, name: "jsToSwift")
 
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
         webView?.navigationDelegate = self
 
+        self.reload()
+    }
+
+    func reload() {
         #if DEBUG
-        let port = Strohm.determinePort(port: port,
+        guard let appJsPath = self.appJsPath else { return }
+        let port = Strohm.determinePort(port: self.port,
                                         env: ProcessInfo().environment)
         let myHtml = """
         <html>

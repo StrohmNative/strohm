@@ -3,8 +3,12 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Text("Hello, world!")
-                .padding()
+            HStack {
+                Text("Hello, world!")
+                    .padding()
+                Button(action: { Strohm.default.reload() },
+                       label: { Text("Reload") })
+            }
             WebViewWrapper()
         }
     }
