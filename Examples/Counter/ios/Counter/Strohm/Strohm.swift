@@ -10,6 +10,7 @@ class Strohm: NSObject, WKNavigationDelegate {
     var appJsPath: String?
     var port: Int?
     var comms = JsonComms()
+    var subscriptions: Subscriptions?
 
     static func determinePort(port: Int?, env: [String: String]) -> Int {
         if let portString = env["DEVSERVER_PORT"],
@@ -22,6 +23,8 @@ class Strohm: NSObject, WKNavigationDelegate {
     }
 
     public func install(appJsPath: String, port: Int? = nil) {
+        self.subscriptions = Subscriptions(strohm: self)
+
         self.appJsPath = appJsPath
         self.port = port
 
@@ -78,11 +81,11 @@ class Strohm: NSObject, WKNavigationDelegate {
     public func subscribe(propsSpec: PropsSpec,
                           handler: @escaping HandlerFunction,
                           completion: @escaping (UUID) -> Void) {
-        addSubscriber(propsSpec: propsSpec, handler: handler, completion: completion)
+        self.subscriptions?.addSubscriber(propsSpec: propsSpec, handler: handler, completion: completion)
     }
 
     public func unsubscribe(subscriptionId: UUID) {
-        removeSubscriber(subscriptionId: subscriptionId)
+        self.subscriptions?.removeSubscriber(subscriptionId: subscriptionId)
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -99,7 +102,7 @@ class Strohm: NSObject, WKNavigationDelegate {
 
     func loadingFinished() {
         self.status = .ok
-        effectuatePendingSubscriptions()
+        self.subscriptions?.effectuatePendingSubscriptions()
     }
 
     func loadingFailed() {
