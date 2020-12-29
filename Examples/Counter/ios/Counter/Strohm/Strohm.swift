@@ -89,6 +89,10 @@ class Strohm: NSObject, WKNavigationDelegate {
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        webView.evaluateJavaScript("Object.getOwnPropertyNames(strohm.store)") { (result, error) in
+            print("Strohm store properties:", result ?? "nil")
+        }
+
         webView.evaluateJavaScript("this.hasOwnProperty('strohm')") { (result, error) in
             guard let returnValue = result as? Int,
                 returnValue == 1,
