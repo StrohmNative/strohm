@@ -1,8 +1,15 @@
 import Foundation
 
 class Subscriptions {
+    let strohm: Strohm
     var pendingSubscriptions: [() -> Void]? = []
     var subscribers: [UUID: HandlerFunction] = [:]
+
+    init(strohm: Strohm) {
+        self.strohm = strohm
+        strohm.comms.registerHandlerFunction(name: "subscriptionUpdate",
+                                             function: self.subscriptionUpdateHandler)
+    }
 
     func addSubscriber(propsSpec: PropsSpec,
                        handler: @escaping HandlerFunction,
@@ -46,5 +53,14 @@ class Subscriptions {
 
     func handlePropsUpdate(props: Props, subscriptionId: UUID) {
         subscribers[subscriptionId]?(props)
+    }
+
+    func subscriptionUpdateHandler(args: JsonComms.Arguments) {
+        if let subscriptionIdString = args["subscriptionId"] as? String,
+           let subscriptionId = UUID(uuidString: subscriptionIdString),
+           let newProps = args["new"] as? [String: Any] {
+            handlePropsUpdate(props: newProps,
+                              subscriptionId: subscriptionId)
+        }
     }
 }
