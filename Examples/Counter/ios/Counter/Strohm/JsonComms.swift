@@ -2,9 +2,23 @@ import Foundation
 import WebKit
 
 class JsonComms: NSObject, WKScriptMessageHandler {
+    typealias Arguments = [String:Any]
+    typealias Function = (Arguments) -> Void
+
+    var registeredFunctions = [String: Function]()
+
+    func registerHandlerFunction(name: String, function: @escaping Function) {
+        registeredFunctions[name] = function
+    }
+
     func userContentController(_ userContentController: WKUserContentController,
                                didReceive message: WKScriptMessage) {
         print("jsToSwift", message.name, message.body)
+        if let arguments = message.body as? [String:Any],
+           let functionName = arguments["function"] as? String,
+           let function = registeredFunctions[functionName] {
+            function(arguments)
+        }
     }
 
     func encode(object: [String: Any]) -> String? {
