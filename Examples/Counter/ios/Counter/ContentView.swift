@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var count: Int = 0
     let countFormatter = NumberFormatter()
+    @State private var subscription: UUID?
 
     var body: some View {
         VStack {
@@ -23,8 +24,13 @@ struct ContentView: View {
                     .padding()
                 Spacer()
             }.padding()
-            Button(action: { Strohm.default.reload() }, label: { Text("Reload") })
-                .padding()
+            HStack {
+                Button(action: {
+                    Strohm.default.reload()
+                }, label: { Text("Reload") })
+                Button(action: self.subscribe, label: { Text("Subscribe") })
+                Button(action: self.unsubscribe, label: { Text("Unsubscribe") })
+            }.padding()
             StrohmHolder()
         }
     }
@@ -39,6 +45,23 @@ struct ContentView: View {
 
     func setCounter(count: Int) {
         Strohm.default.dispatch(type: "setCounter", payload: ["count": count])
+    }
+
+    func subscribe() {
+        Strohm.default.subscribe(propsSpec: ["count": ""]) { props in
+            print("Received props: ", props)
+            if let count = props["count"] as? Int {
+                self.count = count
+            }
+        } completion: { subscription in
+            self.subscription = subscription
+        }
+    }
+
+    func unsubscribe() {
+        if let subscription = self.subscription {
+            Strohm.default.unsubscribe(subscriptionId: subscription)
+        }
     }
 }
 
