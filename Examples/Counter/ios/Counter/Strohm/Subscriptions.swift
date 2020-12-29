@@ -23,8 +23,12 @@ func addSubscriber(propsSpec: PropsSpec,
 private func subscribe_(propsSpec: PropsSpec,
                         handler: @escaping HandlerFunction,
                         completion: (UUID) -> Void) {
+    guard let encodedPropsSpec = Strohm.default.comms.encode(object: propsSpec) else {
+        return
+    }
     let subscriptionId = UUID()
     subscribers[subscriptionId] = handler
+    Strohm.default.call(method: "strohm.store.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(encodedPropsSpec)\")")
     completion(subscriptionId)
 }
 
