@@ -16,20 +16,21 @@
 
 (defn ^:export dispatch!
   [action]
-  (js/console.debug "dispatch!" action)
+  (debug/log "dispatch!" action)
   (swap! store (partial impl/reduce-action action))
   action)
 
-(defn ^:export dispatch-json!
-  [encoded-action]
-  (js/console.debug "dispatch-encoded!" encoded-action)
-  (let [action (js/JSON.parse encoded-action)] 
+(defn ^:export dispatch-from-native
+  [serialized-action]
+  (debug/log "dispatch-from-native" serialized-action)
+  (let [action (js->clj (js/JSON.parse serialized-action) :keywordize-keys true)] 
     (dispatch! action)))
 
 (defn subscribe!
   [callback]
   (let [key (random-uuid)]
     (add-watch store key (fn [_key _ref old new] 
+                           (debug/log "Triggered cljs subscription" _key)
                            (callback (:state old) (:state new))))
     key))
 

@@ -122,7 +122,7 @@ class Strohm: NSObject, WKNavigationDelegate {
         guard let serializedAction = comms.encode(object: action) else {
             return
         }
-        let method = "globalThis.strohm.store.dispatch_json_BANG_(\"\(serializedAction)\")"
+        let method = "globalThis.strohm.store.dispatch_from_native(\"\(serializedAction)\")"
         print(method)
         call(method: method)
     }
