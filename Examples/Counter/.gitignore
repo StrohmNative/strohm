@@ -5,3 +5,5 @@ target/*
 .calva/
 .lsp/
 .strohm/
+.clj-kondo/.cache/
+.clj-kondo/cache/
