@@ -6,7 +6,6 @@ import android.os.Build
 import android.util.Base64
 import android.webkit.WebSettings
 import android.webkit.WebView
-import java.lang.RuntimeException
 
 class Strohm private constructor(context: Context) {
     private lateinit var appJsPath: String
@@ -16,6 +15,7 @@ class Strohm private constructor(context: Context) {
     @SuppressLint("SetJavaScriptEnabled")
     fun install(appJsPath: String, port: Int? = null) {
         webView.settings.javaScriptEnabled = true
+        webView.addJavascriptInterface(ReceivePropsInterface(this), "strohmReceiveProps")
 
         if (18 < Build.VERSION.SDK_INT ){
             //18 = JellyBean MR2, KITKAT=19
@@ -62,5 +62,4 @@ class Strohm private constructor(context: Context) {
             return instance
         }
     }
-
 }

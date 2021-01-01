@@ -1,6 +1,6 @@
 (ns app.main
   (:require [strohm.store :refer [create-store]]
-            [strohm.tx :refer [js->native]]
+            [strohm.tx :refer [send-props]]
             [strohm.debug :as debug]
             [clojure.string :as str]))
 
@@ -21,8 +21,7 @@
   (let [time ((juxt #(.getHours %) #(.getMinutes %) #(.getSeconds %)) (js/Date.))]
     (debug/log "send test message"
          (str/join ":" time))
-    (js->native {:foo :bar
-                 :when time})))
+    (send-props (random-uuid) {:old :props} {:foo :bar :when time})))
 
 (defn ^:export init []
   (js/setTimeout sendTestMessage 3000)

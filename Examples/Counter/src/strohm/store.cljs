@@ -1,7 +1,7 @@
 (ns strohm.store
   (:require [clojure.string :as str]
             [strohm.debug :as debug]
-            [strohm.tx :refer [js->native]]
+            [strohm.tx :refer [send-props]]
             [strohm.impl.store :as impl]))
 
 (defonce ^:export store (atom nil))
@@ -39,10 +39,7 @@
   (debug/log "Triggered native subscription" k)
   (let [old-props (into {} (map (fn [[prop-name _prop-spec]] [prop-name (:state old)]) props-spec))
         new-props (into {} (map (fn [[prop-name _prop-spec]] [prop-name (:state new)]) props-spec))]
-    (js->native {:function "subscriptionUpdate"
-                 :subscriptionId (str k)
-                 :old old-props
-                 :new new-props})))
+    (send-props k old-props new-props)))
 
 (defn ^:export subscribe-from-native
   [subscription-id serialized-props-spec]
