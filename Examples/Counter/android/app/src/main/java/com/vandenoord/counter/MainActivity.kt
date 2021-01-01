@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun reload(src: android.view.View) {
+        val port = 8080
+        val appJsPath = "main.js"
         val unencodedHtml = """
             <html>
                 <body style='background-color: #ddd'>
@@ -47,9 +49,10 @@ class MainActivity : AppCompatActivity() {
                         window.onload = function(e) {
                             console.debug('onload')
                             document.getElementById('content').innerHTML += 'onload<br />'
-                            // globalThis.app.main.init()
+                            globalThis.app.main.init()
                         }
                     </script>
+                    <script src="http://10.0.2.2:$port/$appJsPath"></script>
                 </body>
             </html>
             """.trimIndent()
