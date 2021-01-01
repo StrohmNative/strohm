@@ -1,5 +1,6 @@
 package com.vandenoord.counter
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,16 +12,17 @@ import android.widget.LinearLayout
 class MainActivity : AppCompatActivity() {
     private lateinit var webView: WebView
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var topContainer = findViewById<LinearLayout>(R.id.topContainer)
-        var webView = WebView(applicationContext)
+        val topContainer = findViewById<LinearLayout>(R.id.topContainer)
+        val webView = WebView(applicationContext)
         webView.settings.javaScriptEnabled = true
         topContainer.addView(webView)
 
-        var layoutParams = webView.layoutParams
+        val layoutParams = webView.layoutParams
         layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         webView.layoutParams = layoutParams
         webView.requestLayout()
