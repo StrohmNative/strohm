@@ -2,10 +2,12 @@ package com.vandenoord.counter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.view.ViewGroup
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.LinearLayout
 
@@ -26,6 +28,11 @@ class MainActivity : AppCompatActivity() {
         layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         webView.layoutParams = layoutParams
         webView.requestLayout()
+
+        if (18 < Build.VERSION.SDK_INT ){
+            //18 = JellyBean MR2, KITKAT=19
+            webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        }
 
         this.webView = webView
     }
