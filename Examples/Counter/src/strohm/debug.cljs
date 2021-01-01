@@ -2,7 +2,7 @@
   (:require [clojure.string :as str]))
 
 (defn log [& args]
-  (if-let [document js/document]
+  (if-let [document (.-document js/window)] 
     (let [contentDiv (.getElementById document "content")
           oldHtml    (.-innerHTML contentDiv)]
       (set! (.-innerHTML contentDiv)
@@ -12,4 +12,6 @@
 (defn clear-log []
   (let [contentDiv (.getElementById js/document "content")]
     (set! (.-innerHTML contentDiv) "")))
-(comment (clear-log))
+
+(comment 
+  (clear-log))
