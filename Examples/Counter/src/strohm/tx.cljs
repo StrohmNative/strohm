@@ -6,11 +6,6 @@
       -messageHandlers
       -jsToSwift))
 
-(defn- js->swift
-  [msg]
-  {:pre [(associative? msg)]}
-  (.postMessage (js->swift-handler) msg))
-
 (defn- android-webview? 
   []
   (.call (.-hasOwnProperty (.-prototype js/Object)) js/globalThis "strohmReceiveProps"))
@@ -31,7 +26,7 @@
                      (js/JSON.stringify (clj->js message)))
 
       (ios-webview?)
-      (js->swift (clj->js message))
+      (.postMessage (js->swift-handler) (clj->js message))
 
       :else
       (js/console.error "Neither Android nor iOS callback interface was found."))))
