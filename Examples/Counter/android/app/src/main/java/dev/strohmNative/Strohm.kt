@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.util.Base64
+import android.util.Log
 import android.webkit.WebSettings
 import android.webkit.WebView
 
@@ -11,6 +12,7 @@ class Strohm private constructor(context: Context) {
     private lateinit var appJsPath: String
     private var port: Int? = null
     internal var webView: WebView = WebView(context)
+    internal val comms = JsonComms()
 
     @SuppressLint("SetJavaScriptEnabled")
     fun install(appJsPath: String, port: Int? = null) {
@@ -47,6 +49,22 @@ class Strohm private constructor(context: Context) {
             """.trimIndent()
         val encodedHtml = Base64.encodeToString(unencodedHtml.toByteArray(), Base64.NO_PADDING)
         webView.loadData(encodedHtml, "text/html", "base64")
+
+
+    }
+
+    internal fun call(method: String) {
+        webView.evaluateJavascript(method) {
+            result -> print("cljs call result: $result")
+        }
+    }
+
+    fun dispatch(type: String, payload: Map<String, Any> = mapOf()) {
+        Log.d("strohm", "dispatch $type $payload")
+        val action: Map<String, Any> = mapOf("type" to type, "payload" to payload)
+        val serializedAction = comms.encode(action)
+        val method = "globalThis.strohm.store.dispatch_from_native(\"$serializedAction\")"
+        call(method)
     }
 
     companion object {
