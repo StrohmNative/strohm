@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="decrement"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -30,12 +31,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btnDecrement"
@@ -63,21 +64,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:minWidth="44dip"
+                android:onClick="increment"
                 android:text="@string/btn_text_increment" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
         </LinearLayout>
 
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:orientation="horizontal"
-            style="?android:attr/buttonBarStyle">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnReload"
@@ -94,6 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="subscribe"
                 android:text="@string/btn_text_subscribe" />
 
             <Button
@@ -102,6 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="unsubscribe"
                 android:text="@string/btn_text_unsubscribe" />
         </LinearLayout>
 
