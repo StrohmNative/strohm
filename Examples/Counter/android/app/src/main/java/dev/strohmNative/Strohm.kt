@@ -79,3 +79,7 @@ class Strohm private constructor(context: Context) {
         }
     }
 }
+
+typealias PropsSpec = Map<String, String>
+typealias Props = Map<String, Any>
+typealias HandlerFunction = (Props) -> Void
