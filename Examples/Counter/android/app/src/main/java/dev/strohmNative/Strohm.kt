@@ -12,16 +12,16 @@ class Strohm private constructor(context: Context) {
     private lateinit var appJsPath: String
     private var port: Int? = null
     internal var webView: WebView = WebView(context)
-    internal val comms = JsonComms()
+    private val comms = JsonComms()
 
     @SuppressLint("SetJavaScriptEnabled")
     fun install(appJsPath: String, port: Int? = null) {
         webView.settings.javaScriptEnabled = true
         webView.addJavascriptInterface(ReceivePropsInterface(this), "strohmReceiveProps")
 
-        if (18 < Build.VERSION.SDK_INT ){
-            //18 = JellyBean MR2, KITKAT=19
-            webView.settings.cacheMode = WebSettings.LOAD_NO_CACHE;
+        if (18 < Build.VERSION.SDK_INT) {
+            // 18 = JellyBean MR2, 19 = KitKat
+            webView.settings.cacheMode = WebSettings.LOAD_NO_CACHE
         }
 
         this.appJsPath = appJsPath
@@ -49,13 +49,11 @@ class Strohm private constructor(context: Context) {
             """.trimIndent()
         val encodedHtml = Base64.encodeToString(unencodedHtml.toByteArray(), Base64.NO_PADDING)
         webView.loadData(encodedHtml, "text/html", "base64")
-
-
     }
 
-    internal fun call(method: String) {
+    private fun call(method: String) {
         webView.evaluateJavascript(method) {
-            result -> print("cljs call result: $result")
+            result -> Log.d("strohm", "cljs call result: $result")
         }
     }
 
@@ -68,7 +66,7 @@ class Strohm private constructor(context: Context) {
     }
 
     companion object {
-        var sharedInstance: Strohm? = null
+        private var sharedInstance: Strohm? = null
 
         fun getInstance(context: Context? = null): Strohm {
             if (sharedInstance == null && context == null) {

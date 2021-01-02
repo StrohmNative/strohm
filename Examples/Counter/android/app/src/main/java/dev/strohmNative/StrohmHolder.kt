@@ -1,10 +1,7 @@
 package dev.strohmNative
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
 import android.util.AttributeSet
-import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 

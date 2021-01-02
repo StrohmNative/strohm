@@ -9,6 +9,6 @@ internal class ReceivePropsInterface(private val strohm: Strohm) {
         if (props == null) {
             return
         }
-        Log.d("receiveProps", props)
+        Log.d("strohm", "receiveProps: $props")
     }
 }
