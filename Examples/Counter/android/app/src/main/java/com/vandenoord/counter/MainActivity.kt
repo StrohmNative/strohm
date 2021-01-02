@@ -2,7 +2,6 @@ package com.vandenoord.counter
 
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -16,11 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val txtCounter = findViewById<EditText>(R.id.txtCounter)
-        txtCounter.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                return onEnterCount(v)
-            }
-        })
+        txtCounter.setOnEditorActionListener { v, _, _ -> onEnterCount(v) }
     }
 
     fun decrement(src: View) {
