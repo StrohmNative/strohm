@@ -65,4 +65,6 @@ dependencies {
 
     testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek_version"
     testImplementation "org.spekframework.spek2:spek-runner-junit5:$spek_version"
+
+    testImplementation "org.mockito:mockito-core:2.+"
 }
