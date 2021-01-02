@@ -7,12 +7,14 @@ import android.util.Base64
 import android.util.Log
 import android.webkit.WebSettings
 import android.webkit.WebView
+import java.util.UUID
 
-class Strohm private constructor(context: Context) {
+class Strohm internal constructor(context: Context) {
     private lateinit var appJsPath: String
     private var port: Int? = null
     internal var webView: WebView = WebView(context)
     private val comms = JsonComms()
+    internal val subscriptions = Subscriptions(this)
 
     @SuppressLint("SetJavaScriptEnabled")
     fun install(appJsPath: String, port: Int? = null) {
@@ -51,10 +53,28 @@ class Strohm private constructor(context: Context) {
         webView.loadData(encodedHtml, "text/html", "base64")
     }
 
+    /// TODO: this method has to bee hooked up using WebViewClient
+    internal fun loadingFinished() {
+        //  TODO: self.status = .ok
+        subscriptions.effectuatePendingSubscriptions()
+    }
+
     private fun call(method: String) {
         webView.evaluateJavascript(method) {
             result -> Log.d("strohm", "cljs call result: $result")
         }
+    }
+
+    fun subscribe(
+        propsSpec: PropsSpec,
+        handler: HandlerFunction,
+        completion: (UUID) -> Unit
+    ) {
+        subscriptions.addSubscriber(propsSpec, handler, completion)
+    }
+
+    fun unsubscribe(subscriptionId: UUID) {
+        subscriptions.removeSubscriber(subscriptionId)
     }
 
     fun dispatch(type: String, payload: Map<String, Any> = mapOf()) {
@@ -82,4 +102,4 @@ class Strohm private constructor(context: Context) {
 
 typealias PropsSpec = Map<String, String>
 typealias Props = Map<String, Any>
-typealias HandlerFunction = (Props) -> Void
+typealias HandlerFunction = (Props) -> Unit
