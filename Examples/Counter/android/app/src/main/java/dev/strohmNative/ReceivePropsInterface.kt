@@ -3,7 +3,7 @@ package dev.strohmNative
 import android.util.Log
 import android.webkit.JavascriptInterface
 
-class ReceivePropsInterface(private val strohm: Strohm) {
+internal class ReceivePropsInterface(private val strohm: Strohm) {
     @JavascriptInterface
     fun receiveProps(props: String?) {
         if (props == null) {
