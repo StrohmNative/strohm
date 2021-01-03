@@ -1,22 +1,41 @@
 package dev.strohmNative
 
-import java.util.*
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicMarkableReference
 
 class Subscriptions internal constructor(val strohm: Strohm) {
-    internal var pendingSubscriptions: MutableList<() -> Unit>? = Collections.synchronizedList(mutableListOf())
+    internal var _pendingSubscriptions: AtomicMarkableReference<PersistentList<() -> Unit>>
+        = AtomicMarkableReference(persistentListOf(), true)
     private var subscribers: MutableMap<UUID, HandlerFunction> = mutableMapOf()
+
+    internal val pendingSubscriptions: PersistentList<() -> Unit>?
+        get() {
+            val holder = BooleanArray(1)
+            val pending = _pendingSubscriptions.get(holder)
+            val isUsingPending = holder[0]
+            return if (isUsingPending) pending else null
+        }
 
     fun addSubscriber(
         propsSpec: PropsSpec,
         handler: HandlerFunction,
         completion: (UUID) -> Unit
     ) {
-        pendingSubscriptions = pendingSubscriptions?.let { pending ->
-            pending.add { this.subscribe_(propsSpec, handler, completion) }
-            pending
-        }
-        if (pendingSubscriptions == null) {
-            subscribe_(propsSpec, handler, completion)
+        var succeeded = false
+        while (!succeeded) {
+            val holder = BooleanArray(1)
+            val pending = _pendingSubscriptions.get(holder)
+            val isUsingPending = holder[0]
+
+            if (isUsingPending) {
+                val newPending = pending.add { this.subscribe_(propsSpec, handler, completion) }
+                succeeded = _pendingSubscriptions.compareAndSet(pending, newPending, true, true)
+            } else {
+                subscribe_(propsSpec, handler, completion)
+                succeeded = true
+            }
         }
     }
 
@@ -35,9 +54,19 @@ class Subscriptions internal constructor(val strohm: Strohm) {
     }
 
     internal fun effectuatePendingSubscriptions() {
-        pendingSubscriptions = pendingSubscriptions?.let { pending ->
+        var isUsingPending: Boolean
+        var pending: PersistentList<() -> Unit>
+        var clearSucceeded: Boolean
+        do {
+            val holder = BooleanArray(1)
+            pending = _pendingSubscriptions.get(holder)
+            isUsingPending = holder[0]
+
+            clearSucceeded = _pendingSubscriptions.compareAndSet(pending, persistentListOf(), true, false)
+        } while (!clearSucceeded && isUsingPending)
+
+        if (isUsingPending) {
             pending.forEach { it() }
-            null
         }
     }
 
