@@ -1,6 +1,7 @@
 package dev.strohmNative
 
 import android.content.Context
+import kotlinx.collections.immutable.PersistentList
 import org.junit.jupiter.api.Assertions.*
 import org.mockito.Mockito.mock
 import org.spekframework.spek2.Spek
@@ -124,3 +125,13 @@ fun Strohm.whenSubscriptionCompletes(propsSpec: PropsSpec, handlerFn: HandlerFun
 fun Strohm.whenIncoming(props: Props, subscriptionId: UUID) {
     this.subscriptions.handlePropsUpdate(props, subscriptionId)
 }
+
+/* Subscriptions class extension methods for testing */
+
+internal val Subscriptions.pendingSubscriptions: PersistentList<() -> Unit>?
+    get() {
+        val holder = BooleanArray(1)
+        val pending = _pendingSubscriptions.get(holder)
+        val isUsingPending = holder[0]
+        return if (isUsingPending) pending else null
+    }

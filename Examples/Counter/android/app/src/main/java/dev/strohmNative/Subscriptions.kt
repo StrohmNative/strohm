@@ -10,14 +10,6 @@ class Subscriptions internal constructor(val strohm: Strohm) {
         = AtomicMarkableReference(persistentListOf(), true)
     private var subscribers: MutableMap<UUID, HandlerFunction> = mutableMapOf()
 
-    internal val pendingSubscriptions: PersistentList<() -> Unit>?
-        get() {
-            val holder = BooleanArray(1)
-            val pending = _pendingSubscriptions.get(holder)
-            val isUsingPending = holder[0]
-            return if (isUsingPending) pending else null
-        }
-
     fun addSubscriber(
         propsSpec: PropsSpec,
         handler: HandlerFunction,
