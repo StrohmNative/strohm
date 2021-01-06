@@ -38,6 +38,8 @@ class Subscriptions internal constructor(val strohm: Strohm) {
     ) {
         val subscriptionId = UUID.randomUUID()
         subscribers[subscriptionId] = handler
+        val encodedPropsSpec = strohm.comms.encode(propsSpec)
+        strohm.call("strohm.store.subscribe_from_native(\"$subscriptionId\", \"$encodedPropsSpec\")")
         completion(subscriptionId)
     }
 

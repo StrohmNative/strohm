@@ -13,7 +13,7 @@ class Strohm internal constructor(context: Context) {
     private lateinit var appJsPath: String
     private var port: Int? = null
     internal var webView: WebView = WebView(context)
-    private val comms = JsonComms()
+    internal val comms = JsonComms()
     internal val subscriptions = Subscriptions(this)
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -59,7 +59,7 @@ class Strohm internal constructor(context: Context) {
         subscriptions.effectuatePendingSubscriptions()
     }
 
-    private fun call(method: String) {
+    internal fun call(method: String) {
         webView.evaluateJavascript(method) {
             result -> Log.d("strohm", "cljs call result: $result")
         }

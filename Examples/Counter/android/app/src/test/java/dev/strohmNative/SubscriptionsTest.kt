@@ -1,9 +1,12 @@
 package dev.strohmNative
 
 import android.content.Context
+import android.webkit.WebView
 import kotlinx.collections.immutable.PersistentList
+import org.json.JSONObject
 import org.junit.jupiter.api.Assertions.*
-import org.mockito.Mockito.mock
+import org.mockito.ArgumentCaptor
+import org.mockito.Mockito.*
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.util.UUID
@@ -19,10 +22,14 @@ val noop: HandlerFunction = {}
 object SubscriptionsSpec: Spek({
     describe("Subscriptions") {
         lateinit var strohm: Strohm
+        lateinit var webViewMock: WebView
 
         beforeEachTest {
             val mockContext = mock(Context::class.java)
             strohm = Strohm(mockContext)
+
+            webViewMock = mock(WebView::class.java)
+            strohm.webView = webViewMock
         }
 
         context("when subscribing before load finishes") {
@@ -68,6 +75,20 @@ object SubscriptionsSpec: Spek({
             it("is complete") {
                 assertEquals(true, subscriptionComplete)
             }
+
+            it("has called subscribe on the web view") {
+                val jsCodeCaptor = ArgumentCaptor.forClass(String::class.java)
+                verify(webViewMock, times(1))
+                    .evaluateJavascript(jsCodeCaptor.capture(), any())
+                val expected = """strohm\.store\.subscribe_from_native\(".*", ?"(.*)"\)"""
+                assertLinesMatch(listOf(expected), listOf(jsCodeCaptor.value))
+                val matchResult = expected.toRegex().matchEntire(jsCodeCaptor.value)
+                val matchedSerializedPropsSpec = matchResult!!.groups[1]!!.value
+                val unescaped = matchedSerializedPropsSpec.replace("\\\"", "\"")
+                val parsed = JSONObject(unescaped)
+                assertEquals(propsSpec["name"], parsed["name"])
+                assertEquals(propsSpec["city"], parsed["city"])
+            }
         }
 
         context("when subscribed") {
@@ -104,7 +125,6 @@ object SubscriptionsSpec: Spek({
                 assertNull(receivedProps)
             }
         }
-
     }
 })
 
