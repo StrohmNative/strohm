@@ -5,10 +5,10 @@ import android.webkit.JavascriptInterface
 
 internal class ReceivePropsInterface(private val strohm: Strohm) {
     @JavascriptInterface
-    fun receiveProps(props: String?) {
-        if (props == null) {
+    fun receiveProps(message: String?) { // TODO: rename to "jsToNative" or something like that
+        if (message == null) {
             return
         }
-        Log.d("strohm", "receiveProps: $props")
+        strohm.comms.jsToNative(message)
     }
 }

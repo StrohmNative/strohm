@@ -5,10 +5,20 @@ import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicMarkableReference
 
-class Subscriptions internal constructor(val strohm: Strohm) {
+class Subscriptions {
+    val strohm: Strohm
+
     internal var _pendingSubscriptions: AtomicMarkableReference<PersistentList<() -> Unit>>
-        = AtomicMarkableReference(persistentListOf(), true)
-    private var subscribers: MutableMap<UUID, HandlerFunction> = mutableMapOf()
+    private var subscribers: MutableMap<UUID, HandlerFunction>
+
+    internal constructor(strohm: Strohm) {
+        this.strohm = strohm
+        this._pendingSubscriptions = AtomicMarkableReference(persistentListOf(), true)
+        this.subscribers = mutableMapOf()
+        strohm.comms.registerHandlerFunction("subscriptionUpdate") { args ->
+            this.subscriptionUpdateHandler(args)
+        }
+    }
 
     fun addSubscriber(
         propsSpec: PropsSpec,
@@ -45,6 +55,7 @@ class Subscriptions internal constructor(val strohm: Strohm) {
 
     internal fun removeSubscriber(subscriptionId: UUID) {
         subscribers.remove(subscriptionId)
+        // TODO: call common to unsubscribe
     }
 
     internal fun effectuatePendingSubscriptions() {
@@ -66,6 +77,15 @@ class Subscriptions internal constructor(val strohm: Strohm) {
 
     internal fun handlePropsUpdate(props: Props, subscriptionId: UUID) {
         subscribers[subscriptionId]?.let { it(props) }
+    }
+
+    internal fun subscriptionUpdateHandler(args: CommsHandlerArguments) {
+        val subscriptionIdString = args["subscriptionId"] as? String
+        val newProps = args["new"] as? Props
+        if (subscriptionIdString != null && newProps != null) {
+            val subscriptionId = UUID.fromString(subscriptionIdString)
+            handlePropsUpdate(newProps, subscriptionId)
+        }
     }
 }
 
