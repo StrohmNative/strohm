@@ -5,8 +5,7 @@ import android.content.Context
 import android.os.Build
 import android.util.Base64
 import android.util.Log
-import android.webkit.WebSettings
-import android.webkit.WebView
+import android.webkit.*
 import java.util.UUID
 
 class Strohm internal constructor(context: Context) {
@@ -20,6 +19,7 @@ class Strohm internal constructor(context: Context) {
     fun install(appJsPath: String, port: Int? = null) {
         webView.settings.javaScriptEnabled = true
         webView.addJavascriptInterface(ReceivePropsInterface(this), "strohmReceiveProps")
+        webView.webViewClient = StrohmWebViewClient(this)
 
         if (18 < Build.VERSION.SDK_INT) {
             // 18 = JellyBean MR2, 19 = KitKat
@@ -97,6 +97,37 @@ class Strohm internal constructor(context: Context) {
             if (sharedInstance == null) { sharedInstance = instance }
             return instance
         }
+    }
+
+    class StrohmWebViewClient(private val strohm: Strohm) : WebViewClient() {
+        override fun onPageFinished(view: WebView?, url: String?) {
+            super.onPageFinished(view, url)
+            Log.d("strohm","page finished $url")
+            view?.evaluateJavascript("this.hasOwnProperty('strohm')") { result ->
+                Log.d("strohm", "onload result: $result")
+                val hasStrohm = result != null && result.toBoolean()
+                if (!hasStrohm) {
+                    Log.e("strohm", "Please make sure dev server is running")
+                    return@evaluateJavascript
+                }
+                strohm.subscriptions.effectuatePendingSubscriptions()
+            }
+        }
+
+        override fun onReceivedError(
+            view: WebView?,
+            request: WebResourceRequest?,
+            error: WebResourceError?
+        ) {
+            super.onReceivedError(view, request, error)
+            val msg = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                error?.description
+            } else {
+                error.toString()
+            }
+            Log.d("strohm","error $msg")
+        }
+
     }
 }
 
