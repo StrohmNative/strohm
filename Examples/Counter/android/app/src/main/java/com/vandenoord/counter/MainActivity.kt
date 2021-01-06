@@ -8,8 +8,11 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import dev.strohmNative.Strohm
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
+    private var subscription: UUID? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun subscribe(src: View) {
+        Strohm.getInstance().subscribe(mapOf("count" to ""),
+        handler = { props ->
+            val count = (props["count"] as Number).toInt()
+            runOnUiThread {
+                findViewById<EditText>(R.id.txtCounter).setText("$count")
+            }
+        },
+        completion = { subscription ->
+            this.subscription = subscription
+        })
     }
 
     fun unsubscribe(src: View) {
