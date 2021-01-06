@@ -60,6 +60,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.3")
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     // Testing: JUnit5 and Spek
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
