@@ -53,7 +53,6 @@ class Strohm internal constructor(context: Context) {
         webView.loadData(encodedHtml, "text/html", "base64")
     }
 
-    /// TODO: this method has to bee hooked up using WebViewClient
     internal fun loadingFinished() {
         //  TODO: self.status = .ok
         subscriptions.effectuatePendingSubscriptions()
@@ -110,7 +109,7 @@ class Strohm internal constructor(context: Context) {
                     Log.e("strohm", "Please make sure dev server is running")
                     return@evaluateJavascript
                 }
-                strohm.subscriptions.effectuatePendingSubscriptions()
+                strohm.loadingFinished()
             }
         }
 
