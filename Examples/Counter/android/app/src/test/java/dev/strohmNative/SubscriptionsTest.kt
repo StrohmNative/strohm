@@ -124,6 +124,22 @@ object SubscriptionsSpec: Spek({
                 strohm.whenIncoming(mapOf("name" to "foo"), subscriptionId!!)
                 assertNull(receivedProps)
             }
+
+            it("calls unsubscribe on the web view when unsubscribing") {
+                reset(webViewMock)
+
+                strohm.unsubscribe(subscriptionId!!)
+
+                val jsCodeCaptor = ArgumentCaptor.forClass(String::class.java)
+                verify(webViewMock, times(1))
+                    .evaluateJavascript(jsCodeCaptor.capture(), any())
+                val expected = """strohm\.store\.unsubscribe_from_native\("(.*)"\)"""
+                assertLinesMatch(listOf(expected), listOf(jsCodeCaptor.value))
+                val matchResult = expected.toRegex().matchEntire(jsCodeCaptor.value)
+                val matchedSubscriptionId = matchResult!!.groups[1]!!.value
+                assertEquals(subscriptionId!!.toString(), matchedSubscriptionId)
+            }
+
         }
     }
 })

@@ -55,7 +55,7 @@ class Subscriptions {
 
     internal fun removeSubscriber(subscriptionId: UUID) {
         subscribers.remove(subscriptionId)
-        // TODO: call common to unsubscribe
+        strohm.call("strohm.store.unsubscribe_from_native(\"$subscriptionId\")")
     }
 
     internal fun effectuatePendingSubscriptions() {

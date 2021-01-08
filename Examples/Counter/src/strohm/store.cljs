@@ -52,3 +52,7 @@
 (defn unsubscribe!
   [key]
   (remove-watch store key))
+
+(defn ^:export unsubscribe-from-native
+  [subscription-id]
+  (unsubscribe! subscription-id))
