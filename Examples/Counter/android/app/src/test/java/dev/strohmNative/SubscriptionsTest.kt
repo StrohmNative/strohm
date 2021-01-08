@@ -2,8 +2,8 @@ package dev.strohmNative
 
 import android.content.Context
 import android.webkit.WebView
+import com.google.gson.Gson
 import kotlinx.collections.immutable.PersistentList
-import org.json.JSONObject
 import org.junit.jupiter.api.Assertions.*
 import org.mockito.ArgumentCaptor
 import org.mockito.Mockito.*
@@ -85,7 +85,7 @@ object SubscriptionsSpec: Spek({
                 val matchResult = expected.toRegex().matchEntire(jsCodeCaptor.value)
                 val matchedSerializedPropsSpec = matchResult!!.groups[1]!!.value
                 val unescaped = matchedSerializedPropsSpec.replace("\\\"", "\"")
-                val parsed = JSONObject(unescaped)
+                val parsed = Gson().fromJson(unescaped, HashMap::class.java)
                 assertEquals(propsSpec["name"], parsed["name"])
                 assertEquals(propsSpec["city"], parsed["city"])
             }

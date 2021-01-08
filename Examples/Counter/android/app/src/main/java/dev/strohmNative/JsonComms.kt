@@ -1,7 +1,6 @@
 package dev.strohmNative
 
 import com.google.gson.Gson
-import org.json.JSONObject
 
 typealias CommsHandlerArguments = Map<String, Any>
 typealias CommsHandlerFunction = (CommsHandlerArguments) -> Unit
@@ -10,7 +9,7 @@ internal class JsonComms {
     private var registeredFunctions: MutableMap<String, CommsHandlerFunction> = mutableMapOf()
 
     fun encode(map: Map<String, Any>): String {
-        val data = JSONObject(map).toString() // TODO: use Gson instead of JSONObject?
+        val data = Gson().toJson(map)
         return data.replace("\"", "\\\"")
     }
 
