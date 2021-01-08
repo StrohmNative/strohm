@@ -14,6 +14,7 @@
     state))
 
 (defn ^:export main! []
+  (debug/set-logging-enabled! true)
   (create-store reducer :initial-state 0)
   (println "[main] started"))
 
