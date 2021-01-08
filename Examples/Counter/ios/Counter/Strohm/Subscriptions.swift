@@ -42,6 +42,7 @@ class Subscriptions {
 
     func removeSubscriber(subscriptionId: UUID) {
         subscribers.removeValue(forKey: subscriptionId)
+        strohm.call(method: "strohm.store.unsubscribe_from_native(\"\(subscriptionId.uuidString)\")")
     }
 
     func effectuatePendingSubscriptions() {
