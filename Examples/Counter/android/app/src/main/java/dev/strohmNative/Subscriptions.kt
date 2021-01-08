@@ -81,6 +81,7 @@ class Subscriptions {
 
     internal fun subscriptionUpdateHandler(args: CommsHandlerArguments) {
         val subscriptionIdString = args["subscriptionId"] as? String
+        @Suppress("UNCHECKED_CAST")
         val newProps = args["new"] as? Props
         if (subscriptionIdString != null && newProps != null) {
             val subscriptionId = UUID.fromString(subscriptionIdString)

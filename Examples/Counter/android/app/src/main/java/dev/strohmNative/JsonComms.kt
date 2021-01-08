@@ -18,6 +18,7 @@ internal class JsonComms {
     }
 
     fun jsToNative(message: String) {
+        @Suppress("UNCHECKED_CAST")
         val json = Gson().fromJson(message, HashMap::class.java) as Map<String, Any>
         val functionName = json["function"] as String
         registeredFunctions[functionName]?.let { f -> f(json) }
