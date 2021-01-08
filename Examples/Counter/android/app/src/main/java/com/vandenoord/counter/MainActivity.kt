@@ -21,11 +21,11 @@ class MainActivity : AppCompatActivity() {
         txtCounter.setOnEditorActionListener { v, _, _ -> onEnterCount(v) }
     }
 
-    fun decrement(src: View) {
+    fun decrement(@Suppress("UNUSED_PARAMETER") src: View) {
         Strohm.getInstance().dispatch("decrement")
     }
 
-    fun increment(src: View) {
+    fun increment(@Suppress("UNUSED_PARAMETER") src: View) {
         Strohm.getInstance().dispatch("increment")
     }
 
@@ -33,11 +33,11 @@ class MainActivity : AppCompatActivity() {
         Strohm.getInstance().dispatch("setCounter", mapOf("count" to count))
     }
 
-    fun reload(src: View) {
+    fun reload(@Suppress("UNUSED_PARAMETER") src: View) {
         Strohm.getInstance().reload()
     }
 
-    fun subscribe(src: View) {
+    fun subscribe(@Suppress("UNUSED_PARAMETER") src: View) {
         Strohm.getInstance().subscribe(mapOf("count" to ""),
         handler = { props ->
             val count = (props["count"] as Number).toInt()
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun unsubscribe(src: View) {
+    fun unsubscribe(@Suppress("UNUSED_PARAMETER") src: View) {
 
     }
 
