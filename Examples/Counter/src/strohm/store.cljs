@@ -55,4 +55,5 @@
 
 (defn ^:export unsubscribe-from-native
   [subscription-id]
+  (debug/log "unsubscribe-from-native" subscription-id)
   (unsubscribe! subscription-id))
