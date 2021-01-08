@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun unsubscribe(@Suppress("UNUSED_PARAMETER") src: View) {
-
+        subscription?.let { Strohm.getInstance().unsubscribe(it) }
     }
 
     private fun onEnterCount(v: TextView?): Boolean {
