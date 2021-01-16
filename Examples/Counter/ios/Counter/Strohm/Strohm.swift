@@ -40,6 +40,13 @@ class Strohm: NSObject, WKNavigationDelegate {
     func reload() {
         #if DEBUG
         guard let appJsPath = self.appJsPath else { return }
+        let devhost: String
+        if let devhostFile = Bundle.main.url(forResource: "devhost", withExtension: "txt"),
+           let contents = try? String(contentsOf: devhostFile) {
+            devhost = contents + ".local"
+        } else {
+            devhost = "localhost"
+        }
         let port = Strohm.determinePort(port: self.port,
                                         env: ProcessInfo().environment)
         let myHtml = """
@@ -52,7 +59,7 @@ class Strohm: NSObject, WKNavigationDelegate {
                     globalThis.app.main.init()
                 }
             </script>
-            <script src="http://localhost:\(port)/\(appJsPath)"></script>
+            <script src="http://\(devhost):\(port)/\(appJsPath)"></script>
         </body>
         </html>
         """
