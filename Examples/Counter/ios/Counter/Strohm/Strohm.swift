@@ -41,12 +41,16 @@ class Strohm: NSObject, WKNavigationDelegate {
         #if DEBUG
         guard let appJsPath = self.appJsPath else { return }
         let devhost: String
+        #if !targetEnvironment(simulator)
         if let devhostFile = Bundle.main.url(forResource: "devhost", withExtension: "txt"),
            let contents = try? String(contentsOf: devhostFile) {
             devhost = contents + ".local"
         } else {
             devhost = "localhost"
         }
+        #else
+        devhost = "localhost"
+        #endif
         let port = Strohm.determinePort(port: self.port,
                                         env: ProcessInfo().environment)
         let myHtml = """
