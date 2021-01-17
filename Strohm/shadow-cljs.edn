@@ -1,0 +1,12 @@
+{:deps true
+
+ :builds
+ {:strohm {:output-dir       "target/"
+           :target           :browser
+           :asset-path       "."
+           :modules          {:main {:entries [strohm.native]}}}
+  :test   {:target           :node-test
+           :output-to        "target/node-test.js"
+           :ns-regexp        "-test$"
+           :autorun          true
+           :compiler-options {:reader-features #{:test}}}}}

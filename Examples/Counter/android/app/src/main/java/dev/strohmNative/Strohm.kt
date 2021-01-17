@@ -101,7 +101,7 @@ class Strohm internal constructor(val context: Context) {
         Log.d("strohm", "dispatch $type $payload")
         val action: Map<String, Any> = mapOf("type" to type, "payload" to payload)
         val serializedAction = comms.encode(action)
-        val method = "globalThis.strohm.store.dispatch_from_native(\"$serializedAction\")"
+        val method = "globalThis.strohm.core.dispatch_from_native(\"$serializedAction\")"
         call(method)
     }
 

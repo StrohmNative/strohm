@@ -96,7 +96,7 @@ class Strohm: NSObject, WKNavigationDelegate {
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        webView.evaluateJavaScript("Object.getOwnPropertyNames(strohm.store)") { (result, error) in
+        webView.evaluateJavaScript("Object.getOwnPropertyNames(strohm.core)") { (result, error) in
             print("Strohm store properties:", result ?? "nil")
         }
 
@@ -133,7 +133,7 @@ class Strohm: NSObject, WKNavigationDelegate {
         guard let serializedAction = comms.encode(object: action) else {
             return
         }
-        let method = "globalThis.strohm.store.dispatch_from_native(\"\(serializedAction)\")"
+        let method = "globalThis.strohm.core.dispatch_from_native(\"\(serializedAction)\")"
         print(method)
         call(method: method)
     }

@@ -1,0 +1,9 @@
+{
+  "name": "Strohm",
+  "version": "0.1.0",
+  "description": "Strohm Native",
+  "main": "index.js",
+  "devDependencies": {
+    "shadow-cljs": "^2.11.14"
+  }
+}

@@ -1,7 +1,7 @@
-(ns strohm.store-test
+(ns strohm.core-test
   (:require [cljs.test :refer [deftest is testing]]
-            [strohm.store :refer [store create-store get-state 
-                                  dispatch! subscribe! unsubscribe!]]))
+            [strohm.core :refer [store create-store get-state
+                                 dispatch! subscribe! unsubscribe!]]))
 
 (deftest store-test
   (testing "store is nil initially"

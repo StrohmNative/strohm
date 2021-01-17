@@ -1,4 +1,4 @@
-(ns strohm.store
+(ns strohm.core
   (:require [clojure.string :as str]
             [strohm.debug :as debug]
             [strohm.tx :refer [send-props]]
@@ -6,11 +6,11 @@
 
 (defonce ^:export store (atom nil))
 
-(defn create-store
+(defn ^:export create-store
   [& args]
   (reset! store (apply impl/create-store args)))
 
-(defn get-state
+(defn ^:export get-state
   []
   (:state @store))
 
@@ -23,19 +23,19 @@
 (defn ^:export dispatch-from-native
   [serialized-action]
   (debug/log "dispatch-from-native" serialized-action)
-  (let [action (js->clj (js/JSON.parse serialized-action) :keywordize-keys true)] 
+  (let [action (js->clj (js/JSON.parse serialized-action) :keywordize-keys true)]
     (dispatch! action)))
 
-(defn subscribe!
+(defn ^:export subscribe!
   [callback]
   (let [key (random-uuid)]
-    (add-watch store key (fn [_key _ref old new] 
+    (add-watch store key (fn [_key _ref old new]
                            (debug/log "Triggered cljs subscription" _key)
                            (callback (:state old) (:state new))))
     key))
 
 (defn- trigger-subscription-update-to-native
-  [props-spec k _ref old new] 
+  [props-spec k _ref old new]
   (debug/log "Triggered native subscription" k)
   (let [old-props (into {} (map (fn [[prop-name _prop-spec]] [prop-name (:state old)]) props-spec))
         new-props (into {} (map (fn [[prop-name _prop-spec]] [prop-name (:state new)]) props-spec))]
@@ -49,7 +49,7 @@
     (add-watch store key (partial trigger-subscription-update-to-native props-spec))
     subscription-id))
 
-(defn unsubscribe!
+(defn ^:export unsubscribe!
   [key]
   (remove-watch store key))
 
