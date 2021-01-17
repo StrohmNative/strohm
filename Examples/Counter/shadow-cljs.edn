@@ -1,11 +1,5 @@
 ;; shadow-cljs configuration
-{:source-paths
- ["dev"
-  "src"
-  "test"]
-
- :dependencies
- []
+{:deps true
 
  :dev-http {8080  "target/"}
 

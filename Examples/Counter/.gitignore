@@ -7,3 +7,4 @@ target/*
 .strohm/
 .clj-kondo/.cache/
 .clj-kondo/cache/
+.cpcache/
