@@ -7,7 +7,8 @@
     "shadow-cljs": "^2.11.8"
   },
   "scripts": {
-    "watch": "shadow-cljs watch :app :test",
+    "watch-ios": "shadow-cljs watch :app :test",
+    "watch-android": "shadow-cljs watch :app :test --config-merge '{:devtools {:devtools-url \"http://10.0.2.2:9630\"}}'",
     "release": "shadow-cljs release :app"
   }
 }

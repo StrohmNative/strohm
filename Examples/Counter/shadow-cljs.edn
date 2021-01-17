@@ -8,8 +8,7 @@
         :target :browser
         :asset-path "."
         :modules {:main {:entries [app.main]
-                         :init-fn app.main/main!}}
-        :devtools {:devtools-url "http://10.0.2.2:9630"}}
+                         :init-fn app.main/main!}}}
   :test {:target :node-test
          :output-to "target/node-test.js"
          :ns-regexp "-test$"
