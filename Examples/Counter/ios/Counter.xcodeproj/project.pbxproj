@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,11 +11,8 @@
 		F865BA4B257CD5F6007C3A0C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F865BA4A257CD5F6007C3A0C /* ContentView.swift */; };
 		F865BA4D257CD5F7007C3A0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F865BA4C257CD5F7007C3A0C /* Assets.xcassets */; };
 		F865BA50257CD5F7007C3A0C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F865BA4F257CD5F7007C3A0C /* Preview Assets.xcassets */; };
-		F865BA5A257CEEA9007C3A0C /* Strohm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F865BA59257CEEA9007C3A0C /* Strohm.swift */; };
 		F8C499D1259774F300571293 /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = F8C499D0259774F300571293 /* main.js */; };
-		F8C499D82598C58200571293 /* Subscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C499D72598C58200571293 /* Subscriptions.swift */; };
-		F8C499DC2598C63300571293 /* Holder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C499DB2598C63300571293 /* Holder.swift */; };
-		F8C499E02598C7EE00571293 /* JsonComms.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C499DF2598C7EE00571293 /* JsonComms.swift */; };
+		F8F3363625B62CAF0053F572 /* Strohm in Frameworks */ = {isa = PBXBuildFile; productRef = F8F3363525B62CAF0053F572 /* Strohm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,11 +22,8 @@
 		F865BA4C257CD5F7007C3A0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F865BA4F257CD5F7007C3A0C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F865BA51257CD5F7007C3A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F865BA59257CEEA9007C3A0C /* Strohm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strohm.swift; sourceTree = "<group>"; };
 		F8C499D0259774F300571293 /* main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
-		F8C499D72598C58200571293 /* Subscriptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subscriptions.swift; sourceTree = "<group>"; };
-		F8C499DB2598C63300571293 /* Holder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Holder.swift; sourceTree = "<group>"; };
-		F8C499DF2598C7EE00571293 /* JsonComms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonComms.swift; sourceTree = "<group>"; };
+		F8F3363025B62C5D0053F572 /* Strohm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Strohm; path = ../../../Strohm/ios/Strohm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8F3363625B62CAF0053F572 /* Strohm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,7 +42,9 @@
 			isa = PBXGroup;
 			children = (
 				F865BA47257CD5F6007C3A0C /* Counter */,
+				F8F3363025B62C5D0053F572 /* Strohm */,
 				F865BA46257CD5F6007C3A0C /* Products */,
+				F8F3363425B62CAF0053F572 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,7 +61,6 @@
 			children = (
 				F865BA48257CD5F6007C3A0C /* CounterApp.swift */,
 				F865BA4A257CD5F6007C3A0C /* ContentView.swift */,
-				F8C499D32598C4C700571293 /* Strohm */,
 				F865BA4C257CD5F7007C3A0C /* Assets.xcassets */,
 				F865BA51257CD5F7007C3A0C /* Info.plist */,
 				F8C499CF259774D000571293 /* target */,
@@ -90,15 +86,11 @@
 			path = ../../target;
 			sourceTree = "<group>";
 		};
-		F8C499D32598C4C700571293 /* Strohm */ = {
+		F8F3363425B62CAF0053F572 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F865BA59257CEEA9007C3A0C /* Strohm.swift */,
-				F8C499D72598C58200571293 /* Subscriptions.swift */,
-				F8C499DB2598C63300571293 /* Holder.swift */,
-				F8C499DF2598C7EE00571293 /* JsonComms.swift */,
 			);
-			path = Strohm;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +110,9 @@
 			dependencies = (
 			);
 			name = Counter;
+			packageProductDependencies = (
+				F8F3363525B62CAF0053F572 /* Strohm */,
+			);
 			productName = Counter;
 			productReference = F865BA45257CD5F6007C3A0C /* Counter.app */;
 			productType = "com.apple.product-type.application";
@@ -193,12 +188,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8C499DC2598C63300571293 /* Holder.swift in Sources */,
 				F865BA4B257CD5F6007C3A0C /* ContentView.swift in Sources */,
-				F865BA5A257CEEA9007C3A0C /* Strohm.swift in Sources */,
-				F8C499D82598C58200571293 /* Subscriptions.swift in Sources */,
 				F865BA49257CD5F6007C3A0C /* CounterApp.swift in Sources */,
-				F8C499E02598C7EE00571293 /* JsonComms.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +378,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F8F3363525B62CAF0053F572 /* Strohm */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Strohm;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F865BA3D257CD5F6007C3A0C /* Project object */;
 }
