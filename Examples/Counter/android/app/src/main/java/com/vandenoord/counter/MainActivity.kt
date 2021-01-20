@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         hideSoftKeyBoard()
         v?.clearFocus()
         if (v?.text != null) {
-            val count = Integer.valueOf(v.text as String)
+            val count = Integer.valueOf(v.text.toString())
             setCounter(count.toInt())
         }
         return true
