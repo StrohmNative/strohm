@@ -47,7 +47,7 @@ class Strohm internal constructor(val context: Context) {
                             globalThis.app.main.init()
                         }
                     </script>
-                    <script src="http://10.0.2.2:$port/$appJsPath"></script>
+                    <script src="http://localhost:$port/$appJsPath"></script>
                 </body>
             </html>
             """.trimIndent()
