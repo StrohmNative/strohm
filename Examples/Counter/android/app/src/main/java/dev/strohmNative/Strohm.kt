@@ -38,6 +38,8 @@ class Strohm internal constructor(val context: Context) {
 
     fun reload() {
         if (BuildConfig.DEBUG) {
+            CheckShadowCLJSReachable.execute(this.context)
+
             val unencodedHtml = """
             <html>
                 <body style='background-color: #ddd'>
