@@ -19,6 +19,9 @@ class Strohm internal constructor(val context: Context) {
     @SuppressLint("SetJavaScriptEnabled")
     fun install(appJsPath: String, port: Int? = null) {
         webView.settings.javaScriptEnabled = true
+        if (BuildConfig.DEBUG) {
+            WebView.setWebContentsDebuggingEnabled(true)
+        }
         webView.addJavascriptInterface(ReceivePropsInterface(this), "strohmReceiveProps")
         webView.webViewClient = StrohmWebViewClient(this)
 
