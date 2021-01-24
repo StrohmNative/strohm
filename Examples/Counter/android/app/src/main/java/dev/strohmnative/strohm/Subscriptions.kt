@@ -1,4 +1,4 @@
-package dev.strohmNative
+package dev.strohmnative.strohm
 
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf

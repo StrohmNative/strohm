@@ -1,4 +1,4 @@
-package dev.strohmNative
+package dev.strohmnative.strohm
 
 import android.util.Log
 import android.webkit.JavascriptInterface

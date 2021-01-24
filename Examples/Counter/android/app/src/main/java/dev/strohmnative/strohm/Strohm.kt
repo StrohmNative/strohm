@@ -1,4 +1,4 @@
-package dev.strohmNative
+package dev.strohmnative.strohm
 
 import android.annotation.SuppressLint
 import android.content.Context

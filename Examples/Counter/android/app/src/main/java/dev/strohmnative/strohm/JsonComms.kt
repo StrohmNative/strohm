@@ -1,4 +1,4 @@
-package dev.strohmNative
+package dev.strohmnative.strohm
 
 import com.google.gson.Gson
 

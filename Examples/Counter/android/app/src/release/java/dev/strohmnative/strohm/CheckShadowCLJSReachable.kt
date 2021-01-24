@@ -1,3 +1,5 @@
+package dev.strohmnative.strohm
+
 import android.content.Context
 
 class CheckShadowCLJSReachable {

@@ -7,7 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import dev.strohmNative.Strohm
+import dev.strohmnative.strohm.Strohm
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
