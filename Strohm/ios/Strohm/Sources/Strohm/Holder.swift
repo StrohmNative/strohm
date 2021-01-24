@@ -6,7 +6,7 @@ public struct StrohmHolder: UIViewRepresentable {
 
     public func makeUIView(context: Context) -> WKWebView {
         Strohm.default.install(appJsPath: "main.js")
-        return Strohm.default.webView!
+        return Strohm.default.webView! as! WKWebView
     }
 
     public func updateUIView(_ uiView: WKWebView, context: Context) {}

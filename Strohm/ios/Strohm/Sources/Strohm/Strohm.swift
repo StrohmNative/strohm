@@ -4,7 +4,7 @@ import WebKit
 public class Strohm: NSObject, WKNavigationDelegate {
     public static var `default` = Strohm()
 
-    var webView: WKWebView?
+    var webView: StrohmWebView?
     var webConfiguration: WKWebViewConfiguration!
     var status: Status = .uninitialized
     var appJsPath: String?
@@ -86,7 +86,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
         """
         #endif
 
-        webView?.loadHTMLString(myHtml, baseURL: Bundle.main.resourceURL)
+        _ = webView?.loadHTMLString(myHtml, baseURL: Bundle.main.resourceURL)
     }
 
     public func subscribe(propsSpec: PropsSpec,
@@ -152,3 +152,11 @@ public class Strohm: NSObject, WKNavigationDelegate {
 public typealias PropsSpec = [String: String]
 public typealias Props = [String: Any]
 public typealias HandlerFunction = (Props) -> Void
+
+protocol StrohmWebView {
+    var navigationDelegate: WKNavigationDelegate? { get set }
+    func loadHTMLString(_ string: String, baseURL: URL?) -> WKNavigation?
+    func evaluateJavaScript(_ javaScriptString: String, completionHandler: ((Any?, Error?) -> Void)?)
+}
+
+extension WKWebView: StrohmWebView {}
