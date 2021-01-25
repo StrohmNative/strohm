@@ -1,6 +1,5 @@
 package dev.strohmnative.strohm
 
-import android.util.Log
 import android.webkit.JavascriptInterface
 
 internal class ReceivePropsInterface(private val strohm: Strohm) {

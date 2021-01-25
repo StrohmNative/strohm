@@ -7,7 +7,6 @@ import android.util.Base64
 import android.util.Log
 import android.webkit.*
 import java.util.*
-import com.vandenoord.counter.BuildConfig
 
 class Strohm internal constructor(val context: Context) {
     private lateinit var appJsPath: String
