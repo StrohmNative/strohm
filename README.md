@@ -106,6 +106,7 @@ This project is work in progress. You probably should not use this yet.
 | Simulator, release              | [X] | [X]     |        |
 | Device, debug                   | [X] | [X]     |        |
 | Device, release                 | [X] | [X]     |        |
+| Simple example project          | [X] | [X]     |        |
 | View binding                    | [ ] | [ ]     |        |
 | Complex store structure         | [ ] | [ ]     |        |
 | Test using NPM dependencies     | [ ] | [ ]     |        |
