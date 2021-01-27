@@ -1,4 +1,4 @@
 include ':strohm'
-project(':strohm').projectDir = new File('../../../Strohm/android/Strohm/strohm')
+project(':strohm').projectDir = new File('../../../Strohm/android/strohm')
 include ':app'
 rootProject.name = "Counter"
