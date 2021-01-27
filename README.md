@@ -96,7 +96,7 @@ from your Clojure editor.
 This project is work in progress. You probably should not use this yet.
 
 |                                 | iOS                | Android |
-| :------------------------------ | :----------------: | ------: |
+| :------------------------------ | :----------------: | :-----: |
 | Load web view                   | [X]                | [X]     |
 | Call native -> CLJS             | [X]                | [X]     |
 | Call CLJS -> native             | [X]                | [X]     |
