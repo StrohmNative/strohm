@@ -114,6 +114,6 @@ This project is work in progress. You probably should not use this yet.
 | Setup CD of CLJS lib            |     |         | [ ]    |
 | Documentation                   |     |         | [ ]    |
 | Starter project                 |     |         | [ ]    |
+| Complex example project         | [ ] | [ ]     |        |
 
 [shadow-cljs]: https://shadow-cljs.github.io/docs/UsersGuide.html
-[asdf-vm]: https://asdf-vm.com/
