@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/android.iml" filepath="$PROJECT_DIR$/.idea/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/StrohmProject.iml" filepath="$PROJECT_DIR$/.idea/modules/StrohmProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/StrohmProject.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/StrohmProject.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/strohm/StrohmProject.strohm.iml" filepath="$PROJECT_DIR$/.idea/modules/strohm/StrohmProject.strohm.iml" />
     </modules>
   </component>
 </project>

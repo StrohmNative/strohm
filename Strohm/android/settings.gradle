@@ -1,0 +1,3 @@
+include ':strohm'
+include ':app'
+rootProject.name = "StrohmProject"
