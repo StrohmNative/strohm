@@ -95,25 +95,25 @@ from your Clojure editor.
 
 This project is work in progress. You probably should not use this yet.
 
-|                                 | iOS                | Android |
-| :------------------------------ | :----------------: | :-----: |
-| Load web view                   | [X]                | [X]     |
-| Call native -> CLJS             | [X]                | [X]     |
-| Call CLJS -> native             | [X]                | [X]     |
-| Dispatch from native            | [X]                | [X]     |
-| Subscribe + receive updates     | [X]                | [X]     |
-| Simulator, debug                | [X]                | [X]     |
-| Simulator, release              | [X]                | [X]     |
-| Device, debug                   | [X]                | [X]     |
-| Device, release                 | [X]                | [X]     |
-| View binding                    | [ ]                | [ ]     |
-| Complex store structure         | [ ]                | [ ]     |
-| Test using NPM dependencies     | [ ]                | [ ]     |
-| Setup CI incl example app tests | [ ]                | [ ]     |
-| Setup CD of native libs         | [ ]                | [ ]     |
-| Setup CD of CLJS lib            | <td colspan=2> [ ] |         |
-| Documentation                   | <td colspan=2> [ ] |         |
-| Starter project                 | <td colspan=2> [ ] |         |
+|                                 | iOS | Android | Common |
+| :------------------------------ | :-: | :-----: | :----: |
+| Load web view                   | [X] | [X]     |        |
+| Call native -> CLJS             | [X] | [X]     |        |
+| Call CLJS -> native             | [X] | [X]     |        |
+| Dispatch from native            | [X] | [X]     |        |
+| Subscribe + receive updates     | [X] | [X]     |        |
+| Simulator, debug                | [X] | [X]     |        |
+| Simulator, release              | [X] | [X]     |        |
+| Device, debug                   | [X] | [X]     |        |
+| Device, release                 | [X] | [X]     |        |
+| View binding                    | [ ] | [ ]     |        |
+| Complex store structure         | [ ] | [ ]     |        |
+| Test using NPM dependencies     | [ ] | [ ]     |        |
+| Setup CI incl example app tests | [ ] | [ ]     |        |
+| Setup CD of native libs         | [ ] | [ ]     |        |
+| Setup CD of CLJS lib            |     |         | [ ]    |
+| Documentation                   |     |         | [ ]    |
+| Starter project                 |     |         | [ ]    |
 
 [shadow-cljs]: https://shadow-cljs.github.io/docs/UsersGuide.html
 [asdf-vm]: https://asdf-vm.com/
