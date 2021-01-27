@@ -22,7 +22,7 @@ class CheckShadowCLJSReachable {
                         { _ ->
                             Log.e(
                                 "strohm",
-                                "shadow-cljs is not reachable; run `adb reverse tcp:8080 tcp:8080` and `adb reverse tcp:9630 tcp:9630` and restart this app."
+                                "shadow-cljs is not reachable; run `adb reverse tcp:8080 tcp:8080; adb reverse tcp:9630 tcp:9630` and restart this app."
                             )
                         }
                     )
