@@ -1,10 +1,10 @@
 {
   "name": "Counter",
   "version": "1.0.0",
-  "description": "A simple counter as an example of using Strohm",
+  "description": "A Strohm example that stores just a number",
   "main": "index.js",
   "devDependencies": {
-    "shadow-cljs": "^2.11.8"
+    "shadow-cljs": "^2.11.14"
   },
   "scripts": {
     "watch": "shadow-cljs watch :app :test",
