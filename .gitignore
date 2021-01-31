@@ -7,3 +7,4 @@ cache/
 .cpcache/
 **/target/*
 !**/target/index.html
+**/xcuserdata/*

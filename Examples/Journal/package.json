@@ -1,0 +1,14 @@
+{
+  "name": "journal",
+  "version": "1.0.0",
+  "description": "A Strohm example that is simple but has non-flat store structure",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "shadow-cljs": "^2.11.8"
+  },
+  "scripts": {
+    "watch": "shadow-cljs watch :app :test",
+    "release": "shadow-cljs release :app"
+  }
+}
