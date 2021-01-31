@@ -158,7 +158,7 @@ Creating new example project
 
   * Add permission to use local networking in `Info.plist`:
 
-    ```plist
+    ```xml
     <key>NSAppTransportSecurity</key>
     <dict>
         <key>NSAllowsLocalNetworking</key>
