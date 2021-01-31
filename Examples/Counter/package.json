@@ -1,8 +1,9 @@
 {
-  "name": "Counter",
+  "name": "counter",
   "version": "1.0.0",
   "description": "A Strohm example that stores just a number",
   "main": "index.js",
+  "license": "MIT",
   "devDependencies": {
     "shadow-cljs": "^2.11.14"
   },
