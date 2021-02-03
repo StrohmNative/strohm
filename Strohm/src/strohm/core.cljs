@@ -58,3 +58,5 @@
   (debug/log "unsubscribe-from-native" subscription-id)
   (let [key (uuid subscription-id)]
     (some? (unsubscribe! key)))) ;; TODO: doesn't seem to work yet?!
+
+(def ^:export combine-reducers impl/combine-reducers)
