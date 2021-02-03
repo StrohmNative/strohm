@@ -22,12 +22,15 @@
             :state
             (fn [state] (reducing-fn state action)))))
 
+(defn- apply-substate-reducer
+  [action state substate-key reducer]
+  (let [reducer-fn (get-reducer-fn reducer action)]
+    (update state
+            substate-key
+            #(reducer-fn (get % substate-key) action))))
+
 (defn combine-reducers [reducers]
   (fn combined-reducer [state action]
-    (reduce-kv (fn [next-state key reducer]
-                 (let [reducer-fn (get-reducer-fn reducer action)]
-                   (update next-state
-                           key
-                           #(reducer-fn (get % key) action))))
+    (reduce-kv (partial apply-substate-reducer action)
                state
                reducers)))
