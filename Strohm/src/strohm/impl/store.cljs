@@ -9,20 +9,25 @@
 
 (defn- identity-reducer [state _] state)
 
-(defn reducer-map->function [reducer action]
+(defn- get-reducer-fn [reducer action]
   (if (associative? reducer)
-    (or ((:type action) reducer) identity-reducer)
+    (or ((:type action) reducer)
+        identity-reducer)
     reducer))
 
 (defn reduce-action [action store] 
   (let [reducer     (:reducer store)
-        reducing-fn (reducer-map->function reducer action)]
+        reducing-fn (get-reducer-fn reducer action)]
     (update store
             :state
             (fn [state] (reducing-fn state action)))))
 
 (defn combine-reducers [reducers]
   (fn combined-reducer [state action]
-    (into {} (for [[state-key reducer] reducers
-                   :let [reducer-fn (reducer-map->function reducer action)]]
-               [state-key (reducer-fn (get state state-key) action)]))))
+    (reduce-kv (fn [next-state key reducer]
+                 (let [reducer-fn (get-reducer-fn reducer action)]
+                   (update next-state
+                           key
+                           #(reducer-fn (get % key) action))))
+               state
+               reducers)))
