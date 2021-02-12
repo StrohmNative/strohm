@@ -1,4 +1,4 @@
-(ns strohm.core
+(ns strohm.native
   (:require [clojure.string :as str]
             [strohm.debug :as debug]
             [strohm.tx :refer [send-props]]

@@ -1,7 +1,7 @@
-(ns strohm.core-test
+(ns strohm.native-test
   (:require [cljs.test :refer [deftest is testing]]
-            [strohm.core :refer [store create-store get-state
-                                 dispatch! subscribe! unsubscribe!]]))
+            [strohm.native :refer [store create-store get-state
+                                   dispatch! subscribe! unsubscribe!]]))
 
 (deftest store-test
   (testing "store is nil initially"
@@ -37,14 +37,14 @@
       (unsubscribe! subscription-id)
       (dispatch! {:type :increment})
       (is (= false @subscription-triggered))))
-
+  
   (testing "basic subscriptions - old and new state"
     (reset! store nil)
     (create-store {:increment (fn incfn [state _] (inc state))}
                   :initial-state 0)
     (let [received-old-state (atom nil)
           received-new-state (atom nil)]
-      (subscribe! (fn [old new] 
+      (subscribe! (fn [old new]
                     (reset! received-old-state old)
                     (reset! received-new-state new)))
       (dispatch! {:type :increment})

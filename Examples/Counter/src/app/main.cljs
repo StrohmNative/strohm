@@ -1,5 +1,5 @@
 (ns app.main
-  (:require [strohm.core :refer [create-store]]
+  (:require [strohm.native :refer [create-store]]
             [strohm.tx :refer [send-props]]
             [strohm.debug :as debug]
             [clojure.string :as str]))
