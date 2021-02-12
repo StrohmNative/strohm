@@ -1,5 +1,7 @@
 {:deps true
 
+ :dev-http {8080  "target/"}
+ 
  :builds
  {:strohm {:output-dir       "target/"
            :target           :browser
