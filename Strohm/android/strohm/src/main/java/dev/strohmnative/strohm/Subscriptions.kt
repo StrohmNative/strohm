@@ -49,13 +49,13 @@ class Subscriptions {
         val subscriptionId = UUID.randomUUID()
         subscribers[subscriptionId] = handler
         val encodedPropsSpec = strohm.comms.encode(propsSpec)
-        strohm.call("strohm.native.subscribe_from_native(\"$subscriptionId\", \"$encodedPropsSpec\")")
+        strohm.call("strohm.native$.subscribe_from_native(\"$subscriptionId\", \"$encodedPropsSpec\")")
         completion(subscriptionId)
     }
 
     internal fun removeSubscriber(subscriptionId: UUID) {
         subscribers.remove(subscriptionId)
-        strohm.call("strohm.native.unsubscribe_from_native(\"$subscriptionId\")")
+        strohm.call("strohm.native$.unsubscribe_from_native(\"$subscriptionId\")")
     }
 
     internal fun effectuatePendingSubscriptions() {

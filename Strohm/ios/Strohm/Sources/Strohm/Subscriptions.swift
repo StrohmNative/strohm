@@ -36,13 +36,13 @@ class Subscriptions {
         }
         let subscriptionId = UUID()
         subscribers[subscriptionId] = handler
-        strohm.call(method: "strohm.native.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(encodedPropsSpec)\")")
+        strohm.call(method: "strohm.native$.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(encodedPropsSpec)\")")
         completion(subscriptionId)
     }
 
     func removeSubscriber(subscriptionId: UUID) {
         subscribers.removeValue(forKey: subscriptionId)
-        strohm.call(method: "strohm.native.unsubscribe_from_native(\"\(subscriptionId.uuidString)\")")
+        strohm.call(method: "strohm.native$.unsubscribe_from_native(\"\(subscriptionId.uuidString)\")")
     }
 
     func effectuatePendingSubscriptions() {
