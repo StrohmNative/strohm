@@ -8,6 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import dev.strohmnative.journal.dummy.DummyContent
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.*
 
 /**
  * A fragment representing a single JournalEntry detail screen.
@@ -33,6 +37,8 @@ class JournalEntryDetailFragment : Fragment() {
                 item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
                 activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title =
                     item?.title
+                activity?.findViewById<TextView>(R.id.subtitle)?.text =
+                    dateFormatter.format(item?.created)
             }
         }
     }
@@ -57,5 +63,9 @@ class JournalEntryDetailFragment : Fragment() {
          * represents.
          */
         const val ARG_ITEM_ID = "item_id"
+
+        val dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+            .withLocale(Locale.getDefault())
+            .withZone(ZoneId.systemDefault())
     }
 }

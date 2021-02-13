@@ -37,6 +37,8 @@ object DummyContent {
             | dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
             | sunt in culpa qui officia deserunt mollit anim id est laborum.""".trimMargin()
 
+    private val LIPSUM_SHORT: String = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor"
+
     init {
         // Add some sample items.
         for (i in 1..COUNT) {
@@ -50,12 +52,13 @@ object DummyContent {
     }
 
     private fun createDummyItem(position: Int): JournalEntry {
+        val title = if (position == 1) { LIPSUM_SHORT } else { "Title $position" }
         val text = if (position == 1) { LIPSUM } else { "Text $position" }
         return JournalEntry(
             position.toString(),
-            "Title $position",
+            title,
             text,
-            Instant.now())
+            Instant.now().minusMillis(position.toLong()*1000*60*5))
     }
 
     data class JournalEntry(val id: String, val title: String, val text: String, val created: Instant) {
