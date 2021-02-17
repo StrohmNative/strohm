@@ -28,10 +28,10 @@
                    :decrement #(dec %1)
                    :add +}
           store   (create-store reducer :initial-state 0)]
-      (is (= 1  (:state (reduce-action {:type :increment}      store))))
+      (is (=  1 (:state (reduce-action {:type :increment}      store))))
       (is (= -1 (:state (reduce-action {:type :decrement}      store))))
-      (is (= 0  (:state (reduce-action {:type :unknown}        store))))
-      (is (= 3  (:state (reduce-action {:type :add :payload 3} store))))))
+      (is (=  0 (:state (reduce-action {:type :unknown}        store))))
+      (is (=  3 (:state (reduce-action {:type :add :payload 3} store))))))
 
   (testing "nested reducer functions"
     (let [sub1-reducer (fn sub1-reducer [state action]

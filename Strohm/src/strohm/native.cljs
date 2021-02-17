@@ -26,27 +26,32 @@
   (let [action (js->clj (js/JSON.parse serialized-action) :keywordize-keys true)]
     (dispatch! action)))
 
+(defn- subscribe-and-send-current-value [key watch-fn]
+  (add-watch store key watch-fn)
+  (watch-fn key nil nil @store))
+
 (defn ^:export subscribe!
   [callback]
-  (let [key (random-uuid)]
-    (add-watch store key (fn [_key _ref old new]
-                           (debug/log "Triggered cljs subscription" _key)
-                           (callback (:state old) (:state new))))
+  (let [key (random-uuid)
+        watch-fn (fn [_key _ref old new]
+                   (debug/log "Triggered cljs subscription" key)
+                   (callback (:state old) (:state new)))]
+    (subscribe-and-send-current-value key watch-fn)
     key))
 
 (defn- trigger-subscription-update-to-native
-  [props-spec k _ref old new]
-  (debug/log "Triggered native subscription" k)
+  [props-spec key _ref old new]
+  (debug/log "Triggered native subscription" key)
   (let [old-props (into {} (map (fn [[prop-name _prop-spec]] [prop-name (:state old)]) props-spec))
         new-props (into {} (map (fn [[prop-name _prop-spec]] [prop-name (:state new)]) props-spec))]
-    (send-props k old-props new-props)))
+    (send-props key old-props new-props)))
 
 (defn ^:export subscribe-from-native
   [subscription-id serialized-props-spec]
-  (let [key        (uuid subscription-id)
-        props-spec (js->clj (js/JSON.parse serialized-props-spec))]
+  (let [props-spec (js->clj (js/JSON.parse serialized-props-spec))
+        watch-fn   (partial trigger-subscription-update-to-native props-spec)]
     (debug/log "subscribe-from-native" subscription-id props-spec)
-    (add-watch store key (partial trigger-subscription-update-to-native props-spec))
+    (subscribe-and-send-current-value (uuid subscription-id) watch-fn)
     subscription-id))
 
 (defn ^:export unsubscribe!

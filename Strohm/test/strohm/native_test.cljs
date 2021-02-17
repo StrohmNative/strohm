@@ -26,18 +26,28 @@
                   :initial-state 0)
     (let [subscription-triggered (atom false)]
       (subscribe! #(reset! subscription-triggered true))
-      (dispatch! {:type :increment})
       (is (= true @subscription-triggered))))
+  
+  (testing "subscribe calls callback with current value"
+    (reset! store nil)
+    (create-store {} :initial-state :foo)
+    (let [received-old-state (atom nil)
+          received-new-state (atom nil)]
+      (subscribe! (fn [old new]
+                    (reset! received-old-state old)
+                    (reset! received-new-state new)))
+      (is (nil? @received-old-state))
+      (is (= :foo @received-new-state))))
 
   (testing "basic subscriptions - unsubscribe"
     (reset! store nil)
     (create-store {:increment (fn incfn [state _] (inc state))}
                   :initial-state 0)
-    (let [subscription-triggered (atom false)
-          subscription-id (subscribe! #(reset! subscription-triggered true))]
+    (let [did-dispatch (atom false)
+          subscription-id (subscribe! (fn [old _] (when old (reset! did-dispatch true))))]
       (unsubscribe! subscription-id)
       (dispatch! {:type :increment})
-      (is (= false @subscription-triggered))))
+      (is (= false @did-dispatch))))
 
   (testing "basic subscriptions - old and new state"
     (reset! store nil)
