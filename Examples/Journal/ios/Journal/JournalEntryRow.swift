@@ -14,7 +14,7 @@ struct JournalEntryRow: View {
                 Text(entry.created, style: .time)
                 Spacer()
             }
-            .font(.caption)
+            .font(.subheadline)
             .foregroundColor(Color(.secondaryLabel))
             .padding(.top, 1)
         }
