@@ -73,7 +73,7 @@ class SubscriptionsSpec: QuickSpec {
             it("has called subscribe on the web view") {
                 expect(webViewMock.evaluatedJavaScript).to(haveCount(1))
                 let actual = webViewMock.evaluatedJavaScript.first!
-                let pattern = #"strohm\.core\.subscribe_from_native\(".*", ?"(.*)"\)"#
+                let pattern = #"strohm\.native\$\.subscribe_from_native\(".*", ?"(.*)"\)"#
                 expect(actual).to(match(pattern))
                 let regex = try! NSRegularExpression(pattern: pattern, options: [])
                 let range = NSRange(actual.startIndex..<actual.endIndex, in: actual)
@@ -130,7 +130,7 @@ class SubscriptionsSpec: QuickSpec {
                 expect(webViewMock.evaluatedJavaScript).to(haveCount(2))
                 let actual = webViewMock.evaluatedJavaScript.last!
 
-                let pattern = #"strohm\.core\.unsubscribe_from_native\("(.*)"\)"#
+                let pattern = #"strohm\.native\$\.unsubscribe_from_native\("(.*)"\)"#
                 expect(actual).to(match(pattern))
                 let regex = try! NSRegularExpression(pattern: pattern, options: [])
                 let range = NSRange(actual.startIndex..<actual.endIndex, in: actual)

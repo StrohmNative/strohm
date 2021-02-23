@@ -80,7 +80,7 @@ object SubscriptionsSpec: Spek({
                 val jsCodeCaptor = ArgumentCaptor.forClass(String::class.java)
                 verify(webViewMock, times(1))
                     .evaluateJavascript(jsCodeCaptor.capture(), any())
-                val expected = """strohm\.core\.subscribe_from_native\(".*", ?"(.*)"\)"""
+                val expected = """strohm\.native\$\.subscribe_from_native\(".*", ?"(.*)"\)"""
                 assertLinesMatch(listOf(expected), listOf(jsCodeCaptor.value))
                 val matchResult = expected.toRegex().matchEntire(jsCodeCaptor.value)
                 val matchedSerializedPropsSpec = matchResult!!.groups[1]!!.value
@@ -133,7 +133,7 @@ object SubscriptionsSpec: Spek({
                 val jsCodeCaptor = ArgumentCaptor.forClass(String::class.java)
                 verify(webViewMock, times(1))
                     .evaluateJavascript(jsCodeCaptor.capture(), any())
-                val expected = """strohm\.core\.unsubscribe_from_native\("(.*)"\)"""
+                val expected = """strohm\.native\$\.unsubscribe_from_native\("(.*)"\)"""
                 assertLinesMatch(listOf(expected), listOf(jsCodeCaptor.value))
                 val matchResult = expected.toRegex().matchEntire(jsCodeCaptor.value)
                 val matchedSubscriptionId = matchResult!!.groups[1]!!.value
