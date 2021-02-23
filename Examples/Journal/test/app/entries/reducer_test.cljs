@@ -6,7 +6,7 @@
 
 (deftest reducer-test
   (testing "initial state"
-    (is (= [] sut/initial-state)))
+    (is (= 4 (count sut/initial-state))))
   
   (testing "add entry"
     (let [reduction-1 (sut/reducer [] {:type "add-entry"
