@@ -3,7 +3,8 @@
             [clojure.string :as str]
             [strohm.impl.store :refer [create-store
                                        reduce-action
-                                       combine-reducers]]))
+                                       combine-reducers
+                                       state->props]]))
 
 (defn identity-reducer [state _action] state)
 
@@ -69,4 +70,14 @@
           root-reducer (combine-reducers {:sub1 sub1-reducer :sub2 sub2-reducer})
           store        (create-store root-reducer {:sub1 "" :sub2 ""})]
       (is (= {:sub1 "-1-test" :sub2 "-2-test"}
-             (:state (reduce-action {:type :test :payload "test"} store)))))))
+             (:state (reduce-action {:type :test :payload "test"} store))))))
+  
+  (testing "state->props"
+    (is (= {"prop-name" {:foo :bar}}
+           (state->props {:foo :bar} {"prop-name" []})))
+    (is (= {"prop-name" :bar}
+           (state->props {:foo :bar} {"prop-name" [:foo]})))
+    (is (= {"prop-name" {:goal "target"}}
+           (state->props {:foo :bar
+                          :baz [0 1 {:goal "target"}]}
+                         {"prop-name" [:baz 2]})))))

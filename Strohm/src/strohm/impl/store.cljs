@@ -36,3 +36,10 @@
     (reduce-kv (partial apply-substate-reducer action)
                state
                reducers)))
+
+(defn  state-for-prop-spec [state [prop-name prop-spec]]
+  [prop-name
+   (reduce (fn [acc prop] (get acc prop)) state prop-spec)])
+
+(defn state->props [state props-spec]
+  (into {} (map (partial state-for-prop-spec state) props-spec)))

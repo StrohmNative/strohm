@@ -42,8 +42,8 @@
 (defn- trigger-subscription-update-to-native
   [props-spec key _ref old new]
   (debug/log "Triggered native subscription" key)
-  (let [old-props (into {} (map (fn [[prop-name _prop-spec]] [prop-name (:state old)]) props-spec))
-        new-props (into {} (map (fn [[prop-name _prop-spec]] [prop-name (:state new)]) props-spec))]
+  (let [old-props (impl/state->props (:state old) props-spec)
+        new-props (impl/state->props (:state new) props-spec)]
     (send-props key old-props new-props)))
 
 (defn ^:export subscribe-from-native
