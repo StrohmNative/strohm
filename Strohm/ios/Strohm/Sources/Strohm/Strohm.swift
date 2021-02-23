@@ -149,7 +149,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
     }
 }
 
-public typealias PropsSpec = [String: String]
+public typealias PropsSpec = [String: [Any]]
 public typealias Props = [String: Any]
 public typealias HandlerFunction = (Props) -> Void
 

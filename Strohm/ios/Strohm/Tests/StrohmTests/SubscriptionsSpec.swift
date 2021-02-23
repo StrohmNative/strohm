@@ -5,8 +5,8 @@ import WebKit
 @testable import Strohm
 
 let propsSpec = [
-    "name": "user.name",
-    "city": "user.address.city"
+    "name": ["user","name"],
+    "city": ["user","address","city"]
 ]
 
 class SubscriptionsSpec: QuickSpec {
@@ -83,7 +83,7 @@ class SubscriptionsSpec: QuickSpec {
                 let unescaped = matchedSerializedPropsSpec.replacingOccurrences(of: "\\\"", with: "\"")
                 let parsed = try! JSONSerialization.jsonObject(
                     with: unescaped.data(using: .utf8)!,
-                    options: []) as! Dictionary<String, String>
+                    options: []) as! Dictionary<String, [String]>
                 expect(parsed["name"]) == propsSpec["name"]
                 expect(parsed["city"]) == propsSpec["city"]
             }

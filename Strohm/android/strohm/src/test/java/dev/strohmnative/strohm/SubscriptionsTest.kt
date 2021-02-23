@@ -14,8 +14,8 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
 val propsSpec: PropsSpec = mapOf(
-    "name" to "user.name",
-    "city" to "user.address.city"
+    "name" to arrayListOf("user", "name"),
+    "city" to arrayListOf("user", "address", "city")
 )
 val noop: HandlerFunction = {}
 
