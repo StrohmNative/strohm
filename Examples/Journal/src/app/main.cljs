@@ -11,12 +11,16 @@
   {:entries entries/initial-state
    :navigation navigation/initial-state})
 
+(defn- setup []
+  (create-store reducer :initial-state empty-store))
+
 (defn ^:export main! []
-  (create-store reducer :initial-state empty-store)
+  (setup)
   (js/console.debug "[main] started"))
 
 (defn ^:export init []
   (js/console.debug "[main] init done"))
 
 (defn ^:dev/after-load reload! []
+  (setup)
   (js/console.debug "[main] reloaded"))
