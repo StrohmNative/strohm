@@ -13,7 +13,7 @@ struct ContentView: View {
     ]
 
     var body: some View {
-        JournalEntriesList(entries: entries)
+        JournalEntriesList()
     }
 }
 

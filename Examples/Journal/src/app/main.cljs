@@ -8,7 +8,7 @@
   state)
 
 (def empty-store
-  {:entries entries/initial-state
+  {"entries" entries/initial-state
    :navigation navigation/initial-state})
 
 (defn- setup []
