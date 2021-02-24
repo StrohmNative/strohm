@@ -11,10 +11,10 @@
 
 (defn get-reducer-fn [reducer action-type]
   (if (associative? reducer)
-    (or (when-let [reducer-for-action (get reducer action-type)]
-          (fn reducer-from-map [state action]
-            (reducer-for-action state (:payload action))))
-        identity-reducer)
+    (if-let [reducer-for-action (get reducer action-type)]
+      (fn reducer-from-map [state action]
+        (reducer-for-action state (:payload action)))
+      identity-reducer)
     reducer))
 
 (defn reduce-action [action store] 
