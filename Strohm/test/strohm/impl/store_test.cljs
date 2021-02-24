@@ -46,7 +46,7 @@
           root-reducer (fn root-reducer [state action]
                          {:sub1 (sub1-reducer (:sub1 state) action)
                           :sub2 (sub2-reducer (:sub2 state) action)})
-          store        (create-store root-reducer {:sub1 "" :sub2 ""})]
+          store        (create-store root-reducer :initial-state {:sub1 "" :sub2 ""})]
       (is (= {:sub1 "-1-test" :sub2 "-2-test"}
              (:state (reduce-action {:type :test :payload "test"} store))))))
   
@@ -60,7 +60,7 @@
                            (str/join "-2-" [state (:payload action)])
                            state))
           root-reducer (combine-reducers {:sub1 sub1-reducer :sub2 sub2-reducer})
-          store        (create-store root-reducer {:sub1 "" :sub2 ""})]
+          store        (create-store root-reducer :initial-state {:sub1 "" :sub2 ""})]
       (is (= {:sub1 "-1-test" :sub2 "-2-test"}
              (:state (reduce-action {:type "test" :payload "test"} store))))))
   
