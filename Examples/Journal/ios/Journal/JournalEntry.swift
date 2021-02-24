@@ -1,6 +1,7 @@
 import Foundation
+import Strohm
 
-struct JournalEntry: Identifiable {
+struct JournalEntry: Identifiable, ConstructableFromDictionary {
     let id: Int
     let title: String
     let text: String
