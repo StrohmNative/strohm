@@ -41,7 +41,7 @@
     (is (= [sample-entry-2]
            (sut/reducer [sample-entry-1 sample-entry-2]
                         {:type "remove-entry"
-                         :payload 1})))))
+                         :payload {:entry/id 1}})))))
 
 (def sample-entry-1 {:entry/id 1
                      :entry/title "My first journal entry"

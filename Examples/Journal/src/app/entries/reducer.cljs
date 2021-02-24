@@ -6,10 +6,13 @@
     (merge entry payload)
     entry))
 
+(defn remove-entry [entries entry-id]
+  (filter (fn [entry] (not= entry-id (:entry/id entry))) entries))
+
 (def reducer
   (create-reducer {"add-entry" conj
                    "update-entry" #(map (partial update-entry %2) %1)
-                   "remove-entry" #(filter (fn [entry] (not= %2 (:entry/id entry))) %1)}))
+                   "remove-entry" #(remove-entry %1 (:entry/id %2))}))
 
 (def initial-state [{:entry/id 1
                      :entry/title "Title 1"
