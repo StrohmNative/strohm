@@ -1,11 +1,9 @@
 (ns app.main
-  (:require [strohm.native :refer [create-store]]
+  (:require [strohm.native :refer [create-store combine-reducers]]
             [app.entries.reducer :as entries]
             [app.navigation.reducer :as navigation]))
 
-(defn reducer
-  [state _action]
-  state)
+(def reducer (combine-reducers {"entries" entries/reducer}))
 
 (def empty-store
   {"entries" entries/initial-state
