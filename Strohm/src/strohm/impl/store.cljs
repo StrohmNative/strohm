@@ -29,7 +29,7 @@
   (let [reducer-fn (get-reducer-fn reducer (:type action))]
     (update state
             substate-key
-            #(reducer-fn (get % substate-key) action))))
+            (fn [substate] (reducer-fn substate action)))))
 
 (defn combine-reducers [reducers]
   (fn combined-reducer [state action]

@@ -1,6 +1,7 @@
 (ns strohm.impl.store-test
   (:require [cljs.test :refer [deftest testing is]]
             [clojure.string :as str]
+            [strohm.native :refer [create-reducer]]
             [strohm.impl.store :refer [create-store
                                        reduce-action
                                        combine-reducers
@@ -65,12 +66,24 @@
              (:state (reduce-action {:type "test" :payload "test"} store))))))
   
   (testing "combine-reducers with reducer maps"
-    (let [sub1-reducer {:test #(str/join "-1-" [%1 %2])}
-          sub2-reducer {:test #(str/join "-2-" [%1 %2])}
-          root-reducer (combine-reducers {:sub1 sub1-reducer :sub2 sub2-reducer})
-          store        (create-store root-reducer {:sub1 "" :sub2 ""})]
-      (is (= {:sub1 "-1-test" :sub2 "-2-test"}
-             (:state (reduce-action {:type :test :payload "test"} store))))))
+    (let [sub1-reducer (create-reducer {"test" #(str/join "-1-" [%1 %2])})
+          sub2-reducer {"test" #(str/join "-2-" [%1 %2])}
+          root-reducer (combine-reducers {"sub1" sub1-reducer :sub2 sub2-reducer})
+          store        (create-store root-reducer :initial-state {"sub1" "" :sub2 ""})]
+      (is (= {"sub1" "-1-test" :sub2 "-2-test"}
+             (:state (reduce-action {:type "test" :payload "test"} store))))))
+  
+  (testing "combine-reducers with unknown action"
+    (let [sub-reducer  (create-reducer {"test" #(str/join "-1-" [%1 %2])})
+          root-reducer (combine-reducers {"sub" sub-reducer})
+          store        (create-store root-reducer :initial-state {"sub" "foo"})]
+      (is (= {"sub" "foo"} (:state (reduce-action {:type "unknown-action-type"} store))))))
+  
+  (testing "combine-reducers with reducer maps and unknown action"
+    (let [sub-reducer  {"test" #(str/join "-1-" [%1 %2])}
+          root-reducer (combine-reducers {"sub" sub-reducer})
+          store        (create-store root-reducer :initial-state {"sub" "foo"})]
+      (is (= {"sub" "foo"} (:state (reduce-action {:type "unknown-action-type"} store))))))
   
   (testing "state->props"
     (is (= {"prop-name" {:foo :bar}}
