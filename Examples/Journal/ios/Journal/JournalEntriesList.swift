@@ -6,13 +6,21 @@ struct JournalEntriesList: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.entries) { entry in
-                NavigationLink(destination: JournalEntryDetail(entry: entry)) {
-                    JournalEntryRow(entry: entry)
-                }
+            List() {
+                ForEach(viewModel.entries, id: \.id) { entry in
+                    NavigationLink(destination: JournalEntryDetail(entry: entry)) {
+                        JournalEntryRow(entry: entry)
+                    }
+                }.onDelete(perform: onDelete)
             }
             .navigationTitle(Text("Journal"))
         }
+    }
+
+    func onDelete(at offsets: IndexSet) {
+        print("onDelete: \(offsets)")
+        let ids = offsets.map { viewModel.entries[$0].id }
+        Strohm.default.dispatch(type: "remove-entry", payload: ["entry/id": ids[0]])
     }
 
     class ViewModel: ArrayViewModel<JournalEntry> {
@@ -33,4 +41,3 @@ struct JournalEntriesList_Previews: PreviewProvider {
         JournalEntriesList(viewModel: JournalEntriesList.ViewModel(entries: entries))
     }
 }
-
