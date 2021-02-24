@@ -149,8 +149,10 @@ public class Strohm: NSObject, WKNavigationDelegate {
     }
 }
 
-public typealias PropsSpec = [String: [Any]]
-public typealias Props = [String: Any]
+public typealias PropName = String
+public typealias PropPath = [Any]
+public typealias PropsSpec = [PropName: PropPath]
+public typealias Props = [PropName: Any]
 public typealias HandlerFunction = (Props) -> Void
 
 protocol StrohmWebView {
