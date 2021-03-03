@@ -1,7 +1,7 @@
 import Foundation
 import Strohm
 
-struct JournalEntry: Identifiable, ConstructableFromDictionary {
+struct JournalEntry: Identifiable, ConstructableFromDictionary, ConvertableToDictionary {
     let id: Int
     let title: String
     let text: String
@@ -15,14 +15,23 @@ struct JournalEntry: Identifiable, ConstructableFromDictionary {
     }
 
     init?(from dict: [String:Any]) {
-        guard let id = dict["id"] as? Int,
-           let title = dict["title"] as? String,
-           let text = dict["text"] as? String,
-           let created = dict["created"] as? Double else { return nil }
+        guard let id = dict["entry/id"] as? Int,
+           let title = dict["entry/title"] as? String,
+           let text = dict["entry/text"] as? String,
+           let created = dict["entry/created"] as? Double else { return nil }
 
         self.id = id
         self.title = title
         self.text = text
         self.created = Date(timeIntervalSince1970: created)
+    }
+
+    func toDict() -> [String:Any] {
+        return [
+            "entry/id": id,
+            "entry/title": title,
+            "entry/text": text,
+            "entry/created": created.timeIntervalSince1970
+        ]
     }
 }
