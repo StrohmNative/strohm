@@ -23,7 +23,7 @@ struct JournalEntriesList: View {
         Strohm.default.dispatch(type: "remove-entry", payload: ["entry/id": ids[0]])
     }
 
-    class ViewModel: ArrayViewModel<JournalEntry> {
+    final class ViewModel: ArrayViewModel<JournalEntry> {
         init(entries: [JournalEntry] = []) {
             super.init(initialData: entries, propName: "entries", propPath: ["entries"])
         }
