@@ -2,6 +2,7 @@
   (:require [clojure.string :as str]
             [strohm.debug :as debug]
             [strohm.tx :refer [send-props]]
+            [strohm.utils :as utils]
             [strohm.impl.store :as impl]))
 
 (defonce ^:export store (atom nil))
@@ -23,7 +24,7 @@
 (defn ^:export dispatch-from-native
   [serialized-action]
   (debug/log "dispatch-from-native" serialized-action)
-  (let [action (js->clj (js/JSON.parse serialized-action) :keywordize-keys true)]
+  (let [action (utils/js->clj' (js/JSON.parse serialized-action))]
     (dispatch! action)))
 
 (defn- subscribe-and-send-current-value [key watch-fn]
@@ -48,7 +49,7 @@
 
 (defn ^:export subscribe-from-native
   [subscription-id serialized-props-spec]
-  (let [props-spec (js->clj (js/JSON.parse serialized-props-spec))
+  (let [props-spec (utils/js->clj' (js/JSON.parse serialized-props-spec))
         watch-fn   (partial trigger-subscription-update-to-native props-spec)]
     (debug/log "subscribe-from-native" subscription-id props-spec)
     (subscribe-and-send-current-value (uuid subscription-id) watch-fn)
