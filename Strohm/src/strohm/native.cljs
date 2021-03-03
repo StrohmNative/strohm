@@ -76,3 +76,6 @@
       (if-let [reducer-for-action (get all-reducers (:type action))]
         (reducer-for-action state action)
         state))))
+
+(def ^:export clj->js' utils/clj->js')
+(def ^:export js->clj' utils/js->clj')
