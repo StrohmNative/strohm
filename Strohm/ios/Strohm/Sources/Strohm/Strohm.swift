@@ -131,6 +131,10 @@ public class Strohm: NSObject, WKNavigationDelegate {
         }
     }
 
+    public func dispatch(type: String, payload: ConvertableToDictionary) {
+        dispatch(type: type, payload: payload.toDict())
+    }
+
     public func dispatch(type: String, payload: [String: Any] = [:]) {
         print("dispatch", type, payload)
         let action: [String: Any] = ["type": type, "payload": payload]
