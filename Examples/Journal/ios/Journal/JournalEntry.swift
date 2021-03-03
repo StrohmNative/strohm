@@ -4,7 +4,7 @@ import Strohm
 struct JournalEntry: Identifiable, ConstructableFromDictionary, ConvertableToDictionary {
     let id: Int
     let title: String
-    let text: String
+    var text: String
     let created: Date
 
     init(id: Int, title: String, text: String, created: Date) {

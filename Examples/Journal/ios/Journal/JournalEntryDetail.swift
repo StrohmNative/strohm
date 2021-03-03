@@ -1,4 +1,5 @@
 import SwiftUI
+import Strohm
 
 struct JournalEntryDetail: View {
     static let createdFormatter: DateFormatter = {
@@ -8,26 +9,44 @@ struct JournalEntryDetail: View {
         return f
     }()
 
-    var entry: JournalEntry
-    
-    var body: some View {
-        ScrollView {
-            VStack {
-                HStack {
-                    Text("Created: ")
-                    Text(entry.created, style: .date)
-                    Text(entry.created, style: .time)
-                    Spacer()
-                }.font(.caption).foregroundColor(Color(.secondaryLabel))
-                Divider()
+    @State var editMode: Bool = false
+    let entry: JournalEntry
+    @State var editableText: String
+    @Environment(\.presentationMode) var presentationMode
 
-                Text(verbatim: entry.text)
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
+    init(entry: JournalEntry) {
+        self.entry = entry
+        _editableText = State(initialValue: entry.text)
+    }
+
+    var body: some View {
+        VStack {
+            HStack {
+                Text("Created: ")
+                Text(entry.created, style: .date)
+                Text(entry.created, style: .time)
+                Spacer()
             }
-            .padding()
-            .frame(maxWidth: .infinity)
+            .font(.caption)
+            .foregroundColor(Color(.secondaryLabel))
+
+            Divider()
+
+            TextEditor(text: $editableText)
         }
+        .padding([.top, .leading, .trailing], nil)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle(Text(verbatim: entry.title))
+        .navigationBarItems(
+            trailing: Button("Save", action: onSave))
+    }
+
+    func onSave() {
+        self.editMode = false
+        var updatedEntry = entry
+        updatedEntry.text = editableText
+        Strohm.default.dispatch(type: "update-entry", payload: updatedEntry)
+        self.presentationMode.wrappedValue.dismiss()
     }
 }
 
