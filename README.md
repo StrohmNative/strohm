@@ -107,14 +107,16 @@ This project is work in progress. You probably should not use this yet.
 | Device, debug                   | [X] | [X]     |        |
 | Device, release                 | [X] | [X]     |        |
 | Simple example project          | [X] | [X]     |        |
-| View binding                    | [ ] | [ ]     |        |
-| Complex store structure         | [ ] | [ ]     |        |
+| View binding                    | [.] | [ ]     |        |
+| Complex store structure         | [.] | [ ]     |        |
 | Test using NPM dependencies     | [ ] | [ ]     |        |
 | Setup CI incl example app tests | [ ] | [ ]     |        |
 | Setup CD of native libs         | [ ] | [ ]     |        |
 | Setup CD of CLJS lib            |     |         | [ ]    |
 | Documentation                   |     |         | [ ]    |
 | Starter project                 |     |         | [ ]    |
-| Complex example project         | [ ] | [ ]     |        |
+| Complex example project         | [.] | [ ]     |        |
+
+Note: [.] means that it is in progress.
 
 [shadow-cljs]: https://shadow-cljs.github.io/docs/UsersGuide.html
