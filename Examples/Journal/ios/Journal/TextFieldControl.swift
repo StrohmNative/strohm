@@ -57,12 +57,12 @@ struct TextFieldAlert: UIViewControllerRepresentable {
             alert.addAction(UIAlertAction(title: submitTitle, style: .default) { _ in
                 // On submit action, get texts from TextField & set it on SwiftUI View's two-way binding varaible `textString` so that View receives enter response.
                 if let textField = alert.textFields?.first, let text = textField.text {
+                    self.didSubmit?(text)
                     self.textString = text
                 }
 
                 alert.dismiss(animated: true) {
                     self.showAlert = false
-                    self.didSubmit?(self.textString)
                 }
             })
 
