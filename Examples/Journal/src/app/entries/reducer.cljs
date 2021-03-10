@@ -7,7 +7,12 @@
     entries))
 
 (def reducer
-  (create-reducer {"add-entry" #(assoc %1 (:entry/id %2) %2)
+  (create-reducer {"new-entry" #(let [id (str (random-uuid))]
+                                  (assoc %1 id {:entry/id id
+                                                :entry/title "Untitled"
+                                                :entry/text ""
+                                                :entry/created (double (.getTime (js/Date.)))}))
+                   "add-entry" #(assoc %1 (:entry/id %2) %2)
                    "update-entry" update-entry
                    "remove-entry" #(dissoc %1 (:entry/id %2))}))
 

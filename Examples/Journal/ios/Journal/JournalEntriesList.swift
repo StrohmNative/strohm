@@ -14,6 +14,9 @@ struct JournalEntriesList: View {
                 }.onDelete(perform: onDelete)
             }
             .navigationTitle(Text("Journal"))
+            .navigationBarItems(trailing: Button("New", action: {
+                Strohm.default.dispatch(type: "new-entry")
+            }))
         }
     }
 
