@@ -8,7 +8,7 @@ struct JournalEntriesList: View {
         NavigationView {
             List() {
                 ForEach(viewModel.data.sorted(by: { (e1, e2) -> Bool in
-                    e1.id < e2.id
+                    e1.created < e2.created
                 }), id: \.id) { entry in
                     NavigationLink(destination: JournalEntryDetail(entry: entry)) {
                         JournalEntryRow(entry: entry)
