@@ -12,10 +12,14 @@ struct JournalEntryDetail: View {
     @State var editMode: Bool = false
     let entry: JournalEntry
     @State var editableText: String
+    @State var editableTitle: String
     @Environment(\.presentationMode) var presentationMode
+    @State var dirty = false
+    @State var showRenameAlert = false
 
     init(entry: JournalEntry) {
         self.entry = entry
+        _editableTitle = State(initialValue: entry.title)
         _editableText = State(initialValue: entry.text)
     }
 
@@ -33,12 +37,31 @@ struct JournalEntryDetail: View {
             Divider()
 
             TextEditor(text: $editableText)
+            if self.showRenameAlert {
+                TextFieldAlert(textString: $editableTitle,
+                                 showAlert: $showRenameAlert,
+                                 title: "Change Title",
+                                 submitTitle: "Update",
+                                 didSubmit: onRename)
+            }
         }
         .padding([.top, .leading, .trailing], nil)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle(Text(verbatim: entry.title))
         .navigationBarItems(
-            trailing: Button("Save", action: onSave))
+            trailing: HStack {
+                if dirty {
+                    Button("Save", action: onSave)
+                } else {
+                    Button("Rename", action: {
+                        editableTitle = entry.title;
+                        showRenameAlert = true
+                    })
+                }
+            })
+        .onChange(of: editableText, perform: { value in
+            self.dirty = value != entry.text
+        })
     }
 
     func onSave() {
@@ -47,6 +70,13 @@ struct JournalEntryDetail: View {
         updatedEntry.text = editableText
         Strohm.default.dispatch(type: "update-entry", payload: updatedEntry)
         self.presentationMode.wrappedValue.dismiss()
+    }
+
+    func onRename(newTitle: String) {
+        print("onRename")
+        var updatedEntry = entry
+        updatedEntry.title = editableTitle
+        Strohm.default.dispatch(type: "update-entry", payload: updatedEntry)
     }
 }
 

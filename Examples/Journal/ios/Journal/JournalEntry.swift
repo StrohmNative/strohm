@@ -3,7 +3,7 @@ import Strohm
 
 struct JournalEntry: Identifiable, ConstructableFromDictionary, ConvertableToDictionary {
     let id: Int
-    let title: String
+    var title: String
     var text: String
     let created: Date
 
