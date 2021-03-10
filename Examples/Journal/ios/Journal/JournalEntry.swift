@@ -23,7 +23,7 @@ struct JournalEntry: Identifiable, ConstructableFromDictionary, ConvertableToDic
         self.id = id
         self.title = title
         self.text = text
-        self.created = Date(timeIntervalSince1970: created)
+        self.created = Date(timeIntervalSince1970: created / 1000.0)
     }
 
     func toDict() -> [String:Any] {
@@ -31,7 +31,7 @@ struct JournalEntry: Identifiable, ConstructableFromDictionary, ConvertableToDic
             "entry/id": id,
             "entry/title": title,
             "entry/text": text,
-            "entry/created": created.timeIntervalSince1970
+            "entry/created": created.timeIntervalSince1970 * 1000
         ]
     }
 }
