@@ -2,12 +2,12 @@ import Foundation
 import Strohm
 
 struct JournalEntry: Identifiable, ConstructableFromDictionary, ConvertableToDictionary {
-    let id: Int
+    let id: String
     var title: String
     var text: String
     let created: Date
 
-    init(id: Int, title: String, text: String, created: Date) {
+    init(id: String, title: String, text: String, created: Date) {
         self.id = id
         self.title = title
         self.text = text
@@ -15,7 +15,7 @@ struct JournalEntry: Identifiable, ConstructableFromDictionary, ConvertableToDic
     }
 
     init?(from dict: [String:Any]) {
-        guard let id = dict["entry/id"] as? Int,
+        guard let id = dict["entry/id"] as? String,
            let title = dict["entry/title"] as? String,
            let text = dict["entry/text"] as? String,
            let created = dict["entry/created"] as? Double else { return nil }
