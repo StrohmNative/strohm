@@ -31,7 +31,9 @@ open class ViewModelBase<DataType>: ObservableObject {
 
     func receiveProps(props: Props) {
         if let data = propsToData(props: props) {
-            self.data = data
+            DispatchQueue.main.async {
+                self.data = data
+            }
         }
     }
 
