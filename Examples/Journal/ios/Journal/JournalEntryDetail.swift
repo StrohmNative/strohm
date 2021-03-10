@@ -10,7 +10,7 @@ struct JournalEntryDetail: View {
     }()
 
     @State var editMode: Bool = false
-    let entry: JournalEntry
+    @ObservedObject var viewModel: ViewModel
     @State var editableText: String
     @State var editableTitle: String
     @Environment(\.presentationMode) var presentationMode
@@ -18,7 +18,9 @@ struct JournalEntryDetail: View {
     @State var showRenameAlert = false
 
     init(entry: JournalEntry) {
-        self.entry = entry
+        viewModel = ViewModel(initialData: entry,
+                              propName: "entry",
+                              propPath: ["entries", entry.id])
         _editableTitle = State(initialValue: entry.title)
         _editableText = State(initialValue: entry.text)
     }
@@ -27,8 +29,8 @@ struct JournalEntryDetail: View {
         VStack {
             HStack {
                 Text("Created: ")
-                Text(entry.created, style: .date)
-                Text(entry.created, style: .time)
+                Text(viewModel.data.created, style: .date)
+                Text(viewModel.data.created, style: .time)
                 Spacer()
             }
             .font(.caption)
@@ -47,37 +49,41 @@ struct JournalEntryDetail: View {
         }
         .padding([.top, .leading, .trailing], nil)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .navigationTitle(Text(verbatim: entry.title))
+        .navigationTitle(Text(verbatim: viewModel.data.title))
         .navigationBarItems(
             trailing: HStack {
                 if dirty {
                     Button("Save", action: onSave)
                 } else {
                     Button("Rename", action: {
-                        editableTitle = entry.title;
+                        editableTitle = viewModel.data.title;
                         showRenameAlert = true
                     })
                 }
             })
         .onChange(of: editableText, perform: { value in
-            self.dirty = value != entry.text
+            self.dirty = value != viewModel.data.text
         })
     }
 
     func onSave() {
         self.editMode = false
-        var updatedEntry = entry
+        var updatedEntry = viewModel.data
         updatedEntry.text = editableText
         Strohm.default.dispatch(type: "update-entry", payload: updatedEntry)
         self.presentationMode.wrappedValue.dismiss()
     }
 
     func onRename(newTitle: String) {
-        print("onRename")
-        var updatedEntry = entry
-        updatedEntry.title = editableTitle
-        Strohm.default.dispatch(type: "update-entry", payload: updatedEntry)
+        viewModel.data.title = newTitle
+        DispatchQueue.main.async {
+            var updatedEntry = viewModel.data
+            updatedEntry.title = editableTitle
+            Strohm.default.dispatch(type: "update-entry", payload: updatedEntry)
+        }
     }
+
+    final class ViewModel: SimpleViewModel<JournalEntry> {}
 }
 
 struct JournalEntryDetail_Previews: PreviewProvider {

@@ -7,7 +7,9 @@ struct JournalEntriesList: View {
     var body: some View {
         NavigationView {
             List() {
-                ForEach(viewModel.entries, id: \.id) { entry in
+                ForEach(viewModel.data.sorted(by: { (e1, e2) -> Bool in
+                    e1.id < e2.id
+                }), id: \.id) { entry in
                     NavigationLink(destination: JournalEntryDetail(entry: entry)) {
                         JournalEntryRow(entry: entry)
                     }
@@ -19,11 +21,11 @@ struct JournalEntriesList: View {
 
     func onDelete(at offsets: IndexSet) {
         print("onDelete: \(offsets)")
-        let ids = offsets.map { viewModel.entries[$0].id }
+        let ids = offsets.map { viewModel.data[$0].id }
         Strohm.default.dispatch(type: "remove-entry", payload: ["entry/id": ids[0]])
     }
 
-    final class ViewModel: ArrayViewModel<JournalEntry> {
+    final class ViewModel: KeyedArrayViewModel<JournalEntry> {
         init(entries: [JournalEntry] = []) {
             super.init(initialData: entries, propName: "entries", propPath: ["entries"])
         }
