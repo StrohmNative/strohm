@@ -1,8 +1,14 @@
 import SwiftUI
 import Strohm
+import UIKit
 
 struct JournalEntriesList: View {
-    @ObservedObject var viewModel: ViewModel = ViewModel()
+    @ObservedObject var viewModel: ViewModel
+
+    init(viewModel: ViewModel = ViewModel()) {
+        self.viewModel = viewModel
+        UITableView.appearance().backgroundColor = .white
+    }
 
     var body: some View {
         NavigationView {
