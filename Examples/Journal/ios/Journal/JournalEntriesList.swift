@@ -7,9 +7,7 @@ struct JournalEntriesList: View {
     var body: some View {
         NavigationView {
             List() {
-                ForEach(viewModel.data.sorted(by: { (e1, e2) -> Bool in
-                    e1.created < e2.created
-                }), id: \.id) { entry in
+                ForEach(viewModel.data, id: \.id) { entry in
                     NavigationLink(destination: JournalEntryDetail(entry: entry)) {
                         JournalEntryRow(entry: entry)
                     }
@@ -27,7 +25,12 @@ struct JournalEntriesList: View {
 
     final class ViewModel: KeyedArrayViewModel<JournalEntry> {
         init(entries: [JournalEntry] = []) {
-            super.init(initialData: entries, propName: "entries", propPath: ["entries"])
+            super.init(initialData: entries,
+                       propName: "entries",
+                       propPath: ["entries"])
+            sorter = { (e1, e2) -> Bool in
+                e1.created > e2.created
+            }
         }
     }
 
