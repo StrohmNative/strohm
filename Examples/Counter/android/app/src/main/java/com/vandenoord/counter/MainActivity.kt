@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun subscribe(@Suppress("UNUSED_PARAMETER") src: View) {
-        Strohm.getInstance().subscribe(mapOf("count" to ""),
+        Strohm.getInstance().subscribe(mapOf("count" to listOf()),
         handler = { props ->
             val count = (props["count"] as Number).toInt()
             runOnUiThread {
