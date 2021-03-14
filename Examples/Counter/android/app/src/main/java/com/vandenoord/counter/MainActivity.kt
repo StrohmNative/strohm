@@ -7,18 +7,24 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.vandenoord.counter.databinding.ActivityMainBinding
 import dev.strohmnative.strohm.Strohm
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     private var subscription: UUID? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val txtCounter = findViewById<EditText>(R.id.txtCounter)
-        txtCounter.setOnEditorActionListener { v, _, _ -> onEnterCount(v) }
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        binding.txtCounter.setOnEditorActionListener { v, _, _ -> onEnterCount(v) }
     }
 
     fun decrement(@Suppress("UNUSED_PARAMETER") src: View) {
@@ -42,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         handler = { props ->
             val count = (props["count"] as Number).toInt()
             runOnUiThread {
-                findViewById<EditText>(R.id.txtCounter).setText("$count")
+                binding.txtCounter.setText("$count")
             }
         },
         completion = { subscription ->
