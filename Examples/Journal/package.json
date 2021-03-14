@@ -9,6 +9,7 @@
   },
   "scripts": {
     "watch": "shadow-cljs watch :app :test",
-    "release": "shadow-cljs release :app"
+    "release": "shadow-cljs release :app",
+    "adb-reverse": "adb reverse tcp:8080 tcp:8080 && adb reverse tcp:9630 tcp:9630"
   }
 }
