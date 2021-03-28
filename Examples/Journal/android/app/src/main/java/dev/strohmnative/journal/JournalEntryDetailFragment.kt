@@ -47,11 +47,11 @@ class JournalEntryDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.journalentry_detail, container, false)
+        val rootView = inflater.inflate(R.layout.journal_entry_detail, container, false)
 
         // Show the dummy content as text in a TextView.
         item?.let {
-            rootView.findViewById<TextView>(R.id.journalentry_detail).text = it.text
+            rootView.findViewById<TextView>(R.id.journal_entry_detail).text = it.text
         }
 
         return rootView

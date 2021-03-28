@@ -17,7 +17,7 @@ class JournalEntryDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_journalentry_detail)
+        setContentView(R.layout.activity_journal_entry_detail)
         setSupportActionBar(findViewById(R.id.detail_toolbar))
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
@@ -50,7 +50,7 @@ class JournalEntryDetailActivity : AppCompatActivity() {
             }
 
             supportFragmentManager.beginTransaction()
-                .add(R.id.journalentry_detail_container, fragment)
+                .add(R.id.journal_entry_detail_container, fragment)
                 .commit()
         }
     }

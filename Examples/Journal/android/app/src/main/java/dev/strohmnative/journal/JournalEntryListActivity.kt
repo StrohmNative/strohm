@@ -36,7 +36,7 @@ class JournalEntryListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_journalentry_list)
+        setContentView(R.layout.activity_journal_entry_list)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -47,7 +47,7 @@ class JournalEntryListActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        if (findViewById<NestedScrollView>(R.id.journalentry_detail_container) != null) {
+        if (findViewById<NestedScrollView>(R.id.journal_entry_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
@@ -55,7 +55,7 @@ class JournalEntryListActivity : AppCompatActivity() {
             twoPane = true
         }
 
-        setupRecyclerView(findViewById(R.id.journalentry_list))
+        setupRecyclerView(findViewById(R.id.journal_entry_list))
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -82,7 +82,7 @@ class JournalEntryListActivity : AppCompatActivity() {
                     }
                     parentActivity.supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.journalentry_detail_container, fragment)
+                        .replace(R.id.journal_entry_detail_container, fragment)
                         .commit()
                 } else {
                     val intent = Intent(v.context, JournalEntryDetailActivity::class.java).apply {
@@ -95,7 +95,7 @@ class JournalEntryListActivity : AppCompatActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.journalentry_list_content, parent, false)
+                .inflate(R.layout.journal_entry_list_content, parent, false)
             return ViewHolder(view)
         }
 

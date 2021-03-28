@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Journal">
         <activity
             android:name=".JournalEntryListActivity"
-            android:label="@string/title_journalentry_list"
+            android:label="@string/title_journal_entry_list"
             android:theme="@style/Theme.Journal.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name=".JournalEntryDetailActivity"
-            android:label="@string/title_journalentry_detail"
+            android:label="@string/title_journal_entry_detail"
             android:parentActivityName=".JournalEntryListActivity"
             android:theme="@style/Theme.Journal.NoActionBar">
             <meta-data

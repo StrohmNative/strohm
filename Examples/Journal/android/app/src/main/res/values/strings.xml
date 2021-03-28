@@ -2,8 +2,8 @@
     <string name="app_name">Journal</string>
     <!-- Strings used for fragments for navigation -->
 
-    <string name="title_journalentry_list">Journal</string>
-    <string name="title_journalentry_detail">Journal Entry</string>
+    <string name="title_journal_entry_list">Journal</string>
+    <string name="title_journal_entry_detail">Journal Entry</string>
 
     <string name="label_created">Created:</string>
 
