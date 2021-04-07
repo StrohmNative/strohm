@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import dev.strohmnative.journal.databinding.Formatters
 import dev.strohmnative.journal.databinding.JournalEntryDetailBinding
 import dev.strohmnative.journal.dummy.DummyContent
 import dev.strohmnative.journal.model.JournalEntry
@@ -30,17 +31,13 @@ class JournalEntryDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let { bundle ->
-            item = bundle.getParcelable(getString(R.string.intent_journal_entry))
-//            if (it.containsKey(ARG_ITEM_ID)) {
-//                // Load the dummy content specified by the fragment
-//                // arguments. In a real-world scenario, use a Loader
-//                // to load content from a content provider.
-//                item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
-//                activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title =
-//                    item?.title
-//                activity?.findViewById<TextView>(R.id.subtitle)?.text =
-//                    dateFormatter.format(item?.created)
-//            }
+            if (bundle.containsKey(getString(R.string.fragment_journal_entry_detail))) {
+                item = bundle.getParcelable(getString(R.string.fragment_journal_entry_detail))
+                activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title =
+                    item?.title
+                activity?.findViewById<TextView>(R.id.subtitle)?.text =
+                    Formatters.formatInstant(item?.created)
+            }
         }
     }
 
@@ -48,14 +45,6 @@ class JournalEntryDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        val rootView = inflater.inflate(R.layout.journal_entry_detail, container, false)
-//
-//        // Show the dummy content as text in a TextView.
-//        item?.let {
-//            rootView.findViewById<TextView>(R.id.journal_entry_detail).text = it.text
-//        }
-//
-//        return rootView
         binding = JournalEntryDetailBinding.inflate(inflater)
         binding.journalEntry = item
 

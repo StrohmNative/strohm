@@ -1,12 +1,13 @@
 package dev.strohmnative.journal
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
 import dev.strohmnative.journal.databinding.ActivityJournalEntryListBinding
-import dev.strohmnative.journal.databinding.JournalEntryListBinding
 import dev.strohmnative.journal.model.JournalEntry
 
 /**
@@ -56,16 +57,24 @@ class JournalEntryListActivity : AppCompatActivity(), IJournalEntryListActivity 
         tx.commit()
     }
 
-    override fun inflateJournalEntryDetailFragment(journalEntry: JournalEntry) {
-        val fragment = JournalEntryDetailFragment()
-
-        val bundle = Bundle()
-        bundle.putParcelable(getString(R.string.intent_journal_entry), journalEntry)
-        fragment.arguments = bundle
-
-        val tx = supportFragmentManager.beginTransaction()
-        tx.replace(R.id.main_container, fragment, getString(R.string.fragment_journal_entry_detail))
-        tx.addToBackStack(getString(R.string.fragment_journal_entry_detail))
-        tx.commit()
+    override fun inflateJournalEntryDetailFragment(v: View, journalEntry: JournalEntry) {
+        if (twoPane) {
+            val fragment = JournalEntryDetailFragment().apply {
+                val bundle = Bundle()
+                bundle.putParcelable(
+                    getString(R.string.fragment_journal_entry_detail),
+                    journalEntry
+                )
+            }
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.journal_entry_detail_container, fragment)
+                .commit()
+        } else {
+            val intent = Intent(v.context, JournalEntryDetailActivity::class.java).apply {
+                putExtra(getString(R.string.fragment_journal_entry_detail), journalEntry)
+            }
+            v.context.startActivity(intent)
+        }
     }
 }

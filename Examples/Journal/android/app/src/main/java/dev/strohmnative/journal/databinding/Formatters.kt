@@ -13,6 +13,6 @@ object Formatters {
 
     @JvmStatic
     fun formatInstant(i: Instant?): String {
-        return dateFormatter.format(i)
+        return i?.let { dateFormatter.format(it) } ?: ""
     }
 }

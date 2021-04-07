@@ -2,10 +2,14 @@ package dev.strohmnative.journal
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.databinding.DataBindingUtil
+import dev.strohmnative.journal.databinding.ActivityJournalEntryDetailBinding
+import dev.strohmnative.journal.model.JournalEntry
 
 /**
  * An activity representing a single JournalEntry detail screen. This
@@ -15,12 +19,15 @@ import android.view.MenuItem
  */
 class JournalEntryDetailActivity : AppCompatActivity() {
 
+    lateinit var binding: ActivityJournalEntryDetailBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_journal_entry_detail)
-        setSupportActionBar(findViewById(R.id.detail_toolbar))
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_journal_entry_detail)
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
+        setSupportActionBar(binding.detailToolbar)
+
+        binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
@@ -28,31 +35,20 @@ class JournalEntryDetailActivity : AppCompatActivity() {
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don"t need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
-//        if (savedInstanceState == null) {
-//            // Create the detail fragment and add it to the activity
-//            // using a fragment transaction.
-//            val fragment = JournalEntryDetailFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(
-//                        JournalEntryDetailFragment.ARG_ITEM_ID,
-//                        intent.getStringExtra(JournalEntryDetailFragment.ARG_ITEM_ID)
-//                    )
-//                }
-//            }
-//
-//            supportFragmentManager.beginTransaction()
-//                .add(R.id.journal_entry_detail_container, fragment)
-//                .commit()
-//        }
+        val item: JournalEntry? = intent.getParcelableExtra(getString(R.string.fragment_journal_entry_detail))
+        init(item)
+    }
+
+    private fun init(item: JournalEntry?) {
+        val fragment = JournalEntryDetailFragment()
+        item?.let {
+            val bundle = Bundle()
+            bundle.putParcelable(getString(R.string.fragment_journal_entry_detail), it)
+            fragment.arguments = bundle
+        }
+        val tx = supportFragmentManager.beginTransaction()
+        tx.replace(R.id.journal_entry_detail_container, fragment, getString(R.string.fragment_journal_entry_detail))
+        tx.commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
