@@ -37,22 +37,22 @@ class JournalEntryDetailActivity : AppCompatActivity() {
         //
         // http://developer.android.com/guide/components/fragments.html
         //
-        if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            val fragment = JournalEntryDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(
-                        JournalEntryDetailFragment.ARG_ITEM_ID,
-                        intent.getStringExtra(JournalEntryDetailFragment.ARG_ITEM_ID)
-                    )
-                }
-            }
-
-            supportFragmentManager.beginTransaction()
-                .add(R.id.journal_entry_detail_container, fragment)
-                .commit()
-        }
+//        if (savedInstanceState == null) {
+//            // Create the detail fragment and add it to the activity
+//            // using a fragment transaction.
+//            val fragment = JournalEntryDetailFragment().apply {
+//                arguments = Bundle().apply {
+//                    putString(
+//                        JournalEntryDetailFragment.ARG_ITEM_ID,
+//                        intent.getStringExtra(JournalEntryDetailFragment.ARG_ITEM_ID)
+//                    )
+//                }
+//            }
+//
+//            supportFragmentManager.beginTransaction()
+//                .add(R.id.journal_entry_detail_container, fragment)
+//                .commit()
+//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =

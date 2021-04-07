@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import dev.strohmnative.journal.databinding.JournalEntryDetailBinding
 import dev.strohmnative.journal.dummy.DummyContent
 import dev.strohmnative.journal.model.JournalEntry
 import java.time.ZoneId
@@ -22,25 +23,24 @@ import java.util.*
  */
 class JournalEntryDetailFragment : Fragment() {
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
+    private lateinit var binding: JournalEntryDetailBinding
     private var item: JournalEntry? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-            if (it.containsKey(ARG_ITEM_ID)) {
-                // Load the dummy content specified by the fragment
-                // arguments. In a real-world scenario, use a Loader
-                // to load content from a content provider.
-                item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
-                activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title =
-                    item?.title
-                activity?.findViewById<TextView>(R.id.subtitle)?.text =
-                    dateFormatter.format(item?.created)
-            }
+        arguments?.let { bundle ->
+            item = bundle.getParcelable(getString(R.string.intent_journal_entry))
+//            if (it.containsKey(ARG_ITEM_ID)) {
+//                // Load the dummy content specified by the fragment
+//                // arguments. In a real-world scenario, use a Loader
+//                // to load content from a content provider.
+//                item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
+//                activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title =
+//                    item?.title
+//                activity?.findViewById<TextView>(R.id.subtitle)?.text =
+//                    dateFormatter.format(item?.created)
+//            }
         }
     }
 
@@ -48,25 +48,18 @@ class JournalEntryDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.journal_entry_detail, container, false)
+//        val rootView = inflater.inflate(R.layout.journal_entry_detail, container, false)
+//
+//        // Show the dummy content as text in a TextView.
+//        item?.let {
+//            rootView.findViewById<TextView>(R.id.journal_entry_detail).text = it.text
+//        }
+//
+//        return rootView
+        binding = JournalEntryDetailBinding.inflate(inflater)
+        binding.journalEntry = item
 
-        // Show the dummy content as text in a TextView.
-        item?.let {
-            rootView.findViewById<TextView>(R.id.journal_entry_detail).text = it.text
-        }
-
-        return rootView
+        return binding.root
     }
 
-    companion object {
-        /**
-         * The fragment argument representing the item ID that this fragment
-         * represents.
-         */
-        const val ARG_ITEM_ID = "item_id"
-
-        val dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-            .withLocale(Locale.getDefault())
-            .withZone(ZoneId.systemDefault())
-    }
 }

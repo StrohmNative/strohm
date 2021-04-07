@@ -2,17 +2,23 @@
 <layout>
 
     <data>
+
         <import type="dev.strohmnative.journal.databinding.Formatters" />
 
         <variable
             name="journalEntry"
             type="dev.strohmnative.journal.model.JournalEntry" />
+
+        <variable
+            name="iJournalEntryListActivity"
+            type="dev.strohmnative.journal.IJournalEntryListActivity" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="@{() -> iJournalEntryListActivity.inflateJournalEntryDetailFragment(journalEntry)}">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -24,8 +30,8 @@
                 android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:text="@{journalEntry.title}"/>
+                android:text="@{journalEntry.title}"
+                android:textAppearance="?attr/textAppearanceListItem" />
         </LinearLayout>
 
         <LinearLayout
@@ -38,9 +44,9 @@
                 android:id="@+id/creation_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{Formatters.formatInstant(journalEntry.created)}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp"
-                android:text="@{Formatters.formatInstant(journalEntry.created)}"/>
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>

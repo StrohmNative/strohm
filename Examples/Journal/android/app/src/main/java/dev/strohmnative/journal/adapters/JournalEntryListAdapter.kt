@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import dev.strohmnative.journal.JournalEntryDetailActivity
-import dev.strohmnative.journal.JournalEntryDetailFragment
-import dev.strohmnative.journal.JournalEntryListActivity
-import dev.strohmnative.journal.R
+import dev.strohmnative.journal.*
 import dev.strohmnative.journal.databinding.JournalEntryDetailBinding
 import dev.strohmnative.journal.databinding.JournalEntryListContentBinding
 import dev.strohmnative.journal.dummy.DummyContent
@@ -68,6 +65,7 @@ class JournalEntryListAdapter(
 //            setOnClickListener(onClickListener)
 //        }
         holder.binding?.journalEntry = item
+        holder.binding?.iJournalEntryListActivity = context as IJournalEntryListActivity
     }
 
     override fun getItemCount() = values.size

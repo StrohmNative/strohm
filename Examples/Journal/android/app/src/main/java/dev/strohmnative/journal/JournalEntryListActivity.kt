@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
 import dev.strohmnative.journal.databinding.ActivityJournalEntryListBinding
 import dev.strohmnative.journal.databinding.JournalEntryListBinding
+import dev.strohmnative.journal.model.JournalEntry
 
 /**
  * An activity representing a list of Pings. This activity
@@ -16,7 +17,7 @@ import dev.strohmnative.journal.databinding.JournalEntryListBinding
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-class JournalEntryListActivity : AppCompatActivity() {
+class JournalEntryListActivity : AppCompatActivity(), IJournalEntryListActivity {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -51,7 +52,20 @@ class JournalEntryListActivity : AppCompatActivity() {
     private fun init() {
         val fragment = JournalEntryListFragment()
         val tx = supportFragmentManager.beginTransaction()
-        tx.replace(R.id.main_container, fragment, "JournalEntryList")
+        tx.replace(R.id.main_container, fragment, getString(R.string.fragment_journal_entry_list))
+        tx.commit()
+    }
+
+    override fun inflateJournalEntryDetailFragment(journalEntry: JournalEntry) {
+        val fragment = JournalEntryDetailFragment()
+
+        val bundle = Bundle()
+        bundle.putParcelable(getString(R.string.intent_journal_entry), journalEntry)
+        fragment.arguments = bundle
+
+        val tx = supportFragmentManager.beginTransaction()
+        tx.replace(R.id.main_container, fragment, getString(R.string.fragment_journal_entry_detail))
+        tx.addToBackStack(getString(R.string.fragment_journal_entry_detail))
         tx.commit()
     }
 }
