@@ -1,5 +1,6 @@
 package dev.strohmnative.journal.dummy
 
+import dev.strohmnative.journal.model.JournalEntry
 import java.time.Instant
 import java.util.ArrayList
 import java.util.HashMap
@@ -59,9 +60,5 @@ object DummyContent {
             title,
             text,
             Instant.now().minusMillis(position.toLong()*1000*60*5))
-    }
-
-    data class JournalEntry(val id: String, val title: String, val text: String, val created: Instant) {
-        override fun toString(): String = title
     }
 }
