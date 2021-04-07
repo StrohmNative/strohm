@@ -1,22 +1,12 @@
 package dev.strohmnative.journal
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.NestedScrollView
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
-import dev.strohmnative.journal.dummy.DummyContent
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.*
+import dev.strohmnative.journal.databinding.ActivityJournalEntryListBinding
+import dev.strohmnative.journal.databinding.JournalEntryListBinding
 
 /**
  * An activity representing a list of Pings. This activity
@@ -33,16 +23,16 @@ class JournalEntryListActivity : AppCompatActivity() {
      * device.
      */
     private var twoPane: Boolean = false
+    private lateinit var binding: ActivityJournalEntryListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_journal_entry_list)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_journal_entry_list)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        toolbar.title = title
+        setSupportActionBar(binding.toolbar)
+        binding.toolbar.title = title
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
+        binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
@@ -55,72 +45,13 @@ class JournalEntryListActivity : AppCompatActivity() {
             twoPane = true
         }
 
-        setupRecyclerView(findViewById(R.id.journal_entry_list))
+        init()
     }
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
-    }
-
-    class SimpleItemRecyclerViewAdapter(
-        private val parentActivity: JournalEntryListActivity,
-        private val values: List<DummyContent.JournalEntry>,
-        private val twoPane: Boolean
-    ) :
-        RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
-
-        private val onClickListener: View.OnClickListener
-
-        init {
-            onClickListener = View.OnClickListener { v ->
-                val item = v.tag as DummyContent.JournalEntry
-                if (twoPane) {
-                    val fragment = JournalEntryDetailFragment().apply {
-                        arguments = Bundle().apply {
-                            putString(JournalEntryDetailFragment.ARG_ITEM_ID, item.id)
-                        }
-                    }
-                    parentActivity.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.journal_entry_detail_container, fragment)
-                        .commit()
-                } else {
-                    val intent = Intent(v.context, JournalEntryDetailActivity::class.java).apply {
-                        putExtra(JournalEntryDetailFragment.ARG_ITEM_ID, item.id)
-                    }
-                    v.context.startActivity(intent)
-                }
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.journal_entry_list_content, parent, false)
-            return ViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = values[position]
-            holder.contentView.text = item.title
-            holder.creationDateView.text = dateFormatter.format(item.created)
-
-            with(holder.itemView) {
-                tag = item
-                setOnClickListener(onClickListener)
-            }
-        }
-
-        override fun getItemCount() = values.size
-
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val contentView: TextView = view.findViewById(R.id.content)
-            val creationDateView: TextView = view.findViewById(R.id.creation_date)
-        }
-
-        companion object {
-            val dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                .withLocale(Locale.getDefault())
-                .withZone(ZoneId.systemDefault())
-        }
+    private fun init() {
+        val fragment = JournalEntryListFragment()
+        val tx = supportFragmentManager.beginTransaction()
+        tx.replace(R.id.main_container, fragment, "JournalEntryList")
+        tx.commit()
     }
 }

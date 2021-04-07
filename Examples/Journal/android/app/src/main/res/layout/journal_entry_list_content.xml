@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<layout>
 
-    <LinearLayout
+    <data>
+        <import type="dev.strohmnative.journal.databinding.Formatters" />
+
+        <variable
+            name="journalEntry"
+            type="dev.strohmnative.journal.model.JournalEntry" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_margin"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/content"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItem" />
-    </LinearLayout>
+            android:layout_marginTop="@dimen/text_margin"
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_margin="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:text="@{journalEntry.title}"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/creation_date"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
-    </LinearLayout>
+            android:layout_margin="0dp"
+            android:orientation="horizontal">
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/creation_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="12sp"
+                android:text="@{Formatters.formatInstant(journalEntry.created)}"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
