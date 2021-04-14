@@ -114,7 +114,7 @@ class Strohm internal constructor(val context: Context) {
 
         fun getInstance(context: Context? = null): Strohm {
             if (sharedInstance == null && context == null) {
-                throw RuntimeException("needs to be called with application context first")
+                throw RuntimeException("needs to be called with application context first; did you maybe forget to install the StrohmHolder view?")
             }
 
             val instance = sharedInstance ?: Strohm(context!!)
@@ -131,7 +131,7 @@ class Strohm internal constructor(val context: Context) {
                 Log.d("strohm", "onload result: $result")
                 val hasStrohm = result != null && result.toBoolean()
                 if (!hasStrohm) {
-                    Log.e("strohm", "Please make sure dev server is running")
+                    Log.e("strohm", "Please make sure dev server is running and that you enabled adb (reverse) proxy")
                     return@evaluateJavascript
                 }
                 strohm.loadingFinished()
