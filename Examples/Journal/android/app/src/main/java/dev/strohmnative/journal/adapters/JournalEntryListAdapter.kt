@@ -1,20 +1,12 @@
 import android.content.Context
-import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import dev.strohmnative.journal.*
-import dev.strohmnative.journal.databinding.JournalEntryDetailBinding
+import dev.strohmnative.journal.IJournalEntryListActivity
+import dev.strohmnative.journal.R
 import dev.strohmnative.journal.databinding.JournalEntryListContentBinding
-import dev.strohmnative.journal.dummy.DummyContent
-import dev.strohmnative.journal.model.JournalEntry
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import dev.strohmnative.journal.viewmodel.JournalEntryListViewModel
 
 class JournalEntryListAdapter(

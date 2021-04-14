@@ -12,8 +12,7 @@ data class JournalEntry(val id: String, val title: String, val text: String, val
         parcel.readString()!!,
         parcel.readString()!!,
         Instant.ofEpochMilli(parcel.readLong())
-    ) {
-    }
+    )
 
     override fun toString(): String = title
 
