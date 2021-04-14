@@ -15,12 +15,12 @@ import dev.strohmnative.journal.model.JournalEntry
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.*
+import dev.strohmnative.journal.viewmodel.JournalEntryListViewModel
 
 class JournalEntryListAdapter(
 //    private val parentActivity: JournalEntryListActivity,
     private val context: Context,
-    private val values: List<JournalEntry>,
+    private val viewModel: JournalEntryListViewModel,
     private val twoPane: Boolean
 ) :
     RecyclerView.Adapter<JournalEntryListAdapter.BindingHolder>() {
@@ -56,7 +56,7 @@ class JournalEntryListAdapter(
     }
 
     override fun onBindViewHolder(holder: BindingHolder, position: Int) {
-        val item = values[position]
+        val item = viewModel.entries[position]
 //        holder.contentView.text = item.title
 //        holder.creationDateView.text = dateFormatter.format(item.created)
 //
@@ -68,7 +68,7 @@ class JournalEntryListAdapter(
         holder.binding?.iJournalEntryListActivity = context as IJournalEntryListActivity
     }
 
-    override fun getItemCount() = values.size
+    override fun getItemCount() = viewModel.entries.size
 
     inner class BindingHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: JournalEntryListContentBinding? = DataBindingUtil.bind(view)

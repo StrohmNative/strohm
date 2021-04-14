@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dev.strohmnative.journal.databinding.JournalEntryListBinding
 import dev.strohmnative.journal.dummy.DummyContent
+import dev.strohmnative.journal.viewmodel.JournalEntryListViewModel
 
 class JournalEntryListFragment: Fragment() {
 
@@ -18,7 +19,7 @@ class JournalEntryListFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = JournalEntryListBinding.inflate(inflater)
-        binding.journalEntries = DummyContent.ITEMS
+        binding.viewModel = JournalEntryListViewModel(DummyContent.ITEMS)
         return binding.root
     }
 }

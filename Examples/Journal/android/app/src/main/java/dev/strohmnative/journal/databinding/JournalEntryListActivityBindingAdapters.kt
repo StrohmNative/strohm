@@ -5,7 +5,7 @@ import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.strohmnative.journal.model.JournalEntry
+import dev.strohmnative.journal.viewmodel.JournalEntryListViewModel
 
 val NUM_COLUMNS = 2
 
@@ -19,4 +19,9 @@ fun RecyclerView.setJournalEntryList(journalEntries: List<JournalEntry>) {
         this.adapter =
             JournalEntryListAdapter(this.context, journalEntries, twoPane)
     }
+}
+@BindingAdapter("viewModel")
+fun RecyclerView.setViewModel(viewModel: JournalEntryListViewModel) {
+    val twoPane = false // TODO: determine from layout
+    this.adapter = JournalEntryListAdapter(this.context, viewModel, twoPane)
 }

@@ -6,8 +6,8 @@
         <import type="java.util.List" />
 
         <variable
-            name="journalEntries"
-            type="List&lt;JournalEntry>" />
+            name="viewModel"
+            type="dev.strohmnative.journal.viewmodel.JournalEntryListViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,7 +20,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        app:journalEntryList="@{journalEntries}"
+        app:viewModel="@{viewModel}"
         tools:context=".JournalEntryListActivity"
         tools:listitem="@layout/journal_entry_list_content" />
 </layout>
