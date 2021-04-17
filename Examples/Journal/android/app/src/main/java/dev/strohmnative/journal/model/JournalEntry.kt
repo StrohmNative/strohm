@@ -35,5 +35,20 @@ data class JournalEntry(val id: String, val title: String, val text: String, val
         override fun newArray(size: Int): Array<JournalEntry?> {
             return arrayOfNulls(size)
         }
+
+        fun createFromDict(dict: Map<String, Any>): JournalEntry? {
+            val id = dict["entry/id"] as? String
+            val title = dict["entry/title"] as? String
+            val text = dict["entry/text"] as? String
+            val created = dict["entry/created"] as? Double
+
+            if (id != null && title != null && text != null && created != null) {
+                return JournalEntry(id, title, text, Instant.ofEpochMilli(created.toLong()))
+            }
+
+            return null
+        }
+
     }
+
 }
