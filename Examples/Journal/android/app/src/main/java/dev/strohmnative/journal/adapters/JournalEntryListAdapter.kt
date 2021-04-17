@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.strohmnative.journal.IJournalEntryListActivity
 import dev.strohmnative.journal.R
 import dev.strohmnative.journal.databinding.JournalEntryListContentBinding
+import dev.strohmnative.journal.model.JournalEntry
 import dev.strohmnative.journal.viewmodel.JournalEntryListViewModel
 
 class JournalEntryListAdapter(
 //    private val parentActivity: JournalEntryListActivity,
     private val context: Context,
-    private val viewModel: JournalEntryListViewModel,
+    private val entries: List<JournalEntry>,
     private val twoPane: Boolean
 ) :
     RecyclerView.Adapter<JournalEntryListAdapter.BindingHolder>() {
@@ -48,7 +49,7 @@ class JournalEntryListAdapter(
     }
 
     override fun onBindViewHolder(holder: BindingHolder, position: Int) {
-        val item = viewModel.entries[position]
+        val item = entries[position]
 //        holder.contentView.text = item.title
 //        holder.creationDateView.text = dateFormatter.format(item.created)
 //
@@ -60,7 +61,7 @@ class JournalEntryListAdapter(
         holder.binding?.iJournalEntryListActivity = context as IJournalEntryListActivity
     }
 
-    override fun getItemCount() = viewModel.entries.size
+    override fun getItemCount() = entries.size
 
     inner class BindingHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: JournalEntryListContentBinding? = DataBindingUtil.bind(view)
