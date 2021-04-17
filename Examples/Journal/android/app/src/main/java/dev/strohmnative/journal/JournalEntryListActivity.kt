@@ -6,9 +6,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
-import com.google.android.material.snackbar.Snackbar
 import dev.strohmnative.journal.databinding.ActivityJournalEntryListBinding
 import dev.strohmnative.journal.model.JournalEntry
+import dev.strohmnative.strohm.Strohm
 
 /**
  * An activity representing a list of Pings. This activity
@@ -34,9 +34,8 @@ class JournalEntryListActivity : AppCompatActivity(), IJournalEntryListActivity 
         setSupportActionBar(binding.toolbar)
         binding.toolbar.title = title
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        binding.fab.setOnClickListener { _ ->
+            Strohm.getInstance().dispatch("new-entry")
         }
 
         if (findViewById<NestedScrollView>(R.id.journal_entry_detail_container) != null) {
