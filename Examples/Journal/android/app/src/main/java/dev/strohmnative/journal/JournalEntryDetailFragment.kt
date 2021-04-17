@@ -9,12 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import dev.strohmnative.journal.databinding.Formatters
 import dev.strohmnative.journal.databinding.JournalEntryDetailBinding
-import dev.strohmnative.journal.dummy.DummyContent
 import dev.strohmnative.journal.model.JournalEntry
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.*
 
 /**
  * A fragment representing a single JournalEntry detail screen.
