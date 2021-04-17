@@ -155,6 +155,8 @@ class Strohm internal constructor(val context: Context) {
     }
 }
 
-typealias PropsSpec = Map<String, List<String>>
-typealias Props = Map<String, Any>
+typealias PropName = String
+typealias PropPath = List<Any>
+typealias PropsSpec = Map<PropName, PropPath>
+typealias Props = Map<PropName, Any>
 typealias HandlerFunction = (Props) -> Unit
