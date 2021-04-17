@@ -1,6 +1,7 @@
 package dev.strohmnative.strohm
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.util.Base64
@@ -117,7 +118,7 @@ class Strohm internal constructor(val context: Context) {
                 throw RuntimeException("needs to be called with application context first; did you maybe forget to install the StrohmHolder view?")
             }
 
-            val instance = sharedInstance ?: Strohm(context!!)
+            val instance = sharedInstance ?: Strohm(context!!.applicationContext)
             if (sharedInstance == null) { sharedInstance = instance }
             return instance
         }
