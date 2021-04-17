@@ -4,7 +4,7 @@ open class KeyedArrayViewModel<EntryType: ConstructableFromDictionary>: ViewMode
     public var sorter: ((EntryType, EntryType) -> Bool)?
 
     override func propsToData(props: Props) -> [EntryType]? {
-        guard let rawData = props[self.propName] as? [String: [String:Any]] else {
+        guard let rawData = props[self.propName] as? [PropName: Props] else {
             return nil
         }
 

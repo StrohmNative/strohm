@@ -2,7 +2,7 @@ import Foundation
 
 open class ViewModelBase<DataType>: ObservableObject {
     var subscriptionId: UUID?
-    let propName: String
+    let propName: PropName
     let propPath: PropPath
     @Published public var data: DataType
 
