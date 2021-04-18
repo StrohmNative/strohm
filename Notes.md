@@ -107,9 +107,19 @@ Creating new example project
     }
     ```
 
-  * In the app's root activity, add a StrohmHolder view with
-    `android:visibility="gone"`. If it's still visible this way, wrap it in a
-    `LinearLayout` that has `android:visibility="gone"`.
+  * Create subclass of `Application` and register it in `AndroidManifest.xml` by
+    adding the property `android:name="<MyApplicationSubclass>"` to the
+    `<application>` tag. The put this in the `Application` subclass:
+
+    ```kotlin
+    lateinit var strohm: Strohm
+
+    override fun onCreate() {
+        super.onCreate()
+        strohm = Strohm.getInstance(applicationContext)
+    }
+    ```
+
   * Add the network security config
     `app/src/main/res/xml/network_security_config.xml` needed for development:
 
@@ -139,21 +149,15 @@ Creating new example project
     into the project, next to `Products`.
   * In the app's target settings, add Strohm to the section "Frameworks,
     Libraries and Embedded Content"
-  * Add an invisible `StrohmHolder` to the app's main `WindowGroup`:
+  * In the app's top-level scene, the one annotated with `@main` and conforming
+    to the `App` protocol, store the default instance of `Strohm`:
 
     ```swift
-    import Strohm
-
-    // ...
-
-    WindowGroup {
-      ContentView()
-
-      StrohmHolder()
-        .frame(minWidth: 0, idealWidth: 0, maxWidth: 0,
-               minHeight: 0, idealHeight: 0, maxHeight: 0,
-               alignment: .center)
-        }
+    @main
+    struct MyApp: App {
+      let strohm = Strohm.default
+      ...
+    }
     ```
 
   * Add permission to use local networking in `Info.plist`:
