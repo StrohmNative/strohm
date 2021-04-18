@@ -119,7 +119,10 @@ class Strohm internal constructor(val context: Context) {
             }
 
             val instance = sharedInstance ?: Strohm(context!!.applicationContext)
-            if (sharedInstance == null) { sharedInstance = instance }
+            if (sharedInstance == null) {
+                instance.install("main.js", 8080)
+                sharedInstance = instance
+            }
             return instance
         }
     }

@@ -10,7 +10,6 @@ class StrohmHolder : FrameLayout {
 
     constructor(context: Context) : super(context) {
         strohm = Strohm.getInstance(context)
-        strohm.install("main.js", 8080)
 
         addView(strohm.webView)
 
