@@ -2,7 +2,11 @@ import Foundation
 import WebKit
 
 public class Strohm: NSObject, WKNavigationDelegate {
-    public static var `default` = Strohm()
+    public static var `default`: Strohm = {
+        let strohm = Strohm()
+        strohm.install(appJsPath: "main.js")
+        return strohm
+    }()
 
     var webView: StrohmWebView?
     var webConfiguration: WKWebViewConfiguration!
