@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.FrameLayout
 
-class StrohmHolder : FrameLayout {
+class DebugView : FrameLayout {
     private var strohm: Strohm
 
     constructor(context: Context) : super(context) {
