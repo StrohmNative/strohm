@@ -1,7 +1,7 @@
 import SwiftUI
 import WebKit
 
-public struct StrohmHolder: UIViewRepresentable {
+public struct DebugView: UIViewRepresentable {
     public init() {}
 
     public func makeUIView(context: Context) -> WKWebView {
