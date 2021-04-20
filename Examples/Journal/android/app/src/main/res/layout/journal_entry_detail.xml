@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="journalEntry"
             type="dev.strohmnative.journal.model.JournalEntry" />
     </data>
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <EditText
         android:id="@+id/journal_entry_detail"
         style="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
         android:padding="16dp"
-        android:textIsSelectable="true"
-        tools:context=".JournalEntryDetailFragment"
         android:text="@{journalEntry.text}"
+        android:textIsSelectable="true"
+        android:gravity="top|left"
+        android:background="@null"
+        tools:context=".JournalEntryDetailFragment"
         />
 </layout>
