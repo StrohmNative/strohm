@@ -35,27 +35,18 @@ class JournalEntryListViewModel: BaseObservable {
     fun receiveProps(props: Props): Unit {
         propsToData(props)?.let { data ->
             handler.post(Runnable {
-                // TODO: trigger observable?
                 this.entries = data
-//                notifyChange()
                 notifyPropertyChanged(BR.entries)
             })
         }
     }
 
     fun propsToData(props: Props): List<JournalEntry>? {
-        val m = props[this.propName] as? Map<*, *>
-        if (m == null) return null
-
-        val rawData = m.asMapOfType<PropName, Props>()
-        Log.d("!!!!!!", "Received props: ${rawData}")
-        if (rawData == null) return null
-
+        val m = props[this.propName] as? Map<*, *> ?: return null
+        val rawData = m.asMapOfType<PropName, Props>() ?: return null
         val data = rawData.values.mapNotNull(JournalEntry::createFromDict)
-        Log.d("!!!!!!", "Received entries: $data")
         return data
     }
-
 }
 
 inline fun <reified K, reified V> Map<*, *>.asMapOfType(): Map<K, V>? =
