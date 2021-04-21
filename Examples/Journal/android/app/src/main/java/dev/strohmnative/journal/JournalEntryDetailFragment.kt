@@ -6,7 +6,9 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
 import android.widget.TextView
+import androidx.core.view.updatePadding
 import dev.strohmnative.journal.databinding.Formatters
 import dev.strohmnative.journal.databinding.JournalEntryDetailBinding
 import dev.strohmnative.journal.model.JournalEntry
@@ -42,6 +44,11 @@ class JournalEntryDetailFragment : Fragment() {
     ): View? {
         binding = JournalEntryDetailBinding.inflate(inflater)
         binding.journalEntry = item
+
+        binding.journalEntryDetail.setOnApplyWindowInsetsListener { view, insets ->
+            view.updatePadding(bottom = insets.systemWindowInsetBottom)
+            insets
+        }
 
         return binding.root
     }

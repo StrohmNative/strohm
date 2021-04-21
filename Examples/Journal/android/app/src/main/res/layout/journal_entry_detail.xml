@@ -20,5 +20,6 @@
         android:gravity="top|left"
         android:background="@null"
         tools:context=".JournalEntryDetailFragment"
+        android:fitsSystemWindows="true"
         />
 </layout>

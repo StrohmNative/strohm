@@ -24,6 +24,7 @@
             android:name=".JournalEntryDetailActivity"
             android:label="@string/title_journal_entry_detail"
             android:parentActivityName=".JournalEntryListActivity"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.Journal.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
