@@ -9,6 +9,16 @@
         android:fitsSystemWindows="true"
         tools:context=".JournalEntryListActivity">
 
+        <FrameLayout
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        </FrameLayout>
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
@@ -22,14 +32,6 @@
                 app:popupTheme="@style/Theme.Journal.PopupOverlay" />
 
         </com.google.android.material.appbar.AppBarLayout>
-
-        <FrameLayout
-            android:id="@+id/main_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        </FrameLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
