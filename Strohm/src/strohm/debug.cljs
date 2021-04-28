@@ -9,12 +9,12 @@
 
 (defn log [& args]
   (when @log-enabled?
-    (if-let [document (.-document js/window)]
+    (apply js/console.debug args)
+    (when-let [document (.-document js/window)]
       (let [contentDiv (.getElementById document "content")
             oldHtml    (.-innerHTML contentDiv)]
         (set! (.-innerHTML contentDiv)
-              (str oldHtml "<br/>\n[js] " (str/join " " args))))
-      (apply js/console.debug args))))
+              (str oldHtml "<br/>\n[js] " (str/join " " args)))))))
 
 (defn clear-log []
   (when @log-enabled?
