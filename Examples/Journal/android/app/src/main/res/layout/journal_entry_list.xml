@@ -2,11 +2,6 @@
 <layout>
 
     <data>
-
-        <import type="dev.strohmnative.journal.model.JournalEntry" />
-
-        <import type="java.util.List" />
-
         <variable
             name="viewModel"
             type="dev.strohmnative.journal.viewmodel.JournalEntryListViewModel" />
