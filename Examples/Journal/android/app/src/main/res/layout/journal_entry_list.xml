@@ -2,7 +2,9 @@
 <layout>
 
     <data>
+
         <import type="dev.strohmnative.journal.model.JournalEntry" />
+
         <import type="java.util.List" />
 
         <variable
@@ -17,8 +19,8 @@
         android:name="dev.strohmnative.journal.JournalEntryListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
         app:journalEntries="@{viewModel.entries}"
+        app:layoutManager="LinearLayoutManager"
         tools:context=".JournalEntryListActivity"
         tools:listitem="@layout/journal_entry_list_content" />
 </layout>

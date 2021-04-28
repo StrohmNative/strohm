@@ -2,6 +2,7 @@ package dev.strohmnative.journal.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import dev.strohmnative.journal.viewmodel.ConstructableFromDictionary
 import java.time.Instant
 
 data class JournalEntry(val id: String, val title: String, val text: String, val created: Instant):
@@ -27,7 +28,7 @@ data class JournalEntry(val id: String, val title: String, val text: String, val
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<JournalEntry> {
+    companion object CREATOR : Parcelable.Creator<JournalEntry>, ConstructableFromDictionary<JournalEntry> {
         override fun createFromParcel(parcel: Parcel): JournalEntry {
             return JournalEntry(parcel)
         }
@@ -36,7 +37,7 @@ data class JournalEntry(val id: String, val title: String, val text: String, val
             return arrayOfNulls(size)
         }
 
-        fun createFromDict(dict: Map<String, Any>): JournalEntry? {
+        override fun createFromDict(dict: Map<String, Any>): JournalEntry? {
             val id = dict["entry/id"] as? String
             val title = dict["entry/title"] as? String
             val text = dict["entry/text"] as? String

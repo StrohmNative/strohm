@@ -12,7 +12,7 @@ open class ViewModelBase<DataType>: ObservableObject {
         self.propPath = []
     }
 
-    public init(initialData: DataType, propName: String, propPath: [Any]) {
+    public init(initialData: DataType, propName: PropName, propPath: PropPath) {
         self.data = initialData
         self.propName = propName
         self.propPath = propPath
@@ -33,6 +33,7 @@ open class ViewModelBase<DataType>: ObservableObject {
         if let data = propsToData(props: props) {
             DispatchQueue.main.async {
                 self.data = data
+                print("!!!!!!! did set data")
             }
         }
     }
