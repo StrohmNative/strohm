@@ -15,7 +15,7 @@ abstract class ViewModelBase<DataType>(
     initialData: DataType,
     propName: PropName,
     propPath: PropPath
-) : BaseObservable() { // TODO: use LiveData
+) : BaseObservable() { // TODO: use LiveData (https://stackoverflow.com/a/51288791/378179)
     private var subscriptionId: UUID? = null
     val propName: PropName
     val propPath: PropPath
