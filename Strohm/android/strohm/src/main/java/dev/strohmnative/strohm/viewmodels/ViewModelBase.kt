@@ -13,20 +13,17 @@ import androidx.databinding.library.baseAdapters.BR
 
 abstract class ViewModelBase<DataType>(
     initialData: DataType,
-    propName: PropName,
-    propPath: PropPath
+    val propName: PropName,
+    val propPath: PropPath
 ) : BaseObservable() { // TODO: use LiveData (https://stackoverflow.com/a/51288791/378179)
     private var subscriptionId: UUID? = null
-    val propName: PropName
-    val propPath: PropPath
+
     @Bindable
     var data: DataType = initialData
 
     private val handler = Handler(Looper.getMainLooper())
 
     init {
-        this.propName = "entries"
-        this.propPath = listOf("entries")
         Strohm.getInstance().subscribe(mapOf(propName to propPath), ::receiveProps) {
                 subscriptionId -> this.subscriptionId = subscriptionId
         }
