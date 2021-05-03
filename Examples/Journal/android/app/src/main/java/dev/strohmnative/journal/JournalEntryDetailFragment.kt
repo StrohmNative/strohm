@@ -12,6 +12,7 @@ import androidx.core.view.updatePadding
 import dev.strohmnative.journal.databinding.Formatters
 import dev.strohmnative.journal.databinding.JournalEntryDetailBinding
 import dev.strohmnative.journal.model.JournalEntry
+import dev.strohmnative.journal.viewmodel.JournalEntryDetailViewModel
 
 /**
  * A fragment representing a single JournalEntry detail screen.
@@ -22,17 +23,17 @@ import dev.strohmnative.journal.model.JournalEntry
 class JournalEntryDetailFragment : Fragment() {
 
     private lateinit var binding: JournalEntryDetailBinding
-    private var item: JournalEntry? = null
+    private lateinit var item: JournalEntry
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let { bundle ->
             if (bundle.containsKey(getString(R.string.fragment_journal_entry_detail))) {
-                item = bundle.getParcelable(getString(R.string.fragment_journal_entry_detail))
+                item = bundle.getParcelable(getString(R.string.fragment_journal_entry_detail))!!
                 (activity as JournalEntryDetailActivity?)?.let {
-                    it.binding.toolbarLayout.title = item?.title
-                    it.binding.subtitle.text = Formatters.formatInstant(item?.created)
+                    it.binding.toolbarLayout.title = item.title
+                    it.binding.subtitle.text = Formatters.formatInstant(item.created)
                 }
             }
         }
@@ -43,12 +44,14 @@ class JournalEntryDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = JournalEntryDetailBinding.inflate(inflater)
-        binding.journalEntry = item
+        binding.viewModel = JournalEntryDetailViewModel(item)
 
         binding.journalEntryDetail.setOnApplyWindowInsetsListener { view, insets ->
             view.updatePadding(bottom = insets.systemWindowInsetBottom)
             insets
         }
+
+        binding.lifecycleOwner = this
 
         return binding.root
     }

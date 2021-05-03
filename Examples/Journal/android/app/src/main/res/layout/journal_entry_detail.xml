@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="journalEntry"
-            type="dev.strohmnative.journal.model.JournalEntry" />
+            name="viewModel"
+            type="dev.strohmnative.journal.viewmodel.JournalEntryDetailViewModel" />
     </data>
 
     <EditText
@@ -15,7 +15,7 @@
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:padding="16dp"
-        android:text="@{journalEntry.text}"
+        android:text="@{viewModel.data.text}"
         android:textIsSelectable="true"
         android:gravity="top|left"
         android:background="@null"
