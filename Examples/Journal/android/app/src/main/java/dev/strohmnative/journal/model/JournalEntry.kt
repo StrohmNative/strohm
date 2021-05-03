@@ -15,7 +15,7 @@ data class JournalEntry(val id: String, val title: String, val text: String, val
         Instant.ofEpochMilli(parcel.readLong())
     )
 
-    override fun toString(): String = title
+    override fun toString(): String = "$title/$text"
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
