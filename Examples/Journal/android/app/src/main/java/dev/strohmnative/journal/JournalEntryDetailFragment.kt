@@ -30,10 +30,10 @@ class JournalEntryDetailFragment : Fragment() {
         arguments?.let { bundle ->
             if (bundle.containsKey(getString(R.string.fragment_journal_entry_detail))) {
                 item = bundle.getParcelable(getString(R.string.fragment_journal_entry_detail))
-                activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title =
-                    item?.title
-                activity?.findViewById<TextView>(R.id.subtitle)?.text =
-                    Formatters.formatInstant(item?.created)
+                (activity as JournalEntryDetailActivity?)?.let {
+                    it.binding.toolbarLayout.title = item?.title
+                    it.binding.subtitle.text = Formatters.formatInstant(item?.created)
+                }
             }
         }
     }
