@@ -20,5 +20,4 @@
   (js/console.debug "[main] init done"))
 
 (defn ^:dev/after-load reload! []
-  (setup)
   (js/console.debug "[main] reloaded"))
