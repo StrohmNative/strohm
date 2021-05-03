@@ -19,6 +19,7 @@ class JournalEntryListFragment: Fragment() {
     ): View? {
         binding = JournalEntryListBinding.inflate(inflater)
         binding.viewModel = JournalEntryListViewModel(listOf())
+        binding.lifecycleOwner = this
         return binding.root
     }
 }

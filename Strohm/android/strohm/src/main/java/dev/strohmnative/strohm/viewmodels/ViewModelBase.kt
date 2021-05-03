@@ -2,41 +2,51 @@ package dev.strohmnative.strohm.viewmodels
 
 import android.os.Handler
 import android.os.Looper
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import dev.strohmnative.strohm.PropName
 import dev.strohmnative.strohm.PropPath
 import dev.strohmnative.strohm.Props
 import dev.strohmnative.strohm.Strohm
 import java.util.*
-import androidx.databinding.library.baseAdapters.BR
 
 abstract class ViewModelBase<DataType>(
     initialData: DataType,
     val propName: PropName,
     val propPath: PropPath
-) : BaseObservable() { // TODO: use LiveData (https://stackoverflow.com/a/51288791/378179)
+) {
     private var subscriptionId: UUID? = null
 
-    @Bindable
-    var data: DataType = initialData
+    var data: LiveData<DataType> =  MutableLiveStrohmData(::onActive, ::onInactive)
+        private set
 
     private val handler = Handler(Looper.getMainLooper())
 
     init {
+        (data as MutableLiveData).value = initialData
+    }
+
+    private fun receiveProps(props: Props): Unit {
+        propsToData(props)?.let { data ->
+            handler.post(Runnable {
+                (this.data as MutableLiveData).value  = data
+            })
+        }
+    }
+
+    private fun onActive() {
         Strohm.getInstance().subscribe(mapOf(propName to propPath), ::receiveProps) {
                 subscriptionId -> this.subscriptionId = subscriptionId
         }
     }
 
-    fun receiveProps(props: Props): Unit {
-        propsToData(props)?.let { data ->
-            handler.post(Runnable {
-                this.data = data
-                notifyPropertyChanged(BR.data)
-            })
+    private fun onInactive() {
+        this.subscriptionId = this.subscriptionId?.let {
+            Strohm.getInstance().unsubscribe(it)
+            null
         }
     }
 
     abstract fun propsToData(props: Props): DataType?
 }
+
