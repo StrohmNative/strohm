@@ -8,6 +8,7 @@ import dev.strohmnative.strohm.PropName
 import dev.strohmnative.strohm.PropPath
 import dev.strohmnative.strohm.Props
 import dev.strohmnative.strohm.Strohm
+import kotlinx.collections.immutable.persistentMapOf
 import java.util.*
 
 abstract class ViewModelBase<DataType>(
@@ -35,7 +36,7 @@ abstract class ViewModelBase<DataType>(
     }
 
     private fun onActive() {
-        Strohm.getInstance().subscribe(mapOf(propName to propPath), ::receiveProps) {
+        Strohm.getInstance().subscribe(persistentMapOf(propName to propPath), ::receiveProps) {
                 subscriptionId -> this.subscriptionId = subscriptionId
         }
     }
