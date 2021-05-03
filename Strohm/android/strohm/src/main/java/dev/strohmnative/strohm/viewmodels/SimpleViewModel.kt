@@ -11,7 +11,7 @@ open class SimpleViewModel<EntryType>(
 ): ViewModelBase<EntryType>(initialData, propName, propPath) {
     override fun propsToData(props: Props): EntryType? {
         val m = props[this.propName] as? Map<*, *> ?: return null
-        val rawData = m.asMapOfType<PropName, Props>() ?: return null
+        val rawData = m.asMapOfKeyType<String>() ?: return null
         var data: EntryType? = instanceFactory.createFromDict(rawData) ?: return null
 
         Log.d("dev.strohmnative.strohm", "Received entry: $data")
