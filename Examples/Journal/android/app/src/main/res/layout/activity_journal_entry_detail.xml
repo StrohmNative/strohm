@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="dev.strohmnative.journal.databinding.Formatters" />
         <variable
             name="viewModel"
             type="dev.strohmnative.journal.viewmodel.JournalEntryDetailViewModel" />
@@ -43,6 +44,7 @@
                     android:layout_marginBottom="32dp"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
+                    android:text="@{Formatters.formatInstant(viewModel.data.created)}"
                     app:layout_collapseMode="parallax" />
 
                 <androidx.appcompat.widget.Toolbar
