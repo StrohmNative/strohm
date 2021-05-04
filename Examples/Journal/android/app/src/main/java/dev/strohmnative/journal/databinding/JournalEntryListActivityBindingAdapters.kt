@@ -13,6 +13,5 @@ fun RecyclerView.setJournalEntries(entries: List<JournalEntry>) {
     if (layoutManager == null) {
         this.layoutManager = LinearLayoutManager(this.context)
     }
-    val twoPane = false // TODO: determine from layout
-    this.adapter = JournalEntryListAdapter(this.context, entries, twoPane)
+    this.adapter = JournalEntryListAdapter(this.context, entries)
 }

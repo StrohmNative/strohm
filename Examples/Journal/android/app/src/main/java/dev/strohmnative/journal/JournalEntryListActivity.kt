@@ -20,11 +20,6 @@ import dev.strohmnative.strohm.Strohm
  */
 class JournalEntryListActivity : AppCompatActivity(), JournalEntryListActivityActions {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private var twoPane: Boolean = false
     private lateinit var binding: ActivityJournalEntryListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,14 +33,6 @@ class JournalEntryListActivity : AppCompatActivity(), JournalEntryListActivityAc
             Strohm.getInstance().dispatch("new-entry")
         }
 
-        if (findViewById<NestedScrollView>(R.id.journal_entry_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            twoPane = true
-        }
-
         init()
     }
 
@@ -57,23 +44,9 @@ class JournalEntryListActivity : AppCompatActivity(), JournalEntryListActivityAc
     }
 
     override fun showJournalEntryDetails(v: View, journalEntry: JournalEntry) {
-        if (twoPane) {
-            val fragment = JournalEntryDetailFragment().apply {
-                val bundle = Bundle()
-                bundle.putParcelable(
-                    getString(R.string.fragment_journal_entry_detail),
-                    journalEntry
-                )
-            }
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.journal_entry_detail_container, fragment)
-                .commit()
-        } else {
-            val intent = Intent(v.context, JournalEntryDetailActivity::class.java).apply {
-                putExtra(getString(R.string.fragment_journal_entry_detail), journalEntry)
-            }
-            v.context.startActivity(intent)
+        val intent = Intent(v.context, JournalEntryDetailActivity::class.java).apply {
+            putExtra(getString(R.string.fragment_journal_entry_detail), journalEntry)
         }
+        v.context.startActivity(intent)
     }
 }
