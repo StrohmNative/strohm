@@ -15,7 +15,7 @@
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:padding="16dp"
-        android:text="@{viewModel.data.text}"
+        android:text="@={viewModel.data.text}"
         android:textIsSelectable="true"
         android:gravity="top|left"
         android:background="@null"

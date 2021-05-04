@@ -3,10 +3,11 @@ package dev.strohmnative.journal.model
 import android.os.Parcel
 import android.os.Parcelable
 import dev.strohmnative.strohm.ConstructableFromDictionary
+import dev.strohmnative.strohm.ConvertableToDictionary
 import java.time.Instant
 
-data class JournalEntry(val id: String, val title: String, val text: String, val created: Instant):
-    Parcelable {
+data class JournalEntry(var id: String, var title: String, var text: String, var created: Instant):
+    Parcelable, ConvertableToDictionary {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -14,6 +15,15 @@ data class JournalEntry(val id: String, val title: String, val text: String, val
         parcel.readString()!!,
         Instant.ofEpochMilli(parcel.readLong())
     )
+
+    override fun toDict(): Map<String, Any> {
+        return mapOf(
+            "entry/id" to id,
+            "entry/title" to title,
+            "entry/text" to text,
+            "entry/created" to created.toEpochMilli()
+        )
+    }
 
     override fun toString(): String = "$title/$text"
 

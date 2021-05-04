@@ -13,6 +13,7 @@ import dev.strohmnative.journal.databinding.Formatters
 import dev.strohmnative.journal.databinding.JournalEntryDetailBinding
 import dev.strohmnative.journal.model.JournalEntry
 import dev.strohmnative.journal.viewmodel.JournalEntryDetailViewModel
+import dev.strohmnative.strohm.Strohm
 
 /**
  * A fragment representing a single JournalEntry detail screen.
@@ -56,4 +57,10 @@ class JournalEntryDetailFragment : Fragment() {
         return binding.root
     }
 
+    override fun onPause() {
+        binding.viewModel?.data?.value?.let { entry ->
+            Strohm.getInstance().dispatch("update-entry", entry)
+        }
+        super.onPause()
+    }
 }
