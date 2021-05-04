@@ -18,7 +18,7 @@ import dev.strohmnative.strohm.Strohm
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-class JournalEntryListActivity : AppCompatActivity(), IJournalEntryListActivity {
+class JournalEntryListActivity : AppCompatActivity(), JournalEntryListActivityActions {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -56,7 +56,7 @@ class JournalEntryListActivity : AppCompatActivity(), IJournalEntryListActivity 
         tx.commit()
     }
 
-    override fun inflateJournalEntryDetailFragment(v: View, journalEntry: JournalEntry) {
+    override fun showJournalEntryDetails(v: View, journalEntry: JournalEntry) {
         if (twoPane) {
             val fragment = JournalEntryDetailFragment().apply {
                 val bundle = Bundle()

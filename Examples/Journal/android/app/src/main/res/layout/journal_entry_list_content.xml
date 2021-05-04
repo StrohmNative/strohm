@@ -10,8 +10,8 @@
             type="dev.strohmnative.journal.model.JournalEntry" />
 
         <variable
-            name="iJournalEntryListActivity"
-            type="dev.strohmnative.journal.IJournalEntryListActivity" />
+            name="activityActions"
+            type="dev.strohmnative.journal.JournalEntryListActivityActions" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -53,7 +53,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{(v) -> iJournalEntryListActivity.inflateJournalEntryDetailFragment(v, journalEntry)}"
+                android:onClick="@{(v) -> activityActions.showJournalEntryDetails(v, journalEntry)}"
                 android:orientation="vertical">
 
                 <LinearLayout
