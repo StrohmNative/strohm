@@ -1,15 +1,11 @@
 package dev.strohmnative.journal
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
-import android.widget.TextView
 import androidx.core.view.updatePadding
-import dev.strohmnative.journal.databinding.Formatters
+import androidx.fragment.app.Fragment
 import dev.strohmnative.journal.databinding.JournalEntryDetailBinding
 import dev.strohmnative.journal.model.JournalEntry
 import dev.strohmnative.journal.viewmodel.JournalEntryDetailViewModel
@@ -39,10 +35,11 @@ class JournalEntryDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = JournalEntryDetailBinding.inflate(inflater)
         binding.viewModel = JournalEntryDetailViewModel(item)
 
+        // Compensate for soft keyboard height:
         binding.journalEntryDetail.setOnApplyWindowInsetsListener { view, insets ->
             view.updatePadding(bottom = insets.systemWindowInsetBottom)
             insets

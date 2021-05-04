@@ -21,7 +21,7 @@ class JournalEntryListFragment: Fragment(), RecyclerItemTouchHelperListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = JournalEntryListBinding.inflate(inflater)
         binding.viewModel = JournalEntryListViewModel(listOf())
         binding.lifecycleOwner = this

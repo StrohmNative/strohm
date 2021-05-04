@@ -13,14 +13,7 @@ import dev.strohmnative.journal.model.JournalEntry
 import dev.strohmnative.journal.viewmodel.JournalEntryDetailViewModel
 import dev.strohmnative.strohm.Strohm
 
-/**
- * An activity representing a single JournalEntry detail screen. This
- * activity is only used on narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a [JournalEntryListActivity].
- */
 class JournalEntryDetailActivity : AppCompatActivity() {
-
     lateinit var binding: ActivityJournalEntryDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

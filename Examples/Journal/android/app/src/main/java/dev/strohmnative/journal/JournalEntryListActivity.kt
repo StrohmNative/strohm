@@ -4,22 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import dev.strohmnative.journal.databinding.ActivityJournalEntryListBinding
 import dev.strohmnative.journal.model.JournalEntry
 import dev.strohmnative.strohm.Strohm
 
-/**
- * An activity representing a list of Pings. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a [JournalEntryDetailActivity] representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 class JournalEntryListActivity : AppCompatActivity(), JournalEntryListActivityActions {
-
     private lateinit var binding: ActivityJournalEntryListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +19,7 @@ class JournalEntryListActivity : AppCompatActivity(), JournalEntryListActivityAc
         setSupportActionBar(binding.toolbar)
         binding.toolbar.title = title
 
-        binding.fab.setOnClickListener { _ ->
+        binding.fab.setOnClickListener {
             Strohm.getInstance().dispatch("new-entry")
         }
 
