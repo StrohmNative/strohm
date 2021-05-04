@@ -10,6 +10,7 @@ import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import dev.strohmnative.journal.databinding.ActivityJournalEntryDetailBinding
 import dev.strohmnative.journal.model.JournalEntry
+import dev.strohmnative.journal.viewmodel.JournalEntryDetailViewModel
 
 /**
  * An activity representing a single JournalEntry detail screen. This
@@ -37,6 +38,8 @@ class JournalEntryDetailActivity : AppCompatActivity() {
 
         val item: JournalEntry? = intent.getParcelableExtra(getString(R.string.fragment_journal_entry_detail))
         init(item)
+        item?.let { binding.viewModel = JournalEntryDetailViewModel(it) }
+        binding.lifecycleOwner = this
     }
 
     private fun init(item: JournalEntry?) {

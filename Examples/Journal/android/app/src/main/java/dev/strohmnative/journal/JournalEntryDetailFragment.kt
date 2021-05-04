@@ -33,7 +33,6 @@ class JournalEntryDetailFragment : Fragment() {
             if (bundle.containsKey(getString(R.string.fragment_journal_entry_detail))) {
                 item = bundle.getParcelable(getString(R.string.fragment_journal_entry_detail))!!
                 (activity as JournalEntryDetailActivity?)?.let {
-                    it.binding.toolbarLayout.title = item.title
                     it.binding.subtitle.text = Formatters.formatInstant(item.created)
                 }
             }
