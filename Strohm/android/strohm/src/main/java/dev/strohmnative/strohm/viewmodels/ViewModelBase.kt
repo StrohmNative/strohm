@@ -18,19 +18,19 @@ abstract class ViewModelBase<DataType>(
 ) {
     private var subscriptionId: UUID? = null
 
-    var data: LiveData<DataType> =  MutableLiveStrohmData(::onActive, ::onInactive)
+    var data: MutableLiveData<DataType> =  MutableLiveStrohmData(::onActive, ::onInactive)
         private set
 
     private val handler = Handler(Looper.getMainLooper())
 
     init {
-        (data as MutableLiveData).value = initialData
+        data.value = initialData
     }
 
     private fun receiveProps(props: Props): Unit {
         propsToData(props)?.let { data ->
             handler.post(Runnable {
-                (this.data as MutableLiveData).value  = data
+                this.data.value  = data
             })
         }
     }
