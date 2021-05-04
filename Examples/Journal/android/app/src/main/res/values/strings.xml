@@ -11,4 +11,5 @@
 
     <string name="fragment_journal_entry_list">Journal Entry List</string>
     <string name="fragment_journal_entry_detail">Journal Entry Detail</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -3,4 +3,6 @@
     <dimen name="app_bar_height">200dp</dimen>
     <dimen name="item_width">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="recycler_item_padding_hor">16dp</dimen>
+    <dimen name="ic_delete">30dp</dimen>
 </resources>

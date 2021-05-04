@@ -66,5 +66,4 @@ class JournalEntryListAdapter(
     inner class BindingHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: JournalEntryListContentBinding? = DataBindingUtil.bind(view)
     }
-
 }
