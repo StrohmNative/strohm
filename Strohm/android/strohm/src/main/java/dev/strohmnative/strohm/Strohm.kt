@@ -110,6 +110,10 @@ class Strohm internal constructor(val context: Context) {
         call(method)
     }
 
+    fun dispatch(type: String, payload: ConvertableToDictionary) {
+        dispatch(type, payload.toDict())
+    }
+
     companion object {
         private var sharedInstance: Strohm? = null
 
