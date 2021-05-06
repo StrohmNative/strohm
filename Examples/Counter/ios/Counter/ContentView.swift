@@ -32,7 +32,7 @@ struct ContentView: View {
                 Button(action: self.subscribe, label: { Text("Subscribe") })
                 Button(action: self.unsubscribe, label: { Text("Unsubscribe") })
             }.padding()
-            StrohmHolder()
+            DebugView()
         }
     }
 
@@ -49,7 +49,7 @@ struct ContentView: View {
     }
 
     func subscribe() {
-        Strohm.default.subscribe(propsSpec: ["count": ""]) { props in
+        Strohm.default.subscribe(propsSpec: ["count": []]) { props in
             print("Received props: ", props)
             if let count = props["count"] as? Int {
                 self.count = count
