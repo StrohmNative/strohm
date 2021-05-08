@@ -9,8 +9,10 @@ struct JournalEntryDetail: View {
         return f
     }()
 
+    typealias ViewModel = SimpleViewModel<JournalEntry>
+    @StateObject var viewModel: ViewModel
+
     @State var editMode: Bool = false
-    @ObservedObject var viewModel: ViewModel
     @State var editableText: String
     @State var editableTitle: String
     @Environment(\.presentationMode) var presentationMode
@@ -18,9 +20,10 @@ struct JournalEntryDetail: View {
     @State var showRenameAlert = false
 
     init(entry: JournalEntry) {
-        viewModel = ViewModel(initialData: entry,
-                              propName: "entry",
-                              propPath: ["entries", entry.id])
+        _viewModel = StateObject(
+            wrappedValue: ViewModel(initialData: entry,
+                                    propName: "entry",
+                                    propPath: ["entries", entry.id]))
         _editableTitle = State(initialValue: entry.title)
         _editableText = State(initialValue: entry.text)
     }
@@ -82,8 +85,6 @@ struct JournalEntryDetail: View {
             Strohm.default.dispatch(type: "update-entry", payload: updatedEntry)
         }
     }
-
-    final class ViewModel: SimpleViewModel<JournalEntry> {}
 }
 
 struct JournalEntryDetail_Previews: PreviewProvider {

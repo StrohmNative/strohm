@@ -4,16 +4,13 @@ open class ViewModelBase<DataType>: ObservableObject {
     var subscriptionId: UUID?
     let propName: PropName
     let propPath: PropPath
-    @Published public var data: DataType
 
-    public init(forPreviewWith data: DataType) {
-        self.data = data
+    public init() {
         self.propName = "use for preview only"
         self.propPath = []
     }
 
-    public init(initialData: DataType, propName: PropName, propPath: PropPath) {
-        self.data = initialData
+    public init(propName: PropName, propPath: PropPath) {
         self.propName = propName
         self.propPath = propPath
         Strohm.default.subscribe(
@@ -31,14 +28,17 @@ open class ViewModelBase<DataType>: ObservableObject {
 
     func receiveProps(props: Props) {
         if let data = propsToData(props: props) {
-            DispatchQueue.main.async {
-                self.data = data
-                print("!!!!!!! did set data")
+            DispatchQueue.main.async { [weak self] in
+                self?.store(data: data)
             }
         }
     }
 
     func propsToData(props: Props) -> DataType? {
+        fatalError("abstract method")
+    }
+
+    func store(data: DataType) {
         fatalError("abstract method")
     }
 }
