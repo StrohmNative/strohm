@@ -14,7 +14,6 @@ struct JournalEntriesList: View {
             e1.created > e2.created
         }
         _viewModel = StateObject(wrappedValue: vm)
-        UITableView.appearance().backgroundColor = .white
     }
 
     var body: some View {
@@ -26,6 +25,7 @@ struct JournalEntriesList: View {
                     }
                 }.onDelete(perform: onDelete)
             }
+            .listStyle(PlainListStyle())
             .navigationTitle(Text("Journal"))
             .navigationBarItems(trailing: Button("New", action: {
                 Strohm.default.dispatch(type: "new-entry")
