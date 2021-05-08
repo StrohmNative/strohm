@@ -107,15 +107,16 @@ This project is work in progress. You probably should not use this yet.
 | Device, debug                   | [X] | [X]     |        |
 | Device, release                 | [X] | [X]     |        |
 | Simple example project          | [X] | [X]     |        |
-| View binding                    | […] | […]     |        |
-| Complex store structure         | […] | […]     |        |
+| View binding                    | [X] | [X]     |        |
+| Complex store structure         | [X] | [X]     |        |
 | Test using NPM dependencies     | [ ] | [ ]     |        |
+| Developer Experience            | [ ] | [ ]     |        |
 | Setup CI incl example app tests | [ ] | [ ]     |        |
 | Setup CD of native libs         | [ ] | [ ]     |        |
 | Setup CD of CLJS lib            |     |         | [ ]    |
 | Documentation                   |     |         | [ ]    |
-| Starter project                 |     |         | [ ]    |
-| Complex example project         | […] | […]     |        |
+| Starter project?                |     |         | [ ]    |
+| Complex example project         | [ ] | [ ]     |        |
 
 Note: […] means that it is in progress.
 
