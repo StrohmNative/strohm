@@ -3,7 +3,7 @@
 Strohm Native is my attempt at improving the way cross-platform mobile apps are
 developed. If you want to learn more about my motivation, please read my blog
 post [ReactNative, Flutter, Cordova, etc: the state of the art is not good
-enough.][blogpost].
+enough.][blogpost]
 
 This project is under active development. It is in its early stages. Even though
 it is usable at the moment, I would not yet recommend doing that for commercial
