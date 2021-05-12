@@ -1,26 +1,33 @@
 # Strohm Native
 
-## Why
+Strohm Native is my attempt at improving the way cross-platform mobile apps are
+developed. If you want to learn more about my motivation, please read my blog
+post [ReactNative, Flutter, Cordova, etc: the state of the art is not good
+enough.][blogpost].
 
-* Cross platform business logic
-  * Write only once for both Android and iOS
-* Native UI, as thin as possible
-  * Best possible look and feel
-  * Best possible accessibility
-  * Best possible performance
-  * Best possible conformity to user expectations
-  * As little platform-specific knowledge needed as possible
-* Zero Warnings
-* Easy to tap into platform-specific features
+This project is under active development. It is in its early stages. Even though
+it is usable at the moment, I would not yet recommend doing that for commercial
+app development. I keep a more detailed [status overview below](#status). As you
+can see there, one notable item that is not yet done is the documentation. This
+includes everything below, which should be considered my personal notes that are
+to be expanded into proper documentation.
 
-## Note
+## Prerequisites
 
-It is important to stress that the goal of this project **is not** to make
-cross-platform development as easy as possible and to remove the need for
-knowing how Android and iOS app development works. Your team will still have to
-program Swift and Kotlin besides Clojure, just a lot less of it while still
-keeping the advantages listed above. So you still need to know about code
-signing, app permissions, `adb`, etc.
+When using Strohm, you or your team needs to be able to:
+
+* Develop native iOS apps (using Swift typically),
+* Develop native Android apps (using Kotlin typically), and
+* Use Clojure for the common code.
+
+Please note that that this is only two big platforms that you have to
+understand, instead of the three that you need for popular cross-platform
+frameworks like ReactNative.
+
+Clojure is just the language that I happen to use most at the moment. In
+principle, any language that compiles to JavaScript can be used instead. The
+common part of Strohm of course has to be rewritten in that language in that
+case, but it is really not a lot of code.
 
 ## Development Environment
 
@@ -58,6 +65,9 @@ yarn watch
 ```
 
 This will compile the ClojureScript source code and enable hot code reloading.
+Also a REPL is started that allows you to start developing in your IDE of
+choice. Instead of running `yarn watch`, some Clojure IDEs support starting
+everything from inside the IDE. I use the [Calva][calva] VSCode plugin for that.
 
 ### Android
 
@@ -122,3 +132,5 @@ This project is work in progress. You probably should not use this yet.
 Note: […] means that it is in progress.
 
 [shadow-cljs]: https://shadow-cljs.github.io/docs/UsersGuide.html
+[blogpost]: https://unfolded.dev/posts-output/2021-05-08-mobile-cross-platform/
+[calva]: https://calva.io
