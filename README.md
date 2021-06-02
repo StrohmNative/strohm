@@ -107,27 +107,29 @@ This project is work in progress. You probably should not use this yet.
 
 |                                 | iOS | Android | Common |
 | :------------------------------ | :-: | :-----: | :----: |
-| Load web view                   | [X] | [X]     |        |
-| Call native -> CLJS             | [X] | [X]     |        |
-| Call CLJS -> native             | [X] | [X]     |        |
-| Dispatch from native            | [X] | [X]     |        |
-| Subscribe + receive updates     | [X] | [X]     |        |
-| Simulator, debug                | [X] | [X]     |        |
-| Simulator, release              | [X] | [X]     |        |
-| Device, debug                   | [X] | [X]     |        |
-| Device, release                 | [X] | [X]     |        |
-| Simple example project          | [X] | [X]     |        |
-| View binding                    | [X] | [X]     |        |
-| Complex store structure         | [X] | [X]     |        |
-| Test using NPM dependencies     | […] | […]     |        |
-| Developer Experience            | […] | […]     | […]    |
-| Setup CI incl example app tests | [ ] | [ ]     |        |
-| Setup CD of native libs         | [ ] | [ ]     |        |
-| Setup CD of CLJS lib            |     |         | [ ]    |
-| Documentation                   |     |         | [ ]    |
-| Starter project?                |     |         | [ ]    |
-| Complex example project         | [ ] | [ ]     |        |
-| Branding, marketing, web site   |     |         | [ ]    |
+| Load web view                   | [X] |   [X]   |        |
+| Call native -> CLJS             | [X] |   [X]   |        |
+| Call CLJS -> native             | [X] |   [X]   |        |
+| Dispatch from native            | [X] |   [X]   |        |
+| Subscribe + receive updates     | [X] |   [X]   |        |
+| Simulator, debug                | [X] |   [X]   |        |
+| Simulator, release              | [X] |   [X]   |        |
+| Device, debug                   | [X] |   [X]   |        |
+| Device, release                 | [X] |   [X]   |        |
+| Simple example project          | [X] |   [X]   |        |
+| View binding                    | [X] |   [X]   |        |
+| Complex store structure         | [X] |   [X]   |        |
+| Support middleware              |     |         |  […]   |
+| Support easy state persistence  | [ ] |   [ ]   |  [ ]   |
+| Test using NPM dependencies     | [ ] |   [ ]   |        |
+| Developer Experience            | [ ] |   [ ]   |  [ ]   |
+| Setup CI incl example app tests | [ ] |   [ ]   |        |
+| Setup CD of native libs         | [ ] |   [ ]   |        |
+| Setup CD of CLJS lib            |     |         |  [ ]   |
+| Documentation                   |     |         |  [ ]   |
+| Starter project?                |     |         |  [ ]   |
+| Complex example project         | [ ] |   [ ]   |        |
+| Branding, marketing, web site   |     |         |  [ ]   |
 
 Note: […] means that it is in progress.
 
