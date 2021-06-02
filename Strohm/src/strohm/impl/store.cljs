@@ -46,6 +46,39 @@
 
 (comment
   ;;
+  ;; PURE WITH STORE IN DISPATCH FUNCTION
+  ;;
+
+  (let [reducer (fn [state action]
+                  (update state :received-actions #(conj % action)))
+        logger-middleware (fn [next]
+                            (fn [action store]
+                              (prn "state before:" (:state store))
+                              (prn "dispatch action:" action)
+                              (let [updated-store (next action store)]
+                                (prn "state after:" (:state updated-store))
+                                (prn "------------------------")
+                                updated-store)))
+        action-duplicating-middleware (fn [next]
+                                        (fn [action store]
+                                          (->> store
+                                               (next action)
+                                               (next action))))
+        base-store        (create-store reducer :initial-state {:received-actions []})
+        logging-store     (assoc base-store
+                                 :dispatch
+                                 (fn [a s] ((logger-middleware (:dispatch base-store)) a s)))
+        duplicating-store (assoc logging-store
+                                 :dispatch
+                                 (fn [a s] ((action-duplicating-middleware  (:dispatch logging-store)) a s)))
+        dispatch          (fn [a s] ((:dispatch s) a s))]
+    (->> duplicating-store
+         (dispatch {:type "first action"})
+         (dispatch {:type "second action"})))
+)
+
+(comment
+  ;;
   ;; USING STORE AS ATOM
   ;;
   (let [store (atom nil)
