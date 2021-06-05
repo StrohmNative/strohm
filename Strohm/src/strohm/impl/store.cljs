@@ -64,40 +64,25 @@
                                           (->> store
                                                (next action)
                                                (next action))))
-        base-store        (create-store reducer :initial-state {:received-actions []})
-        logging-store     (assoc base-store
-                                 :dispatch
-                                 (fn [a s] ((logger-middleware (:dispatch base-store)) a s)))
-        duplicating-store (assoc logging-store
-                                 :dispatch
-                                 (fn [a s] ((action-duplicating-middleware  (:dispatch logging-store)) a s)))
+
+        create-store-1 (fn [reducer & {:keys [initial-state middlewares]}]
+                         {:state (or initial-state default-initial-state)
+                          :reducer reducer
+                          :dispatch ((apply comp (reverse middlewares)) reduce-action)})
+        test-store (create-store-1 reducer 
+                                   :initial-state {:received-actions []}
+                                   :middlewares [logger-middleware action-duplicating-middleware])
+
         dispatch          (fn [a s] ((:dispatch s) a s))]
-    (->> duplicating-store
+    (->> test-store
          (dispatch {:type "first action"})
-         (dispatch {:type "second action"})))
-)
+         (dispatch {:type "second action"}))))
 
 (comment
   ;;
   ;; USING STORE AS ATOM
   ;;
-  (let [store (atom nil)
-        reduce-action' (fn [s action]
-                         (let [reducer     (:reducer s)
-                               reducing-fn (get-reducer-fn reducer (:type action))
-                               updated-s (update s
-                                                 :state
-                                                 (fn [state] (tap> state) (reducing-fn state action)))]
-                           (tap> updated-s)
-                           updated-s))
-        create-store' (fn [reducer & {:keys [initial-state middlewares]}]
-                        (let [base-dispatch (fn base-dispatch [action] (swap! store reduce-action' action))]
-                          {:state (or initial-state default-initial-state)
-                           :reducer reducer
-                           :dispatch ((apply comp (map (fn [m] (m store)) (reverse middlewares))) base-dispatch)}))
-        reducer (fn [state action]
-                  (update state :received-actions #(conj % action)))
-        logger-middleware (fn [store]
+  (let [logger-middleware (fn [store]
                             (fn logger-middleware [next]
                               (fn logger-dispatcher [action]
                                 (prn "state before:" (:state @store))
@@ -110,10 +95,28 @@
                                           (fn action-duplicating-dispatcher [action]
                                             (next action)
                                             (next action))))
-        dispatch          (fn [a] ((:dispatch @store) a))]
-    (reset! store (create-store' reducer
-                                 :initial-state {:received-actions []}
-                                 :middlewares [logger-middleware action-duplicating-middleware]))
+
+        test-store (atom nil)
+        reduce-action' (fn [s action]
+                         (let [reducer     (:reducer s)
+                               reducing-fn (get-reducer-fn reducer (:type action))
+                               updated-s (update s
+                                                 :state
+                                                 (fn [state] (tap> state) (reducing-fn state action)))]
+                           (tap> updated-s)
+                           updated-s))
+        create-store' (fn [reducer & {:keys [initial-state middlewares]}]
+                        (let [base-dispatch (fn base-dispatch [action] (swap! test-store reduce-action' action))]
+                          {:state (or initial-state default-initial-state)
+                           :reducer reducer
+                           :dispatch ((apply comp (map (fn [midware] (midware test-store)) (reverse middlewares))) base-dispatch)}))
+        reducer (fn [state action]
+                  (update state :received-actions #(conj % action)))
+
+        dispatch          (fn [a] ((:dispatch @test-store) a))]
+    (reset! test-store (create-store' reducer
+                                      :initial-state {:received-actions []}
+                                      :middlewares [logger-middleware action-duplicating-middleware]))
     (dispatch {:type "first action"})
     (dispatch {:type "second action"})
-    @store))
+    @test-store))
