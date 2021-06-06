@@ -105,12 +105,13 @@
 
 (deftest middleware-test
   (testing "middleware dispatches extra action"
-    (let [store (create-store {:extra #(assoc %1 :extra true)}
-                              :middlewares [(fn [next]
-                                              (fn [action store]
-                                                (cond->> store
-                                                  (= (:type action) :test) (dispatch {:type :extra})
-                                                  true (next action))))])]
-      (is (true? (-> (dispatch {:type :test} store)
+    (let [dispatch-extra-on-test (fn [next]
+                                   (fn [store action]
+                                     (cond-> store
+                                       (= (:type action) :test) (dispatch {:type :extra})
+                                       true                     (next action))))
+          store (create-store {:extra #(assoc %1 :extra true)}
+                              :middlewares [dispatch-extra-on-test])]
+      (is (true? (-> (dispatch store {:type :test})
                      :state
                      :extra))))))
