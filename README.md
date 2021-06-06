@@ -119,8 +119,8 @@ This project is work in progress. You probably should not use this yet.
 | Simple example project          | [X] |   [X]   |        |
 | View binding                    | [X] |   [X]   |        |
 | Complex store structure         | [X] |   [X]   |        |
-| Support middleware              |     |         |  […]   |
-| Support easy state persistence  | [ ] |   [ ]   |  [ ]   |
+| Support middleware              |     |         |  [X]   |
+| Support easy state persistence  | […] |   […]   |  […]   |
 | Test using NPM dependencies     | [ ] |   [ ]   |        |
 | Developer Experience            | [ ] |   [ ]   |  [ ]   |
 | Setup CI incl example app tests | [ ] |   [ ]   |        |
