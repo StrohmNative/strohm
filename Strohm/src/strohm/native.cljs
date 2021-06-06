@@ -1,6 +1,5 @@
 (ns strohm.native
-  (:require [clojure.string :as str]
-            [strohm.debug :as debug]
+  (:require [strohm.debug :as debug]
             [strohm.tx :refer [send-props]]
             [strohm.utils :as utils]
             [strohm.impl.store :as impl]))
