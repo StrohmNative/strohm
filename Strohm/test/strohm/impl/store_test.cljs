@@ -5,7 +5,8 @@
             [strohm.impl.store :refer [create-store
                                        reduce-action
                                        combine-reducers
-                                       state->props]]))
+                                       state->props
+                                       dispatch]]))
 
 (defn identity-reducer [state _action] state)
 
@@ -94,3 +95,16 @@
            (state->props {:foo :bar
                           :baz [0 1 {:goal "target"}]}
                          {"prop-name" [:baz 2]})))))
+
+(deftest middleware-test
+  (testing "middleware dispatches extra action"
+    (let [store (create-store {:extra #(assoc %1 :extra true)}
+                              :middlewares [(fn [next]
+                                              (fn [action store]
+                                                (cond->> store
+                                                  (= (:type action) :test) (dispatch {:type :extra})
+                                                  true (next action))))])]
+      (is (true? (->> store
+                      (dispatch {:type :test})
+                     :state
+                     :extra))))))
