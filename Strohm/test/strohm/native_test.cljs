@@ -1,7 +1,7 @@
 (ns strohm.native-test
   (:require [cljs.test :refer [deftest is testing]]
             [strohm.native :refer [store create-store get-state
-                                   dispatch! subscribe! unsubscribe!
+                                   dispatch! dispatch subscribe! unsubscribe!
                                    create-reducer]]))
 
 (deftest store-test
@@ -68,4 +68,16 @@
           plus-action   {:type "plus"   :payload 2}]
       (is (= [:foo] (reducer [] append-action)))
       (is (= 3 (reducer 1 plus-action)))
-      (is (= :something (reducer :something {:type "unknown"}))))))
+      (is (= :something (reducer :something {:type "unknown"})))))
+  
+  (testing "middleware dispatches extra action"
+    (let [reducer        (create-reducer {:extra #(assoc %1 :extra true)})
+          dispatch-extra (fn [next]
+                           (fn [store action]
+                             (cond-> store
+                               (= (:type action) :test) (dispatch {:type :extra})
+                               true                     (next action))))]
+      (reset! store nil)
+      (create-store reducer :middlewares [dispatch-extra])
+      (dispatch! {:type :test})
+      (is (true? (:extra (get-state)))))))

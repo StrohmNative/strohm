@@ -21,6 +21,8 @@
   (swap! store (:dispatch @store) action)
   action)
 
+(def ^:export dispatch impl/dispatch)
+
 (defn ^:export dispatch-from-native
   [serialized-action]
   (debug/log "dispatch-from-native" serialized-action)
