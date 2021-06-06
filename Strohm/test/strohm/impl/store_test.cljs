@@ -94,3 +94,15 @@
            (state->props {:foo :bar
                           :baz [0 1 {:goal "target"}]}
                          {"prop-name" [:baz 2]})))))
+
+(deftest middleware-test
+  (testing "middleware dispatches extra action"
+    (let [store (create-store {:extra #(assoc %1 :extra true)}
+                              :middlewares [(fn [next]
+                                              (fn [action store]
+                                                (cond->> store
+                                                  (= (:type action) :test) (dispatch {:type :extra})
+                                                  true (next action))))])]
+      (is (true? (-> (dispatch {:type :test} store)
+                     :state
+                     :extra))))))

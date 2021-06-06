@@ -1,12 +1,5 @@
 (ns strohm.impl.store)
 
-(def default-initial-state {})
-
-(defn create-store 
-  [reducer & {:keys [initial-state]}]
-  {:state (or initial-state default-initial-state)
-   :reducer reducer})
-
 (defn- identity-reducer [state _] state)
 
 (defn get-reducer-fn [reducer action-type]
@@ -43,6 +36,31 @@
 
 (defn state->props [state props-spec]
   (into {} (map (partial state-for-prop-spec state) props-spec)))
+
+(defn dispatcher [store]
+  (fn [action]
+    ((:dispatch store) action store)))
+
+(def default-initial-state {})
+
+(defn- apply-middlewares [middlewares dispatch-fn]
+  ((apply comp middlewares) dispatch-fn)
+  #_(let [middleware (first middlewares)]
+      (fn [action store]
+        (let [next=>action=>result (middleware store)
+              action=>result (next=>action=>result dispatch-fn)]
+          (action=>result action)))))
+
+(defn create-store
+  [reducer & {:keys [initial-state middlewares]}]
+  {:state (or initial-state default-initial-state)
+   :reducer reducer
+   :dispatch (if (seq middlewares)
+               ((apply comp (reverse middlewares)) reduce-action)
+               reduce-action)})
+
+(defn dispatch [action store]
+  ((:dispatch store) action store))
 
 (comment
   ;;
