@@ -4,7 +4,7 @@
 
 (defn- identity-reducer [state _] state)
 
-(defn get-reducer-fn [reducer action-type]
+(defn compute-reducer-fn [reducer action-type]
   (if (associative? reducer)
     (if-let [reducer-for-action (get reducer action-type)]
       (fn reducer-from-map [state action]
@@ -14,14 +14,14 @@
 
 (defn- reduce-action [store action]
   (let [reducer     (:reducer store)
-        reducing-fn (get-reducer-fn reducer (:type action))]
+        reducing-fn (compute-reducer-fn reducer (:type action))]
     (update store
             :state
             (fn [state] (reducing-fn state action)))))
 
 (defn- apply-substate-reducer
   [action state substate-key reducer]
-  (let [reducer-fn (get-reducer-fn reducer (:type action))]
+  (let [reducer-fn (compute-reducer-fn reducer (:type action))]
     (update state
             substate-key
             (fn [substate] (reducer-fn substate action)))))

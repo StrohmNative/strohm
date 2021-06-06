@@ -71,7 +71,7 @@
   [reducer-map]
   (let [all-reducers (into {} (map (fn [[action-type _]]
                                      [action-type
-                                      (impl/get-reducer-fn reducer-map action-type)])
+                                      (impl/compute-reducer-fn reducer-map action-type)])
                                    reducer-map))]
     (fn [state action]
       (if-let [reducer-for-action (get all-reducers (:type action))]
