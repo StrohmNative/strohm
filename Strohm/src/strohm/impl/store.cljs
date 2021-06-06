@@ -110,8 +110,7 @@
                                reducing-fn (compute-reducer-fn reducer (:type action))
                                updated-s (update s
                                                  :state
-                                                 (fn [state] (tap> state) (reducing-fn state action)))]
-                           (tap> updated-s)
+                                                 (fn [state] (reducing-fn state action)))]
                            updated-s))
         create-store' (fn [reducer & {:keys [initial-state middlewares]}]
                         (let [base-dispatch (fn base-dispatch [action] (swap! test-store reduce-action' action))]
