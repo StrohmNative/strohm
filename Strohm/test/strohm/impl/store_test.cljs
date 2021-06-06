@@ -3,7 +3,6 @@
             [clojure.string :as str]
             [strohm.native :refer [create-reducer]]
             [strohm.impl.store :refer [create-store
-                                       reduce-action
                                        combine-reducers
                                        state->props
                                        dispatch]]))
@@ -24,17 +23,17 @@
   (testing "it can reduce an action to a new state"
     (let [reducer (fn incfn [state _] (inc state))
           store   (create-store reducer :initial-state 0)]
-      (is (= 1 (:state (reduce-action {:type :increment} store))))))
+      (is (= 1 (:state (dispatch store {:type :increment}))))))
 
   (testing "a reducer can be a map"
     (let [reducer {:increment #(inc %1)
                    :decrement #(dec %1)
                    :add +}
           store   (create-store reducer :initial-state 0)]
-      (is (=  1 (:state (reduce-action {:type :increment}      store))))
-      (is (= -1 (:state (reduce-action {:type :decrement}      store))))
-      (is (=  0 (:state (reduce-action {:type :unknown}        store))))
-      (is (=  3 (:state (reduce-action {:type :add :payload 3} store))))))
+      (is (=  1 (:state (dispatch store {:type :increment}))))
+      (is (= -1 (:state (dispatch store {:type :decrement}))))
+      (is (=  0 (:state (dispatch store {:type :unknown}))))
+      (is (=  3 (:state (dispatch store {:type :add :payload 3}))))))
 
   (testing "nested reducer functions"
     (let [sub1-reducer (fn sub1-reducer [state action]
@@ -50,7 +49,7 @@
                           :sub2 (sub2-reducer (:sub2 state) action)})
           store        (create-store root-reducer :initial-state {:sub1 "" :sub2 ""})]
       (is (= {:sub1 "-1-test" :sub2 "-2-test"}
-             (:state (reduce-action {:type :test :payload "test"} store))))))
+             (:state (dispatch store {:type :test :payload "test"}))))))
   
   (testing "combine-reducers with reducer functions"
     (let [sub1-reducer (fn sub1-reducer [state action]
@@ -64,7 +63,7 @@
           root-reducer (combine-reducers {:sub1 sub1-reducer :sub2 sub2-reducer})
           store        (create-store root-reducer :initial-state {:sub1 "" :sub2 ""})]
       (is (= {:sub1 "-1-test" :sub2 "-2-test"}
-             (:state (reduce-action {:type "test" :payload "test"} store))))))
+             (:state (dispatch store {:type "test" :payload "test"}))))))
   
   (testing "combine-reducers with reducer maps"
     (let [sub1-reducer (create-reducer {"test" #(str/join "-1-" [%1 %2])})
@@ -72,19 +71,19 @@
           root-reducer (combine-reducers {"sub1" sub1-reducer :sub2 sub2-reducer})
           store        (create-store root-reducer :initial-state {"sub1" "" :sub2 ""})]
       (is (= {"sub1" "-1-test" :sub2 "-2-test"}
-             (:state (reduce-action {:type "test" :payload "test"} store))))))
+             (:state (dispatch store {:type "test" :payload "test"}))))))
   
   (testing "combine-reducers with unknown action"
     (let [sub-reducer  (create-reducer {"test" #(str/join "-1-" [%1 %2])})
           root-reducer (combine-reducers {"sub" sub-reducer})
           store        (create-store root-reducer :initial-state {"sub" "foo"})]
-      (is (= {"sub" "foo"} (:state (reduce-action {:type "unknown-action-type"} store))))))
+      (is (= {"sub" "foo"} (:state (dispatch store {:type "unknown-action-type"}))))))
   
   (testing "combine-reducers with reducer maps and unknown action"
     (let [sub-reducer  {"test" #(str/join "-1-" [%1 %2])}
           root-reducer (combine-reducers {"sub" sub-reducer})
           store        (create-store root-reducer :initial-state {"sub" "foo"})]
-      (is (= {"sub" "foo"} (:state (reduce-action {:type "unknown-action-type"} store))))))
+      (is (= {"sub" "foo"} (:state (dispatch store {:type "unknown-action-type"}))))))
   
   (testing "state->props"
     (is (= {"prop-name" {:foo :bar}}
@@ -100,11 +99,11 @@
   (testing "middleware dispatches extra action"
     (let [store (create-store {:extra #(assoc %1 :extra true)}
                               :middlewares [(fn [next]
-                                              (fn [action store]
-                                                (cond->> store
+                                              (fn [store action]
+                                                (cond-> store
                                                   (= (:type action) :test) (dispatch {:type :extra})
                                                   true (next action))))])]
-      (is (true? (->> store
-                      (dispatch {:type :test})
+      (is (true? (-> store
+                     (dispatch {:type :test})
                      :state
                      :extra))))))

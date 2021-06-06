@@ -12,7 +12,7 @@
       identity-reducer)
     reducer))
 
-(defn reduce-action [action store]
+(defn- reduce-action [store action]
   (let [reducer     (:reducer store)
         reducing-fn (get-reducer-fn reducer (:type action))]
     (update store
@@ -47,5 +47,5 @@
                ((apply comp (reverse middlewares)) reduce-action)
                reduce-action)})
 
-(defn dispatch [action store]
-  ((:dispatch store) action store))
+(defn dispatch [store action]
+  ((:dispatch store) store action))

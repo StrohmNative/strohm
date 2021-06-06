@@ -18,7 +18,7 @@
 (defn ^:export dispatch!
   [action]
   (debug/log "dispatch!" action)
-  (swap! store (partial (:dispatch @store) action))
+  (swap! store (:dispatch @store) action)
   action)
 
 (defn ^:export dispatch-from-native
