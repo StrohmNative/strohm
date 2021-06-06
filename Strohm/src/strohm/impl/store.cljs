@@ -17,7 +17,7 @@
       identity-reducer)
     reducer))
 
-(defn reduce-action [action store] 
+(defn reduce-action [action store]
   (let [reducer     (:reducer store)
         reducing-fn (get-reducer-fn reducer (:type action))]
     (update store
@@ -37,7 +37,7 @@
                state
                reducers)))
 
-(defn  state-for-prop-spec [state [prop-name prop-spec]]
+(defn state-for-prop-spec [state [prop-name prop-spec]]
   [prop-name
    (reduce (fn [acc prop] (get acc prop)) state prop-spec)])
 
