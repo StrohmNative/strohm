@@ -21,7 +21,7 @@
    :old old-props
    :new new-props})
 
-(defn send-message [message]
+(defn send-message! [message]
   (cond
     (android-webview?)
     (.receiveProps (.-strohmReceiveProps js/globalThis)
@@ -34,6 +34,6 @@
     :else
     (js/console.error "Neither Android nor iOS callback interface was found.")))
 
-(defn send-props
+(defn send-props!
   [subscriptionId old-props new-props]
-  (send-message (props->message subscriptionId old-props new-props)))
+  (send-message! (props->message subscriptionId old-props new-props)))

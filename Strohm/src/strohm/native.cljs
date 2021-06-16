@@ -1,6 +1,6 @@
 (ns strohm.native
   (:require [strohm.debug :as debug]
-            [strohm.tx :refer [send-props]]
+            [strohm.tx :refer [send-props!]]
             [strohm.utils :as utils]
             [strohm.impl.store :as impl]))
 
@@ -46,7 +46,7 @@
   (debug/log "Triggered native subscription" key)
   (let [old-props (impl/state->props (:state old) props-spec)
         new-props (impl/state->props (:state new) props-spec)]
-    (send-props key old-props new-props)))
+    (send-props! key old-props new-props)))
 
 (defn ^:export subscribe-from-native
   [subscription-id serialized-props-spec]
