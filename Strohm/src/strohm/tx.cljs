@@ -2,10 +2,7 @@
   (:require [strohm.utils :refer [clj->js']]))
 
 (defn- js->swift-handler []
-  (.. js/window
-      -webkit
-      -messageHandlers
-      -jsToSwift))
+  (.. js/window -webkit -messageHandlers -jsToSwift))
 
 (defn- android-webview? 
   []
