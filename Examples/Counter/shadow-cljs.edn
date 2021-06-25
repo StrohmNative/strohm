@@ -4,11 +4,11 @@
  :dev-http {8080  "target/"}
 
  :builds
- {:app {:output-dir "target/"
-        :target :browser
-        :asset-path "."
-        :modules {:main {:entries [app.main]
-                         :init-fn app.main/main!}}}
+ {:counter {:output-dir "target/"
+            :target :browser
+            :asset-path "."
+            :modules {:main {:entries [app.main]
+                             :init-fn app.main/main!}}}
   :test {:target :node-test
          :output-to "target/node-test.js"
          :ns-regexp "-test$"
