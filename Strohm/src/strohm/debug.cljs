@@ -4,8 +4,8 @@
 (def ^:private log-enabled? (atom false))
 
 (defn set-logging-enabled!
-  [enabled]
-  (reset! log-enabled? enabled))
+  [& enabled]
+  (reset! log-enabled? (or enabled true)))
 
 (defn log [& args]
   (when @log-enabled?
