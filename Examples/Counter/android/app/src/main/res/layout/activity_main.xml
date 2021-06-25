@@ -110,7 +110,7 @@
                 android:text="@string/btn_text_unsubscribe" />
         </LinearLayout>
 
-        <dev.strohmnative.strohm.StrohmHolder
+        <dev.strohmnative.strohm.DebugView
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
