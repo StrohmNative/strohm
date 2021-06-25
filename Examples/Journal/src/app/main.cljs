@@ -13,6 +13,7 @@
   (create-store reducer :initial-state empty-store))
 
 (defn ^:export main! []
+  (debug/set-logging-enabled!)
   (setup)
   (js/console.debug "[main] started"))
 
@@ -20,4 +21,5 @@
   (js/console.debug "[main] init done"))
 
 (defn ^:dev/after-load reload! []
+  (debug/clear-log)
   (js/console.debug "[main] reloaded"))
