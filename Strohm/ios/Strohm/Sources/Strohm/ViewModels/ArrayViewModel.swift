@@ -12,7 +12,7 @@ open class ArrayViewModel<EntryType: ConstructableFromDictionary>: ViewModelBase
         if let sorter = self.sorter {
             data = data.sorted(by: sorter)
         }
-        print("Received entries: ", data)
+        print("Received entries: ", data.count)
         return data
     }
 }

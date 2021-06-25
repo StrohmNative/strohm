@@ -131,7 +131,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
 
     func call(method: String) {
         webView?.evaluateJavaScript(method) { (result, error) in
-            print("cljs call result: \(String(describing: result)), error: \(String(describing: error))")
+            print("cljs call result error: \(String(describing: error))")
         }
     }
 

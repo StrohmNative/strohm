@@ -13,7 +13,7 @@ class JsonComms: NSObject, WKScriptMessageHandler {
 
     func userContentController(_ userContentController: WKUserContentController,
                                didReceive message: WKScriptMessage) {
-        print("jsToSwift", message.name, message.body)
+        print("didReceiveMessage", message.name /*, message.body*/)
         if let arguments = message.body as? [String:Any],
            let functionName = arguments["function"] as? String,
            let function = registeredFunctions[functionName] {
