@@ -29,4 +29,4 @@
   (debug/log "init done"))
 
 (defn ^:dev/after-load reload! []
-  (println "[main] reloaded"))
+  (debug/log "[main] reloaded"))
