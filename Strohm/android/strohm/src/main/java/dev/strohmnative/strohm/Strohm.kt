@@ -15,6 +15,7 @@ class Strohm internal constructor(val context: Context) {
     internal var webView: WebView = WebView(context)
     internal val comms = JsonComms()
     internal val subscriptions = Subscriptions(this)
+    internal val statePersister = StatePersister(this)
 
     @SuppressLint("SetJavaScriptEnabled")
     fun install(appJsPath: String, port: Int? = null) {

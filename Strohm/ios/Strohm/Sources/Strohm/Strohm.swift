@@ -15,6 +15,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
     var port: Int?
     var comms = JsonComms()
     var subscriptions: Subscriptions?
+    var statePersister: StatePersister?
 
     static func determinePort(port: Int?, env: [String: String]) -> Int {
         if let portString = env["DEVSERVER_PORT"],
@@ -28,6 +29,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
 
     public func install(appJsPath: String, port: Int? = nil) {
         self.subscriptions = Subscriptions(strohm: self)
+        self.statePersister = StatePersister(strohm: self)
 
         self.appJsPath = appJsPath
         self.port = port

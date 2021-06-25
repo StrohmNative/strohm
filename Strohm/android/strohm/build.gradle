@@ -58,6 +58,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     debugImplementation 'com.android.volley:volley:1.1.1'
 
+    implementation "androidx.security:security-crypto:1.0.0"
+
     // Testing: JUnit5 and Spek
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
