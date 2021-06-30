@@ -179,7 +179,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nhostname -s > ${CODESIGNING_FOLDER_PATH}/devhost.txt\n";
+			shellScript = "hostname -s > ${CODESIGNING_FOLDER_PATH}/devhost.txt\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
