@@ -44,6 +44,11 @@ public class Strohm: NSObject, WKNavigationDelegate {
     }
 
     public func reload() {
+        var initialStateVar = ""
+        if let initialState = statePersister?.loadState() {
+            let escaped = initialState.replacingOccurrences(of: "\"", with: "\\\"")
+            initialStateVar = "var strohmPersistedState=\"\(escaped)\";"
+        }
         #if DEBUG
         guard let appJsPath = self.appJsPath else { return }
         let devhost: String
@@ -64,6 +69,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
         <html>
         <body style='background-color: #ddd;font-size: 200%'>
             <h1>Hi!</h1><div id='content'></div>
+            <script>\(initialStateVar)</script>
             <script src="http://\(devhost):\(port)/\(appJsPath)"></script>
         </body>
         </html>
@@ -80,6 +86,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
         <html>
         <body style='background-color: #ddd;font-size: 200%'>
             <h1>Hi!</h1><div id='content'></div>
+            <script>\(initialStateVar)</script>
             <script src="\(jsUrlString)"></script>
         </body>
         </html>
