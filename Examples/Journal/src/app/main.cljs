@@ -1,14 +1,15 @@
 (ns app.main
-  (:require [strohm.native :refer [create-store combine-reducers clj->js']]
+  (:require [strohm.native :refer [create-store combine-reducers]]
             [app.entries.reducer :as entries]
             [app.navigation.reducer :as navigation]
             [strohm.tx :as tx]
-            [strohm.debug :as debug]))
+            [strohm.debug :as debug]
+            [cljs.reader :refer [read-string]]))
 
 (def reducer (combine-reducers {"entries" entries/reducer}))
 
 (defn send-state! [state]
-  (let [serialized-state (js/JSON.stringify (clj->js' state))]
+  (let [serialized-state (pr-str state)]
     (tx/send-message! {:function "persistState"
                        :state serialized-state})))
 
@@ -19,14 +20,19 @@
       (send-state! (:state next-store))
       next-store)))
 
+(defn load-state []
+  (some-> (.-strohmPersistedState js/globalThis)
+          read-string))
+
 (def empty-store
-  {"entries" entries/initial-state
+  {"entries"   entries/initial-state
    :navigation navigation/initial-state})
 
 (defn- setup []
-  (create-store reducer
-                :initial-state empty-store
-                :middlewares [persist-state-middleware]))
+  (let [initial-state (or (load-state) empty-store)]
+    (create-store reducer
+                  :initial-state initial-state
+                  :middlewares [persist-state-middleware])))
 
 (defn ^:export main! []
   (debug/set-logging-enabled!)
