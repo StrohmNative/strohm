@@ -50,7 +50,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
         #if !targetEnvironment(simulator)
         if let devhostFile = Bundle.main.url(forResource: "devhost", withExtension: "txt"),
            let contents = try? String(contentsOf: devhostFile) {
-            devhost = contents + ".local"
+            devhost = contents.trimmingCharacters(in: .whitespacesAndNewlines) + ".local"
         } else {
             devhost = "localhost"
         }
