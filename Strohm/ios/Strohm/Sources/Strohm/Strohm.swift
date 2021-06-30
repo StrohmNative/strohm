@@ -64,12 +64,6 @@ public class Strohm: NSObject, WKNavigationDelegate {
         <html>
         <body style='background-color: #ddd;font-size: 200%'>
             <h1>Hi!</h1><div id='content'></div>
-            <script type="text/javascript">
-                window.onload = function(e) {
-                    document.getElementById('content').innerHTML += 'onload<br />'
-                    globalThis.app.main.init()
-                }
-            </script>
             <script src="http://\(devhost):\(port)/\(appJsPath)"></script>
         </body>
         </html>
@@ -86,12 +80,6 @@ public class Strohm: NSObject, WKNavigationDelegate {
         <html>
         <body style='background-color: #ddd;font-size: 200%'>
             <h1>Hi!</h1><div id='content'></div>
-            <script type="text/javascript">
-                window.onload = function(e) {
-                    document.getElementById('content').innerHTML += 'onload<br />'
-                    globalThis.app.main.init()
-                }
-            </script>
             <script src="\(jsUrlString)"></script>
         </body>
         </html>
