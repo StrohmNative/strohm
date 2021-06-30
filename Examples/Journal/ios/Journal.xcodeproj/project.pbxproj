@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F81EC96A25F8CB71009ADDB4 /* TextFieldControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81EC96925F8CB71009ADDB4 /* TextFieldControl.swift */; };
+		F85D989B268C5C9D004E4A48 /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = F85D9897268C5B1C004E4A48 /* main.js */; };
 		F899149425D6BF4A00BD6E18 /* JournalEntriesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F899149325D6BF4A00BD6E18 /* JournalEntriesList.swift */; };
 		F899149925D6C0D700BD6E18 /* JournalEntryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F899149825D6C0D700BD6E18 /* JournalEntryRow.swift */; };
 		F899149C25D6C0EB00BD6E18 /* JournalEntryDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F899149B25D6C0EB00BD6E18 /* JournalEntryDetail.swift */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		F81EC96925F8CB71009ADDB4 /* TextFieldControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldControl.swift; sourceTree = "<group>"; };
+		F85D9897268C5B1C004E4A48 /* main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
 		F899149325D6BF4A00BD6E18 /* JournalEntriesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntriesList.swift; sourceTree = "<group>"; };
 		F899149825D6C0D700BD6E18 /* JournalEntryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntryRow.swift; sourceTree = "<group>"; };
 		F899149B25D6C0EB00BD6E18 /* JournalEntryDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntryDetail.swift; sourceTree = "<group>"; };
@@ -46,6 +48,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F85D9894268C5B1C004E4A48 /* target */ = {
+			isa = PBXGroup;
+			children = (
+				F85D9897268C5B1C004E4A48 /* main.js */,
+			);
+			name = target;
+			path = ../../target;
+			sourceTree = "<group>";
+		};
 		F8D6CBFE25C6E36700A04537 = {
 			isa = PBXGroup;
 			children = (
@@ -74,6 +85,7 @@
 				F899149B25D6C0EB00BD6E18 /* JournalEntryDetail.swift */,
 				F8D6CC0E25C6E36900A04537 /* Assets.xcassets */,
 				F8D6CC1325C6E36900A04537 /* Info.plist */,
+				F85D9894268C5B1C004E4A48 /* target */,
 				F8D6CC1025C6E36900A04537 /* Preview Content */,
 				F899149E25D6C11000BD6E18 /* JournalEntry.swift */,
 				F81EC96925F8CB71009ADDB4 /* TextFieldControl.swift */,
@@ -156,6 +168,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F85D989B268C5C9D004E4A48 /* main.js in Resources */,
 				F8D6CC1225C6E36900A04537 /* Preview Assets.xcassets in Resources */,
 				F8D6CC0F25C6E36900A04537 /* Assets.xcassets in Resources */,
 			);
