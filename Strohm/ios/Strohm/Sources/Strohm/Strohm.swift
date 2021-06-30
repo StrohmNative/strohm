@@ -52,6 +52,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
            let contents = try? String(contentsOf: devhostFile) {
             devhost = contents.trimmingCharacters(in: .whitespacesAndNewlines) + ".local"
         } else {
+            print("\nStrohm error: You don't seem to have configured the Stohm Dev Support shell script build phase. Please add it to make things work.\n") // TODO: ref to doc
             devhost = "localhost"
         }
         #else
@@ -77,7 +78,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
         _ = webView?.loadHTMLString(myHtml, baseURL: baseUrl)
         #else
         guard let mainJSURL = Bundle.main.url(forResource: "main", withExtension: "js") else {
-            print("JavaScript bundle main.js was not found; did you add it to the Xcode project?")
+            print("\nStrohm error: JavaScript bundle main.js was not found; did you add it to the Xcode project?\n") // TODO: ref to doc
             return
         }
         let jsUrlString = mainJSURL.absoluteString
@@ -133,7 +134,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
 
     func loadingFailed() {
         self.status = .serverNotRunning
-        print("Please make sure dev server is running")
+        print("\nStrohm error: Please make sure dev server is running\n") // TODO: ref to doc
     }
 
     func call(method: String) {
