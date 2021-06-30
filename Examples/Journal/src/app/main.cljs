@@ -31,11 +31,11 @@
 (defn ^:export main! []
   (debug/set-logging-enabled!)
   (setup)
-  (js/console.debug "[main] started"))
+  (debug/log "[main] started"))
 
 (defn ^:export init []
-  (js/console.debug "[main] init done"))
+  (debug/log "[main] init done"))
 
 (defn ^:dev/after-load reload! []
   (debug/clear-log)
-  (js/console.debug "[main] reloaded"))
+  (debug/log "[main] reloaded"))
