@@ -76,7 +76,10 @@ public class Strohm: NSObject, WKNavigationDelegate {
         let baseUrl = URL(string: "http://\(devhost):\(port)/")!
         _ = webView?.loadHTMLString(myHtml, baseURL: baseUrl)
         #else
-        let mainJSURL = Bundle.main.url(forResource: "main", withExtension: "js")!
+        guard let mainJSURL = Bundle.main.url(forResource: "main", withExtension: "js") else {
+            print("JavaScript bundle main.js was not found; did you add it to the Xcode project?")
+            return
+        }
         let jsUrlString = mainJSURL.absoluteString
         let myHtml = """
         <html>

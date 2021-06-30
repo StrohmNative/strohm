@@ -169,3 +169,5 @@ Creating new example project
         <true/>
     </dict>
     ```
+
+  * Add `main.js` to Xcode project
