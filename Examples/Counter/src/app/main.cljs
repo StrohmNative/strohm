@@ -16,7 +16,7 @@
 (defn ^:export main! []
   (debug/set-logging-enabled! true)
   (create-store reducer :initial-state 0)
-  (println "[main] started"))
+  (debug/log "[main] started"))
 
 (defn sendTestMessage []
   (let [time ((juxt #(.getHours %) #(.getMinutes %) #(.getSeconds %)) (js/Date.))]
