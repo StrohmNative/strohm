@@ -73,6 +73,8 @@ public class Strohm: NSObject, WKNavigationDelegate {
         </body>
         </html>
         """
+        let baseUrl = URL(string: "http://\(devhost):\(port)/")!
+        _ = webView?.loadHTMLString(myHtml, baseURL: baseUrl)
         #else
         let mainJSURL = Bundle.main.url(forResource: "main", withExtension: "js")!
         let jsUrlString = mainJSURL.absoluteString
@@ -90,9 +92,9 @@ public class Strohm: NSObject, WKNavigationDelegate {
         </body>
         </html>
         """
+        _ = webView?.loadHTMLString(myHtml, baseURL: Bundle.main.resourceURL)
         #endif
 
-        _ = webView?.loadHTMLString(myHtml, baseURL: Bundle.main.resourceURL)
     }
 
     public func subscribe(propsSpec: PropsSpec,
