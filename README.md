@@ -122,7 +122,7 @@ This project is work in progress. You probably should not use this yet.
 | Support middleware              |     |         |  [X]   |
 | Support easy state persistence  | [X] |   [X]   |  [X]   |
 | Test using NPM dependencies     | [ ] |   [ ]   |        |
-| Developer Experience            | [ ] |   [ ]   |  [ ]   |
+| Developer Experience            | […] |   […]   |  […]   |
 | Setup CI incl example app tests | [ ] |   [ ]   |        |
 | Setup CD of native libs         | [ ] |   [ ]   |        |
 | Setup CD of CLJS lib            |     |         |  [ ]   |
