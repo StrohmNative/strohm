@@ -38,6 +38,11 @@ class Strohm internal constructor(val context: Context) {
     }
 
     fun reload() {
+        val initialStateVar = statePersister.loadState()?.let {
+            val escaped = it.replace("\"", "\\\"")
+            "var strohmPersistedState=\"$escaped\";"
+        } ?: ""
+
         if (BuildConfig.DEBUG) {
             CheckShadowCLJSReachable.execute(this.context)
 
@@ -45,14 +50,7 @@ class Strohm internal constructor(val context: Context) {
             <html>
                 <body style='background-color: #ddd'>
                     <h1>Hi!</h1><div id='content'></div>
-                   <script type="text/javascript">
-                        console.debug('script')
-                        window.onload = function(e) {
-                            console.debug('onload')
-                            document.getElementById('content').innerHTML += 'onload<br />'
-                            globalThis.app.main.init()
-                        }
-                    </script>
+                    <script>$initialStateVar</script>
                     <script src="http://localhost:$port/$appJsPath"></script>
                 </body>
             </html>
@@ -64,14 +62,7 @@ class Strohm internal constructor(val context: Context) {
             <html>
                 <body style='background-color: #ddd'>
                     <h1>Hi!</h1><div id='content'></div>
-                   <script type="text/javascript">
-                        console.debug('script')
-                        window.onload = function(e) {
-                            console.debug('onload')
-                            document.getElementById('content').innerHTML += 'onload<br />'
-                            globalThis.app.main.init()
-                        }
-                    </script>
+                    <script>$initialStateVar</script>
                     <script src="file:///android_asset/$appJsPath"></script>
                 </body>
             </html>
