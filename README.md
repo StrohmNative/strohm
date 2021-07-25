@@ -120,7 +120,7 @@ This project is work in progress. You probably should not use this yet.
 | View binding                    | [X] |   [X]   |        |
 | Complex store structure         | [X] |   [X]   |        |
 | Support middleware              |     |         |  [X]   |
-| Support easy state persistence  | […] |   […]   |  […]   |
+| Support easy state persistence  | [X] |   [X]   |  [X]   |
 | Test using NPM dependencies     | [ ] |   [ ]   |        |
 | Developer Experience            | [ ] |   [ ]   |  [ ]   |
 | Setup CI incl example app tests | [ ] |   [ ]   |        |
