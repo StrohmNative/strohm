@@ -1,0 +1,1 @@
+{:lint-as {test-utils/capturing-logs clojure.core/fn}}
