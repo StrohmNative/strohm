@@ -1,12 +1,12 @@
 (ns app.main
   (:require [strohm.native :refer [create-store]]
             [strohm.tx :refer [send-props!]]
-            [strohm.debug :as debug]
+            [strohm.log :as log]
             [clojure.string :as str]))
 
 (defn reducer 
   [state action]
-  (debug/log "reduce:" action (:type action) ((comp :count :payload) action))
+  (log/debug "reduce:" action (:type action) ((comp :count :payload) action))
   (case (:type action)
     "decrement" (dec state)
     "increment" (inc state)
@@ -14,19 +14,19 @@
     state))
 
 (defn ^:export main! []
-  (debug/set-logging-enabled! true)
+  (log/set-log-level! :debug)
   (create-store reducer :initial-state 0)
-  (debug/log "[main] started"))
+  (log/debug "[main] started"))
 
 (defn sendTestMessage []
   (let [time ((juxt #(.getHours %) #(.getMinutes %) #(.getSeconds %)) (js/Date.))]
-    (debug/log "send test message"
+    (log/debug "send test message"
          (str/join ":" time))
     (send-props! (random-uuid) {:old :props} {:foo :bar :when time})))
 
 (defn ^:export init []
   (js/setTimeout sendTestMessage 3000)
-  (debug/log "init done"))
+  (log/debug "init done"))
 
 (defn ^:dev/after-load reload! []
-  (debug/log "[main] reloaded"))
+  (log/debug "[main] reloaded"))

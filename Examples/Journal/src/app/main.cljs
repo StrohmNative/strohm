@@ -3,7 +3,7 @@
             [app.entries.reducer :as entries]
             [app.navigation.reducer :as navigation]
             [strohm.tx :as tx]
-            [strohm.debug :as debug]
+            [strohm.log :as log]
             [cljs.reader :refer [read-string]]))
 
 (def reducer (combine-reducers {"entries" entries/reducer}))
@@ -35,13 +35,12 @@
                   :middlewares [persist-state-middleware])))
 
 (defn ^:export main! []
-  (debug/set-logging-enabled!)
+  (log/set-log-level! :debug)
   (setup)
-  (debug/log "[main] started"))
+  (log/debug "[main] started"))
 
 (defn ^:export init []
-  (debug/log "[main] init done"))
+  (log/debug "[main] init done"))
 
 (defn ^:dev/after-load reload! []
-  (debug/clear-log)
-  (debug/log "[main] reloaded"))
+  (log/debug "[main] reloaded"))
