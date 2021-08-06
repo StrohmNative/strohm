@@ -1,5 +1,5 @@
 (ns strohm.native
-  (:require [strohm.debug :as debug]
+  (:require [strohm.log :as log]
             [strohm.tx :refer [send-props!]]
             [strohm.utils :as utils]
             [strohm.impl.store :as impl]))
@@ -16,7 +16,7 @@
 
 (defn ^:export dispatch!
   [action]
-  (debug/log "dispatch!" action)
+  (log/debug "dispatch!" action)
   (swap! store (:dispatch @store) action)
   action)
 
@@ -24,7 +24,7 @@
 
 (defn ^:export dispatch-from-native
   [serialized-action]
-  (debug/log "dispatch-from-native" serialized-action)
+  (log/debug "dispatch-from-native" serialized-action)
   (let [action (utils/js->clj' (js/JSON.parse serialized-action))]
     (dispatch! action)))
 
@@ -36,14 +36,14 @@
   [callback]
   (let [key (random-uuid)
         watch-fn (fn [_key _ref old new]
-                   (debug/log "Triggered cljs subscription" key)
+                   (log/debug "Triggered cljs subscription" key)
                    (callback (:state old) (:state new)))]
     (subscribe-and-send-current-value key watch-fn)
     key))
 
 (defn- trigger-subscription-update-to-native
   [props-spec key _ref old new]
-  (debug/log "Triggered native subscription" key)
+  (log/debug "Triggered native subscription" key)
   (let [old-props (impl/state->props (:state old) props-spec)
         new-props (impl/state->props (:state new) props-spec)]
     (send-props! key old-props new-props)))
@@ -52,7 +52,7 @@
   [subscription-id serialized-props-spec]
   (let [props-spec (utils/js->clj' (js/JSON.parse serialized-props-spec))
         watch-fn   (partial trigger-subscription-update-to-native props-spec)]
-    (debug/log "subscribe-from-native" subscription-id props-spec)
+    (log/debug "subscribe-from-native" subscription-id props-spec)
     (subscribe-and-send-current-value (uuid subscription-id) watch-fn)
     subscription-id))
 
@@ -62,7 +62,7 @@
 
 (defn ^:export unsubscribe-from-native
   [subscription-id]
-  (debug/log "unsubscribe-from-native" subscription-id)
+  (log/debug "unsubscribe-from-native" subscription-id)
   (let [key (uuid subscription-id)]
     (some? (unsubscribe! key))))
 

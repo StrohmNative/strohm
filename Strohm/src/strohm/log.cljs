@@ -1,6 +1,9 @@
 (ns strohm.log
   (:require [strohm.impl.log :as impl]))
 
+(defn set-log-level! [new-level]
+  (impl/set-log-level! new-level))
+
 (defn debug [& args]
   (impl/log (cons :debug args)))
 
