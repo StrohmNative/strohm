@@ -1,7 +1,7 @@
 import Foundation
 import Quick
 import Nimble
-import WebKit
+import JavaScriptCore
 @testable import Strohm
 
 let propsSpec = [
@@ -12,13 +12,13 @@ let propsSpec = [
 class SubscriptionsSpec: QuickSpec {
     override func spec() {
         var strohm: Strohm!
-        var webViewMock: WebViewMock!
+        var jsContextMock: JSContextMock!
 
         beforeEach {
             strohm = Strohm()
             strohm.install(appJsPath: "")
-            webViewMock = WebViewMock()
-            strohm.webView = webViewMock
+            jsContextMock = JSContextMock()
+            strohm.context = jsContextMock
         }
 
         context("when subscribing before load finishes") {
@@ -71,8 +71,8 @@ class SubscriptionsSpec: QuickSpec {
             }
 
             it("has called subscribe on the web view") {
-                expect(webViewMock.evaluatedJavaScript).to(haveCount(1))
-                let actual = webViewMock.evaluatedJavaScript.first!
+                expect(jsContextMock.evaluatedJavaScript).to(haveCount(1))
+                let actual = jsContextMock.evaluatedJavaScript.first!
                 let pattern = #"strohm\.native\$\.subscribe_from_native\(".*", ?"(.*)"\)"#
                 expect(actual).to(match(pattern))
                 let regex = try! NSRegularExpression(pattern: pattern, options: [])
@@ -127,8 +127,8 @@ class SubscriptionsSpec: QuickSpec {
 
             it("calls unsubscribe on the web view when unsubscribing") {
                 strohm.unsubscribe(subscriptionId: subscriptionId!)
-                expect(webViewMock.evaluatedJavaScript).to(haveCount(2))
-                let actual = webViewMock.evaluatedJavaScript.last!
+                expect(jsContextMock.evaluatedJavaScript).to(haveCount(2))
+                let actual = jsContextMock.evaluatedJavaScript.last!
 
                 let pattern = #"strohm\.native\$\.unsubscribe_from_native\("(.*)"\)"#
                 expect(actual).to(match(pattern))
@@ -168,17 +168,20 @@ extension Strohm {
     }
 }
 
-class WebViewMock: StrohmWebView {
-    var navigationDelegate: WKNavigationDelegate?
+class JSContextMock: StrohmJSContext {
+    var exceptionHandler: ((JSContext?, JSValue?) -> Void)!
     var evaluatedJavaScript: [String] = []
 
-    func loadHTMLString(_ string: String, baseURL: URL?) -> WKNavigation? {
-        return nil
+    func evaluateScript(_ script: String!) -> JSValue! {
+        evaluatedJavaScript.append(script)
+        return JSValue()
     }
 
-    func evaluateJavaScript(_ javaScriptString: String, completionHandler: ((Any?, Error?) -> Void)?) {
-        evaluatedJavaScript.append(javaScriptString)
+    func evaluateScript(_ script: String!, withSourceURL sourceURL: URL!) -> JSValue! {
+        evaluatedJavaScript.append(script)
+        return JSValue()
     }
 
-
+    func setObject(_ object: Any!, forKeyedSubscript key: (NSCopying & NSObjectProtocol)!) {
+    }
 }
