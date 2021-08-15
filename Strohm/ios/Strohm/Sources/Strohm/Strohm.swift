@@ -18,8 +18,8 @@ public class Strohm: NSObject {
 
     static func determinePort(port: Int?, env: [String: String]) -> Int {
         if let portString = env["DEVSERVER_PORT"],
-            let portInt = Int(portString),
-            port == nil {
+           let portInt = Int(portString),
+           port == nil {
             return portInt
         } else {
             return port ?? 8080
@@ -47,44 +47,56 @@ public class Strohm: NSObject {
         self.reload()
     }
 
+    func determineScriptUrlDebug() -> (String, URL)? {
+        guard let appJsPath = self.appJsPath else { return nil }
+        var devhost = "localhost"
+
+        #if !targetEnvironment(simulator)
+        if let devhostFile = Bundle.main.url(forResource: "devhost", withExtension: "txt"),
+           let contents = try? String(contentsOf: devhostFile) {
+            devhost = contents.trimmingCharacters(in: .whitespacesAndNewlines) + ".local"
+        } else {
+            print("\nStrohm error: You don't seem to have configured the Stohm Dev Support shell script build phase. Please add it to make things work.\n") // TODO: ref to doc
+        }
+        #endif
+
+        let port = Strohm.determinePort(port: self.port,
+                                        env: ProcessInfo().environment)
+        let scriptUrl = URL(string: "http://\(devhost):\(port)/\(appJsPath)")!
+        guard let script = (try? String(contentsOf: scriptUrl)) else {
+            return nil
+        }
+        return (script, scriptUrl)
+    }
+
+    func determineScriptUrlRelease() -> (String, URL)? {
+        guard let scriptUrl = Bundle.main.url(forResource: "main", withExtension: "js"),
+              let script = try? String(contentsOf: scriptUrl) else {
+            print("\nStrohm error: JavaScript bundle main.js was not found; did you add it to the Xcode project?\n") // TODO: ref to doc
+            return nil
+        }
+        return (script, scriptUrl)
+    }
+
+    func determineScriptUrl() -> (String, URL)? {
+        #if DEBUG
+        return determineScriptUrlDebug()
+        #else
+        return determineScriptUrlRelease()
+        #endif
+    }
+
     public func reload() {
         if let initialState = statePersister?.loadState() {
             context!.setObject(initialState, forKeyedSubscript: "strohmPersistedState" as NSCopying & NSObjectProtocol)
         }
-        #if DEBUG
-            guard let appJsPath = self.appJsPath else { return }
-            let devhost: String
-            #if !targetEnvironment(simulator)
-                if let devhostFile = Bundle.main.url(forResource: "devhost", withExtension: "txt"),
-                   let contents = try? String(contentsOf: devhostFile) {
-                    devhost = contents.trimmingCharacters(in: .whitespacesAndNewlines) + ".local"
-                } else {
-                    print("\nStrohm error: You don't seem to have configured the Stohm Dev Support shell script build phase. Please add it to make things work.\n") // TODO: ref to doc
-                    devhost = "localhost"
-                }
-            #else
-                devhost = "localhost"
-            #endif
-            let port = Strohm.determinePort(port: self.port,
-                                            env: ProcessInfo().environment)
-            let scriptUrl = URL(string: "http://\(devhost):\(port)/\(appJsPath)")!
-            _ = context!.evaluateScript("globalThis.document = globalThis; globalThis.window = {location: {origin: \"\(scriptUrl)\"}};")
-            let script = (try? String(contentsOf: scriptUrl))!
-            _ = context!.evaluateScript(script, withSourceURL: scriptUrl)
-            didLoad()
-
-        #else
-
-            guard let mainJSURL = Bundle.main.url(forResource: "main", withExtension: "js"),
-                  let script = try? String(contentsOf: mainJSURL) else {
-                print("\nStrohm error: JavaScript bundle main.js was not found; did you add it to the Xcode project?\n") // TODO: ref to doc
-                return
-            }
-            _ = context!.evaluateScript("globalThis.document = globalThis; globalThis.window = {location: {origin: \"\(mainJSURL)\"}};")
-            _ = context!.evaluateScript(script, withSourceURL: mainJSURL)
-            didLoad()
-
-        #endif
+        guard let (script, scriptUrl) = determineScriptUrl() else {
+            print("\nStrohm: load failed; please fix any errors displayed above and restart app.")
+            return
+        }
+        _ = context!.evaluateScript("globalThis.document = globalThis; globalThis.window = {location: {origin: \"\(scriptUrl)\"}};")
+        _ = context!.evaluateScript(script, withSourceURL: scriptUrl)
+        didLoad()
     }
 
     public func subscribe(propsSpec: PropsSpec,
