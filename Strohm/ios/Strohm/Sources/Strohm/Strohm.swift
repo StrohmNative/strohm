@@ -27,7 +27,7 @@ public class Strohm: NSObject {
     }
 
     func defaultExceptionHandler(context: JSContext?, value: JSValue?) {
-        print("Exception: ", value as Any)
+        print("\nStrohm error: JavaScript exception: ", value as Any)
         if let v = value {
             context?.exception = v
         }
@@ -40,13 +40,13 @@ public class Strohm: NSObject {
         self.appJsPath = appJsPath
         self.port = port
 
-        context = JSContext()
-        context!.exceptionHandler = defaultExceptionHandler
+        var c: StrohmJSContext = JSContext()
+        c.exceptionHandler = defaultExceptionHandler
 
         let postMessageBlock = unsafeBitCast(JsonComms.postMessageBlock, to: AnyObject.self)
-        context!.setObject(postMessageBlock, forKeyedSubscript: "postMessage" as NSCopying & NSObjectProtocol)
+        c.setObject(postMessageBlock, forKeyedSubscript: "postMessage" as NSCopying & NSObjectProtocol)
 
-        self.reload()
+        self.reload(context: c)
     }
 
     func determineScriptUrlDebug() -> (String, URL)? {
@@ -89,16 +89,24 @@ public class Strohm: NSObject {
     }
 
     public func reload() {
+        guard let ctx = self.context else {
+            print("\nStrohm error: reload requested before initialization completed")
+            return
+        }
+        reload(context: ctx)
+    }
+
+    func reload(context ctx: StrohmJSContext) {
         if let initialState = statePersister?.loadState() {
-            context!.setObject(initialState, forKeyedSubscript: "strohmPersistedState" as NSCopying & NSObjectProtocol)
+            ctx.setObject(initialState, forKeyedSubscript: "strohmPersistedState" as NSCopying & NSObjectProtocol)
         }
         guard let (script, scriptUrl) = determineScriptUrl() else {
             print("\nStrohm: load failed; please fix any errors displayed above and restart app.")
             return
         }
-        _ = context!.evaluateScript("globalThis.document = globalThis; globalThis.window = {location: {origin: \"\(scriptUrl)\"}};")
-        _ = context!.evaluateScript(script, withSourceURL: scriptUrl)
-        didLoad()
+        _ = ctx.evaluateScript("globalThis.document = globalThis; globalThis.window = {location: {origin: \"\(scriptUrl)\"}};")
+        _ = ctx.evaluateScript(script, withSourceURL: scriptUrl)
+        didLoad(context: ctx)
     }
 
     public func subscribe(propsSpec: PropsSpec,
@@ -111,10 +119,11 @@ public class Strohm: NSObject {
         self.subscriptions?.removeSubscriber(subscriptionId: subscriptionId)
     }
 
-    func didLoad() {
-//        print(context!.evaluateScript("Object.getOwnPropertyNames(globalThis.strohm.native$)") as Any)
+    func didLoad(context ctx: StrohmJSContext) {
+//        print(ctx.evaluateScript("Object.getOwnPropertyNames(globalThis.strohm.native$)") as Any)
 
-        if let hasStrohmValue = context!.evaluateScript("globalThis.hasOwnProperty('strohm')"), hasStrohmValue.toBool() {
+        self.context = ctx
+        if let hasStrohmValue = ctx.evaluateScript("globalThis.hasOwnProperty('strohm')"), hasStrohmValue.toBool() {
             self.loadingFinished()
         } else {
             self.loadingFailed()
@@ -132,7 +141,11 @@ public class Strohm: NSObject {
     }
 
     func call(method: String) {
-        let result = context!.evaluateScript(method) // TODO: every called function should have a return value?
+        guard let ctx = context else {
+            print("\nStrohm error: method call requested before initialization completed: \(method)")
+            return
+        }
+        let result = ctx.evaluateScript(method) // TODO: every called function should have a return value?
         print("cljs call result: \(String(describing: result))")
     }
 
