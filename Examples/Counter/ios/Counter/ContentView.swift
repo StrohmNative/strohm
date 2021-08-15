@@ -5,6 +5,7 @@ struct ContentView: View {
     @State private var count: Int = 0
     let countFormatter = NumberFormatter()
     @State private var subscription: UUID?
+    @State var strohmStatus: Strohm.Status = .uninitialized
 
     var body: some View {
         VStack {
@@ -32,7 +33,9 @@ struct ContentView: View {
                 Button(action: self.subscribe, label: { Text("Subscribe") })
                 Button(action: self.unsubscribe, label: { Text("Unsubscribe") })
             }.padding()
-            DebugView()
+            Text("Strohm status: \(strohmStatus.rawValue)")
+                .onReceive(Strohm.default.status, perform: { strohmStatus = $0 })
+            Text("Subscribed: \(subscription != nil ? "true" : "false")")
         }
     }
 
@@ -62,6 +65,7 @@ struct ContentView: View {
     func unsubscribe() {
         if let subscription = self.subscription {
             Strohm.default.unsubscribe(subscriptionId: subscription)
+            self.subscription = nil
         }
     }
 }
