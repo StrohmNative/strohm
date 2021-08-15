@@ -26,6 +26,13 @@ public class Strohm: NSObject {
         }
     }
 
+    func defaultExceptionHandler(context: JSContext?, value: JSValue?) {
+        print("Exception: ", value as Any)
+        if let v = value {
+            context?.exception = v
+        }
+    }
+
     public func install(appJsPath: String, port: Int? = nil) {
         self.subscriptions = Subscriptions(strohm: self)
         self.statePersister = StatePersister(strohm: self)
@@ -34,12 +41,7 @@ public class Strohm: NSObject {
         self.port = port
 
         context = JSContext()
-        context!.exceptionHandler = { (context, value) in
-            print("Exception: ", value as Any)
-            if let v = value {
-                context?.exception = v
-            }
-        }
+        context!.exceptionHandler = defaultExceptionHandler
 
         let postMessageBlock = unsafeBitCast(JsonComms.postMessageBlock, to: AnyObject.self)
         context!.setObject(postMessageBlock, forKeyedSubscript: "postMessage" as NSCopying & NSObjectProtocol)
