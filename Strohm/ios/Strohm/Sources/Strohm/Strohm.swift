@@ -1,5 +1,6 @@
 import Foundation
 import JavaScriptCore
+import Combine
 
 public class Strohm: NSObject {
     public static var `default`: Strohm = {
@@ -9,7 +10,8 @@ public class Strohm: NSObject {
     }()
 
     var context: StrohmJSContext?
-    var status: Status = .uninitialized
+    var _status = CurrentValueSubject<Status, Never>(.uninitialized)
+    public lazy var status = _status.eraseToAnyPublisher()
     var appJsPath: String?
     var port: Int?
     var comms = JsonComms.shared
@@ -93,10 +95,13 @@ public class Strohm: NSObject {
             print("\nStrohm error: reload requested before initialization completed")
             return
         }
-        reload(context: ctx)
+        DispatchQueue.main.async { [weak self] in
+            self?.reload(context: ctx)
+        }
     }
 
     func reload(context ctx: StrohmJSContext) {
+        _status.value = .loading
         if let initialState = statePersister?.loadState() {
             ctx.setObject(initialState, forKeyedSubscript: "strohmPersistedState" as NSCopying & NSObjectProtocol)
         }
@@ -131,12 +136,12 @@ public class Strohm: NSObject {
     }
 
     func loadingFinished() {
-        self.status = .ok
+        self._status.value = .ok
         self.subscriptions?.effectuatePendingSubscriptions()
     }
 
     func loadingFailed() {
-        self.status = .serverNotRunning
+        self._status.value = .serverNotRunning
         print("\nStrohm error: Please make sure dev server is running\n") // TODO: ref to doc
     }
 
@@ -163,10 +168,11 @@ public class Strohm: NSObject {
         call(method: method)
     }
 
-    enum Status {
-        case uninitialized
-        case serverNotRunning
-        case ok
+    public enum Status: String {
+        case uninitialized = "uninitialized"
+        case loading = "loading"
+        case serverNotRunning = "server not running"
+        case ok = "ok"
     }
 }
 
