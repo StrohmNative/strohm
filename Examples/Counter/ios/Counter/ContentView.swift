@@ -28,6 +28,8 @@ struct ContentView: View {
             }.padding()
             HStack {
                 Button(action: {
+                    self.count = 0
+                    self.subscription = nil
                     Strohm.default.reload()
                 }, label: { Text("Reload") })
                 Button(action: self.subscribe, label: { Text("Subscribe") })
