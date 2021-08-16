@@ -42,13 +42,7 @@ public class Strohm: NSObject {
         self.appJsPath = appJsPath
         self.port = port
 
-        var c: StrohmJSContext = JSContext()
-        c.exceptionHandler = defaultExceptionHandler
-
-        let postMessageBlock = unsafeBitCast(JsonComms.postMessageBlock, to: AnyObject.self)
-        c.setObject(postMessageBlock, forKeyedSubscript: "postMessage" as NSCopying & NSObjectProtocol)
-
-        self.reload(context: c)
+        self.load()
     }
 
     func determineScriptUrlDebug() -> (String, URL)? {
@@ -90,25 +84,28 @@ public class Strohm: NSObject {
     }
 
     public func reload() {
-        guard let ctx = self.context else {
-            print("\nStrohm error: reload requested before initialization completed")
-            return
-        }
         self.context = nil
         DispatchQueue.main.async {
-            self.install(appJsPath: self.appJsPath, port: self.port)
-            self.reload(context: ctx)
+            self.load()
         }
     }
 
-    func reload(context ctx: StrohmJSContext) {
+    func load() {
         _status.value = .loading
-        if let initialState = statePersister?.loadState() {
-            ctx.setObject(initialState, forKeyedSubscript: "strohmPersistedState" as NSCopying & NSObjectProtocol)
-        }
+
         guard let (script, scriptUrl) = determineScriptUrl() else {
             print("\nStrohm: load failed; please fix any errors displayed above and restart app.")
             return
+        }
+
+        var ctx: StrohmJSContext = JSContext()
+        ctx.exceptionHandler = self.defaultExceptionHandler
+
+        let postMessageBlock = unsafeBitCast(JsonComms.postMessageBlock, to: AnyObject.self)
+        ctx.setObject(postMessageBlock, forKeyedSubscript: "postMessage" as NSCopying & NSObjectProtocol)
+
+        if let initialState = statePersister?.loadState() {
+            ctx.setObject(initialState, forKeyedSubscript: "strohmPersistedState" as NSCopying & NSObjectProtocol)
         }
         _ = ctx.evaluateScript("globalThis.document = globalThis; globalThis.window = {location: {origin: \"\(scriptUrl)\"}};")
         _ = ctx.evaluateScript(script, withSourceURL: scriptUrl)
