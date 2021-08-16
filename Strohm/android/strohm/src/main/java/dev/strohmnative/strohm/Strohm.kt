@@ -1,13 +1,16 @@
 package dev.strohmnative.strohm
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.util.Base64
 import android.util.Log
 import android.webkit.*
 import java.util.*
+import kotlin.properties.Delegates
+import kotlin.reflect.KProperty
+
+typealias StatusChangeListener = (property: KProperty<*>, oldValue: Strohm.Companion.Status, newValue: Strohm.Companion.Status) -> Unit
 
 class Strohm internal constructor(val context: Context) {
     private lateinit var appJsPath: String
@@ -16,6 +19,11 @@ class Strohm internal constructor(val context: Context) {
     internal val comms = JsonComms()
     internal val subscriptions = Subscriptions(this)
     internal val statePersister = StatePersister(this)
+    var onStatusChange: StatusChangeListener? = null
+    var status: Status by Delegates.observable(Status.UNINITIALIZED, {
+            prop, old, new -> onStatusChange?.let { it(prop, old, new) }
+    })
+        private set
 
     @SuppressLint("SetJavaScriptEnabled")
     fun install(appJsPath: String, port: Int? = null) {
@@ -38,6 +46,7 @@ class Strohm internal constructor(val context: Context) {
     }
 
     fun reload() {
+        status = Status.LOADING
         val initialStateVar = statePersister.loadState()?.let {
             val escaped = it.replace("\"", "\\\"")
             "var strohmPersistedState=\"$escaped\";"
@@ -72,8 +81,13 @@ class Strohm internal constructor(val context: Context) {
     }
 
     internal fun loadingFinished() {
-        //  TODO: self.status = .ok
+        status = Status.OK
         subscriptions.effectuatePendingSubscriptions()
+    }
+
+    internal fun loadingFailed() {
+        status = Status.SERVER_NOT_RUNNING
+        Log.e("strohm", "Please make sure dev server is running and that you enabled adb (reverse) proxy")
     }
 
     internal fun call(method: String) {
@@ -107,19 +121,28 @@ class Strohm internal constructor(val context: Context) {
     }
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         private var sharedInstance: Strohm? = null
 
-        fun getInstance(context: Context? = null): Strohm {
+        fun getInstance(context: Context? = null, onStatusChange: StatusChangeListener? = null): Strohm {
             if (sharedInstance == null && context == null) {
-                throw RuntimeException("needs to be called with application context first; did you maybe forget to install the StrohmHolder view?")
+                throw RuntimeException("Strohm.getInstance needs to be called with application context first; did you maybe forget to install the StrohmHolder view?")
             }
 
             val instance = sharedInstance ?: Strohm(context!!.applicationContext)
             if (sharedInstance == null) {
+                onStatusChange?.let { instance.onStatusChange = it }
                 instance.install("main.js", 8080)
                 sharedInstance = instance
             }
             return instance
+        }
+
+        enum class Status(val rawValue: String) {
+            UNINITIALIZED("uninitialized"),
+            LOADING("loading"),
+            SERVER_NOT_RUNNING("server not running"),
+            OK("ok")
         }
     }
 
@@ -131,7 +154,7 @@ class Strohm internal constructor(val context: Context) {
                 Log.d("strohm", "onload result: $result")
                 val hasStrohm = result != null && result.toBoolean()
                 if (!hasStrohm) {
-                    Log.e("strohm", "Please make sure dev server is running and that you enabled adb (reverse) proxy")
+                    strohm.loadingFailed()
                     return@evaluateJavascript
                 }
                 strohm.loadingFinished()
