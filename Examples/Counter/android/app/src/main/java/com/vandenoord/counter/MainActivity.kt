@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.vandenoord.counter.databinding.ActivityMainBinding
+import dev.strohmnative.strohm.StatusChangeListener
 import dev.strohmnative.strohm.Strohm
 import java.util.*
 
@@ -27,6 +27,19 @@ class MainActivity : AppCompatActivity() {
         binding.txtCounter.setOnEditorActionListener { v, _, _ -> onEnterCount(v) }
     }
 
+    override fun onStart() {
+        super.onStart()
+        // Setup Strohm in onStart so that the status can be displayed using the bindings.
+        // In onCreate the bindings don't work yet. Normally you can do this in onCreate.
+        Strohm.getInstance(applicationContext, onStatusChange)
+    }
+
+    private val onStatusChange: StatusChangeListener = { _, _, new ->
+        runOnUiThread {
+            binding.txtStrohmStatus.text = new.rawValue
+        }
+    }
+
     fun decrement(@Suppress("UNUSED_PARAMETER") src: View) {
         Strohm.getInstance().dispatch("decrement")
     }
@@ -35,29 +48,35 @@ class MainActivity : AppCompatActivity() {
         Strohm.getInstance().dispatch("increment")
     }
 
-    fun setCounter(count: Int) {
+    private fun setCounter(count: Int) {
         Strohm.getInstance().dispatch("setCounter", mapOf("count" to count))
     }
 
     fun reload(@Suppress("UNUSED_PARAMETER") src: View) {
         Strohm.getInstance().reload()
+        subscription = null
+        binding.txtCounter.setText("0")
+        binding.txtSubscribed.text = getString(R.string.strFalse)
     }
 
     fun subscribe(@Suppress("UNUSED_PARAMETER") src: View) {
         Strohm.getInstance().subscribe(mapOf("count" to listOf()),
-        handler = { props ->
-            val count = (props["count"] as Number).toInt()
-            runOnUiThread {
-                binding.txtCounter.setText("$count")
-            }
-        },
-        completion = { subscription ->
-            this.subscription = subscription
-        })
+            handler = { props ->
+                val count = (props["count"] as Number).toInt()
+                runOnUiThread {
+                    binding.txtCounter.setText("$count")
+                }
+            },
+            completion = { subscription ->
+                this.subscription = subscription
+                binding.txtSubscribed.text = getString(R.string.strTrue)
+            })
     }
 
     fun unsubscribe(@Suppress("UNUSED_PARAMETER") src: View) {
         subscription?.let { Strohm.getInstance().unsubscribe(it) }
+        subscription = null
+        binding.txtSubscribed.text = getString(R.string.strFalse)
     }
 
     private fun onEnterCount(v: TextView?): Boolean {
