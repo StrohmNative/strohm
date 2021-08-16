@@ -1,20 +1,21 @@
 import Foundation
-import JavaScriptCore
+import WebKit
 import Combine
 
-public class Strohm: NSObject {
+public class Strohm: NSObject, WKNavigationDelegate {
     public static var `default`: Strohm = {
         let strohm = Strohm()
-        strohm.install()
+        strohm.install(appJsPath: "main.js")
         return strohm
     }()
 
-    var context: StrohmJSContext?
+    var webView: StrohmWebView?
+    var webConfiguration: WKWebViewConfiguration!
     var _status = CurrentValueSubject<Status, Never>(.uninitialized)
     public lazy var status = _status.eraseToAnyPublisher()
-    var appJsPath: String = ""
+    var appJsPath: String?
     var port: Int?
-    var comms = JsonComms.shared
+    var comms = JsonComms()
     var subscriptions: Subscriptions?
     var statePersister: StatePersister?
 
@@ -28,88 +29,73 @@ public class Strohm: NSObject {
         }
     }
 
-    func defaultExceptionHandler(context: JSContext?, value: JSValue?) {
-        print("\nStrohm error: JavaScript exception: ", value as Any)
-        if let v = value {
-            context?.exception = v
-        }
-    }
-
-    public func install(appJsPath: String = "main.js", port: Int? = nil) {
+    public func install(appJsPath: String, port: Int? = nil) {
         self.subscriptions = Subscriptions(strohm: self)
         self.statePersister = StatePersister(strohm: self)
 
         self.appJsPath = appJsPath
         self.port = port
 
-        self.load()
+        webConfiguration = WKWebViewConfiguration()
+        webConfiguration.userContentController.add(comms, name: "jsToSwift")
+
+        webView = WKWebView(frame: .zero, configuration: webConfiguration)
+        webView?.navigationDelegate = self
+
+        self.reload()
     }
 
-    func determineScriptUrlDebug() -> (String, URL)? {
-        var devhost = "localhost"
-
+    public func reload() {
+        var initialStateVar = ""
+        if let initialState = statePersister?.loadState() {
+            let escaped = initialState.replacingOccurrences(of: "\"", with: "\\\"")
+            initialStateVar = "var strohmPersistedState=\"\(escaped)\";"
+        }
+        #if DEBUG
+        guard let appJsPath = self.appJsPath else { return }
+        let devhost: String
         #if !targetEnvironment(simulator)
         if let devhostFile = Bundle.main.url(forResource: "devhost", withExtension: "txt"),
            let contents = try? String(contentsOf: devhostFile) {
             devhost = contents.trimmingCharacters(in: .whitespacesAndNewlines) + ".local"
         } else {
             print("\nStrohm error: You don't seem to have configured the Stohm Dev Support shell script build phase. Please add it to make things work.\n") // TODO: ref to doc
+            devhost = "localhost"
         }
+        #else
+        devhost = "localhost"
         #endif
-
         let port = Strohm.determinePort(port: self.port,
                                         env: ProcessInfo().environment)
-        let scriptUrl = URL(string: "http://\(devhost):\(port)/\(appJsPath)")!
-        guard let script = (try? String(contentsOf: scriptUrl)) else {
-            return nil
-        }
-        return (script, scriptUrl)
-    }
-
-    func determineScriptUrlRelease() -> (String, URL)? {
-        guard let scriptUrl = Bundle.main.url(forResource: "main", withExtension: "js"),
-              let script = try? String(contentsOf: scriptUrl) else {
-            print("\nStrohm error: JavaScript bundle main.js was not found; did you add it to the Xcode project?\n") // TODO: ref to doc
-            return nil
-        }
-        return (script, scriptUrl)
-    }
-
-    func determineScriptUrl() -> (String, URL)? {
-        #if DEBUG
-        return determineScriptUrlDebug()
+        let myHtml = """
+        <html>
+        <body style='background-color: #ddd;font-size: 200%'>
+            <h1>Hi!</h1><div id='content'></div>
+            <script>\(initialStateVar)</script>
+            <script src="http://\(devhost):\(port)/\(appJsPath)"></script>
+        </body>
+        </html>
+        """
+        let baseUrl = URL(string: "http://\(devhost):\(port)/")!
+        _ = webView?.loadHTMLString(myHtml, baseURL: baseUrl)
         #else
-        return determineScriptUrlRelease()
-        #endif
-    }
-
-    public func reload() {
-        self.context = nil
-        DispatchQueue.main.async {
-            self.load()
-        }
-    }
-
-    func load() {
-        _status.value = .loading
-
-        guard let (script, scriptUrl) = determineScriptUrl() else {
-            print("\nStrohm: load failed; please fix any errors displayed above and restart app.")
+        guard let mainJSURL = Bundle.main.url(forResource: "main", withExtension: "js") else {
+            print("\nStrohm error: JavaScript bundle main.js was not found; did you add it to the Xcode project?\n") // TODO: ref to doc
             return
         }
+        let jsUrlString = mainJSURL.absoluteString
+        let myHtml = """
+        <html>
+        <body style='background-color: #ddd;font-size: 200%'>
+            <h1>Hi!</h1><div id='content'></div>
+            <script>\(initialStateVar)</script>
+            <script src="\(jsUrlString)"></script>
+        </body>
+        </html>
+        """
+        _ = webView?.loadHTMLString(myHtml, baseURL: Bundle.main.resourceURL)
+        #endif
 
-        var ctx: StrohmJSContext = JSContext()
-        ctx.exceptionHandler = self.defaultExceptionHandler
-
-        let postMessageBlock = unsafeBitCast(JsonComms.postMessageBlock, to: AnyObject.self)
-        ctx.setObject(postMessageBlock, forKeyedSubscript: "postMessage" as NSCopying & NSObjectProtocol)
-
-        if let initialState = statePersister?.loadState() {
-            ctx.setObject(initialState, forKeyedSubscript: "strohmPersistedState" as NSCopying & NSObjectProtocol)
-        }
-        _ = ctx.evaluateScript("globalThis.document = globalThis; globalThis.window = {location: {origin: \"\(scriptUrl)\"}};")
-        _ = ctx.evaluateScript(script, withSourceURL: scriptUrl)
-        didLoad(context: ctx)
     }
 
     public func subscribe(propsSpec: PropsSpec,
@@ -122,14 +108,19 @@ public class Strohm: NSObject {
         self.subscriptions?.removeSubscriber(subscriptionId: subscriptionId)
     }
 
-    func didLoad(context ctx: StrohmJSContext) {
-//        print(ctx.evaluateScript("Object.getOwnPropertyNames(globalThis.strohm.native$)") as Any)
+    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        webView.evaluateJavaScript("Object.getOwnPropertyNames(strohm.native$)") { (result, error) in
+            print("Strohm store properties:", result ?? "nil")
+        }
 
-        self.context = ctx
-        if let hasStrohmValue = ctx.evaluateScript("globalThis.hasOwnProperty('strohm')"), hasStrohmValue.toBool() {
+        webView.evaluateJavaScript("this.hasOwnProperty('strohm')") { (result, error) in
+            guard let returnValue = result as? Int,
+                  returnValue == 1,
+                  error == nil else {
+                self.loadingFailed()
+                return
+            }
             self.loadingFinished()
-        } else {
-            self.loadingFailed()
         }
     }
 
@@ -144,12 +135,9 @@ public class Strohm: NSObject {
     }
 
     func call(method: String) {
-        guard let ctx = context else {
-            print("\nStrohm error: method call requested before initialization completed: \(method)")
-            return
+        webView?.evaluateJavaScript(method) { (result, error) in
+            print("cljs call result error: \(String(describing: error))")
         }
-        let result = ctx.evaluateScript(method) // TODO: every called function should have a return value?
-        print("cljs call result: \(String(describing: result))")
     }
 
     public func dispatch(type: String, payload: ConvertableToDictionary) {
@@ -180,12 +168,10 @@ public typealias PropsSpec = [PropName: PropPath]
 public typealias Props = [PropName: Any]
 public typealias HandlerFunction = (Props) -> Void
 
-protocol StrohmJSContext {
-    var exception: JSValue! { get }
-    var exceptionHandler: ((JSContext?, JSValue?) -> Void)! { get set }
-    func evaluateScript(_ script: String!) -> JSValue!
-    func evaluateScript(_ script: String!, withSourceURL sourceURL: URL!) -> JSValue!
-    func setObject(_ object: Any!, forKeyedSubscript key: (NSCopying & NSObjectProtocol)!)
+protocol StrohmWebView {
+    var navigationDelegate: WKNavigationDelegate? { get set }
+    func loadHTMLString(_ string: String, baseURL: URL?) -> WKNavigation?
+    func evaluateJavaScript(_ javaScriptString: String, completionHandler: ((Any?, Error?) -> Void)?)
 }
 
-extension JSContext: StrohmJSContext {}
+extension WKWebView: StrohmWebView {}

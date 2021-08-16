@@ -1,9 +1,7 @@
 import Foundation
+import WebKit
 
-@objc class JsonComms: NSObject {
-    static let shared = JsonComms()
-    private override init() {}
-
+class JsonComms: NSObject, WKScriptMessageHandler {
     typealias Arguments = [String:Any]
     typealias Function = (Arguments) -> Void
 
@@ -13,15 +11,11 @@ import Foundation
         registeredFunctions[name] = function
     }
 
-    static let postMessageBlock: @convention(block) ([String:Any]) -> Void = { arguments in
-        DispatchQueue.main.async {
-            shared.messagePosted(arguments: arguments)
-        }
-    }
-
-    @objc func messagePosted(arguments: [String:Any]) {
-//        print("messagePosted", arguments)
-        if let functionName = arguments["function"] as? String,
+    func userContentController(_ userContentController: WKUserContentController,
+                               didReceive message: WKScriptMessage) {
+        print("didReceiveMessage", message.name /*, message.body*/)
+        if let arguments = message.body as? [String:Any],
+           let functionName = arguments["function"] as? String,
            let function = registeredFunctions[functionName] {
             function(arguments)
         }

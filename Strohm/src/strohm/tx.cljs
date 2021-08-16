@@ -1,13 +1,16 @@
 (ns strohm.tx
   (:require [strohm.utils :refer [clj->js']]))
 
+(defn- js->swift-handler []
+  (.. js/window -webkit -messageHandlers -jsToSwift))
+
 (defn- android-webview? 
   []
   (.call (.-hasOwnProperty (.-prototype js/Object)) js/globalThis "strohmReceiveProps"))
 
-(defn- ios-javascriptcore? 
+(defn- ios-webview?
   []
-  (.call (.-hasOwnProperty (.-prototype js/Object)) js/globalThis "postMessage"))
+  (some? (.-webkit js/window)))
 
 (defn props->message [subscriptionId old-props new-props]
   {:function "subscriptionUpdate"
@@ -21,8 +24,9 @@
     (.receiveProps (.-strohmReceiveProps js/globalThis)
                    (js/JSON.stringify (clj->js' message)))
 
-    (ios-javascriptcore?)
-    ((.-postMessage js/globalThis) (clj->js' message))
+    (ios-webview?)
+    (.postMessage (js->swift-handler)
+                  (clj->js' message))
 
     :else
     (js/console.error "Neither Android nor iOS callback interface was found.")))
