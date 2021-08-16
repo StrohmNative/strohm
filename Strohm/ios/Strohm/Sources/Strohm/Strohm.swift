@@ -5,14 +5,14 @@ import Combine
 public class Strohm: NSObject {
     public static var `default`: Strohm = {
         let strohm = Strohm()
-        strohm.install(appJsPath: "main.js")
+        strohm.install()
         return strohm
     }()
 
     var context: StrohmJSContext?
     var _status = CurrentValueSubject<Status, Never>(.uninitialized)
     public lazy var status = _status.eraseToAnyPublisher()
-    var appJsPath: String?
+    var appJsPath: String = ""
     var port: Int?
     var comms = JsonComms.shared
     var subscriptions: Subscriptions?
@@ -35,7 +35,7 @@ public class Strohm: NSObject {
         }
     }
 
-    public func install(appJsPath: String, port: Int? = nil) {
+    public func install(appJsPath: String = "main.js", port: Int? = nil) {
         self.subscriptions = Subscriptions(strohm: self)
         self.statePersister = StatePersister(strohm: self)
 
@@ -52,7 +52,6 @@ public class Strohm: NSObject {
     }
 
     func determineScriptUrlDebug() -> (String, URL)? {
-        guard let appJsPath = self.appJsPath else { return nil }
         var devhost = "localhost"
 
         #if !targetEnvironment(simulator)
@@ -95,8 +94,10 @@ public class Strohm: NSObject {
             print("\nStrohm error: reload requested before initialization completed")
             return
         }
-        DispatchQueue.main.async { [weak self] in
-            self?.reload(context: ctx)
+        self.context = nil
+        DispatchQueue.main.async {
+            self.install(appJsPath: self.appJsPath, port: self.port)
+            self.reload(context: ctx)
         }
     }
 
