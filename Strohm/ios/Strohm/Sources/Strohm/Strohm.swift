@@ -181,6 +181,7 @@ public typealias Props = [PropName: Any]
 public typealias HandlerFunction = (Props) -> Void
 
 protocol StrohmJSContext {
+    var exception: JSValue! { get }
     var exceptionHandler: ((JSContext?, JSValue?) -> Void)! { get set }
     func evaluateScript(_ script: String!) -> JSValue!
     func evaluateScript(_ script: String!, withSourceURL sourceURL: URL!) -> JSValue!
