@@ -3,8 +3,8 @@ package dev.strohmnative.strohm
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.util.Log as AndroidLog
 import android.util.Base64
-import android.util.Log
 import android.webkit.*
 import java.util.*
 import kotlin.properties.Delegates
@@ -87,12 +87,12 @@ class Strohm internal constructor(val context: Context) {
 
     internal fun loadingFailed() {
         status = Status.SERVER_NOT_RUNNING
-        Log.e("strohm", "Please make sure dev server is running and that you enabled adb (reverse) proxy")
+        AndroidLog.e("strohm", "Please make sure dev server is running and that you enabled adb (reverse) proxy")
     }
 
     internal fun call(method: String) {
         webView.evaluateJavascript(method) {
-            result -> Log.d("strohm", "cljs call result: $result")
+            result -> AndroidLog.d("strohm", "cljs call result: $result")
         }
     }
 
@@ -109,7 +109,7 @@ class Strohm internal constructor(val context: Context) {
     }
 
     fun dispatch(type: String, payload: Map<String, Any> = mapOf()) {
-        Log.d("strohm", "dispatch $type $payload")
+        Log.debug("strohm", "dispatch-kotlon", type, payload)
         val action: Map<String, Any> = mapOf("type" to type, "payload" to payload)
         val serializedAction = comms.encode(action)
         val method = "globalThis.strohm.native$.dispatch_from_native(\"$serializedAction\")"
@@ -149,9 +149,7 @@ class Strohm internal constructor(val context: Context) {
     class StrohmWebViewClient(private val strohm: Strohm) : WebViewClient() {
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            Log.d("strohm","page finished $url")
             view?.evaluateJavascript("this.hasOwnProperty('strohm')") { result ->
-                Log.d("strohm", "onload result: $result")
                 val hasStrohm = result != null && result.toBoolean()
                 if (!hasStrohm) {
                     strohm.loadingFailed()
@@ -172,9 +170,9 @@ class Strohm internal constructor(val context: Context) {
             } else {
                 error.toString()
             }
-            Log.d("strohm","error $msg")
+            AndroidLog.d("strohm","error $msg")
+            Log.debug("strohm","received error", msg ?: "?")
         }
-
     }
 }
 

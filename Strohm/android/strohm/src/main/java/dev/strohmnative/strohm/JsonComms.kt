@@ -13,6 +13,11 @@ internal class JsonComms {
         return data.replace("\"", "\\\"")
     }
 
+    fun encode(collection: Collection<Any>): String {
+        val data = Gson().toJson(collection)
+        return data.replace("\"", "\\\"")
+    }
+
     fun registerHandlerFunction(name: String, function: CommsHandlerFunction) {
         registeredFunctions[name] = function
     }
