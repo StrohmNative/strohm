@@ -29,4 +29,13 @@ class JsonComms: NSObject, WKScriptMessageHandler {
         let encoded = args.replacingOccurrences(of: "\"", with: "\\\"")
         return encoded
     }
+
+    func encode(object: [Any]) -> String? {
+        guard let data = try? JSONSerialization.data(withJSONObject: object),
+            let args = String(data: data, encoding: .utf8) else {
+                return nil
+        }
+        let encoded = args.replacingOccurrences(of: "\"", with: "\\\"")
+        return encoded
+    }
 }
