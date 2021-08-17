@@ -3,8 +3,10 @@ package dev.strohmnative.strohm
 import android.util.Log
 import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.MasterKey
-import java.io.*
-import java.lang.RuntimeException
+import java.io.File
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 
 class StatePersister internal constructor(val strohm: Strohm) {
 
@@ -18,7 +20,6 @@ class StatePersister internal constructor(val strohm: Strohm) {
         val state = args["state"] as? String
         state?.let { s ->
             try {
-
                 val mainKey = MasterKey.Builder(
                     strohm.context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
