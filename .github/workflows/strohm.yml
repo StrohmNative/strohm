@@ -29,13 +29,16 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Cache node modules
+      - name: Cache things
         uses: actions/cache@v2
         env:
           cache-name: cache-m2
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Strohm/deps.edn') }}
+          path: |
+            ~/.m2
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Strohm/**/deps.edn', 'Strohm/**/build.gradle') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
