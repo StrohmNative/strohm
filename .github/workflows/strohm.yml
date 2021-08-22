@@ -38,6 +38,7 @@ jobs:
             ~/.m2
             ~/.gradle/caches
             ~/.gradle/wrapper
+            Strohm/.shadow-cljs
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Strohm/**/deps.edn', 'Strohm/**/build.gradle') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
