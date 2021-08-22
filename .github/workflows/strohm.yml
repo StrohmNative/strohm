@@ -6,9 +6,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main, ci ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, ci ]
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -28,19 +28,31 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-m2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Strohm/deps.edn') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       - name: Install prerequisites
         run: brew install clojure/tools/clojure
-        
+
       - name: Prepare
         run: yarn install --frozen-lockfile
-        
+
       - name: Test ClojureScript
         run: yarn shadow-cljs compile :test
-      
+
       - name: Release ClojureScript
         run: yarn shadow-cljs release :strohm
-        
+
       - name: Test iOS
         run: |
           cd ios/Strohm
