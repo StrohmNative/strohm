@@ -45,9 +45,6 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Install prerequisites
-        run: brew install clojure/tools/clojure
-
       - name: Prepare
         run: yarn install --frozen-lockfile
 
