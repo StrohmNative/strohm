@@ -1,5 +1,7 @@
 # Strohm Native
 
+[![CI Strohm](https://github.com/StrohmNative/strohm/actions/workflows/strohm.yml/badge.svg)](https://github.com/StrohmNative/strohm/actions/workflows/strohm.yml)
+
 Strohm Native is my attempt at improving the way cross-platform mobile apps are
 developed. If you want to learn more about my motivation, please read my blog
 post [ReactNative, Flutter, Cordova, etc: the state of the art is not good
