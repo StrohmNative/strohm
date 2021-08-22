@@ -124,8 +124,8 @@ This project is work in progress. You probably should not use this yet.
 | Test using NPM dependencies     | [ ] |   [ ]   |        |
 | Unified Logging API             | [X] |   [X]   |  [X]   |
 | Setup CI incl example app tests | [ ] |   [ ]   |        |
-| Setup CD of native libs         | [ ] |   [ ]   |        |
-| Setup CD of CLJS lib            |     |         |  [ ]   |
+| Setup CD of native libs         | […] |   […]   |        |
+| Setup CD of CLJS lib            |     |         |  […]   |
 | Documentation                   |     |         |  [ ]   |
 | Starter project?                |     |         |  [ ]   |
 | Complex example project         | [ ] |   [ ]   |        |
