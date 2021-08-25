@@ -7,12 +7,11 @@ developed. If you want to learn more about my motivation, please read my blog
 post [ReactNative, Flutter, Cordova, etc: the state of the art is not good
 enough.][blogpost]
 
-This project is under active development. It is in its early stages. Even though
-it is usable at the moment, I would not yet recommend doing that for commercial
-app development. I keep a more detailed [status overview below](#status). As you
-can see there, one notable item that is not yet done is the documentation. This
-includes everything below, which should be considered my personal notes that are
-to be expanded into proper documentation.
+This project is under active development. It is in its early stages. I consider
+it usable at the moment, but there are plenty of rough edges. You can find a
+more detailed [status overview below](#status). While the documentation is being
+written, please consider everything below to be my personal notes that are to be
+expanded into proper documentation.
 
 ## Prerequisites
 
