@@ -23,7 +23,7 @@ When using Strohm, you or your team needs to be able to:
 
 Please note that that this is only two big platforms that you have to
 understand, instead of the three that you need for popular cross-platform
-frameworks like ReactNative.
+frameworks like React Native.
 
 Clojure is just the language that I happen to use most at the moment. In
 principle, any language that compiles to JavaScript can be used instead. The
