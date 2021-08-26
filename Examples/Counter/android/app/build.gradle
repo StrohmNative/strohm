@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'de.mannodermaus.android-junit5'
 }
 
 android {
@@ -42,18 +41,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
         useIR = true
-    }
-    testOptions {
-        junitPlatform {
-            filters {
-                engines {
-                    include 'spek2'
-                }
-            }
-        }
-        unitTests.all {
-            testLogging.events = ["passed", "skipped", "failed"]
-        }
     }
 }
 
