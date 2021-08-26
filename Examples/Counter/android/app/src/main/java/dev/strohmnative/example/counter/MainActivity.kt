@@ -1,4 +1,4 @@
-package com.vandenoord.counter
+package dev.strohmnative.example.counter
 
 import android.os.Bundle
 import android.util.Log
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.vandenoord.counter.databinding.ActivityMainBinding
+import dev.strohmnative.example.counter.databinding.ActivityMainBinding
 import dev.strohmnative.strohm.StatusChangeListener
 import dev.strohmnative.strohm.Strohm
 import java.util.*
