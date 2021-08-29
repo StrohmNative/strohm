@@ -1,4 +1,4 @@
-(ns strohm.impl.store)
+(ns strohm-native.impl.flow)
 
 (def default-initial-state {})
 

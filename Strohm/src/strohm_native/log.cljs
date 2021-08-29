@@ -1,6 +1,6 @@
-(ns strohm.log
-  (:require [strohm.impl.log :as impl]
-            [strohm.utils :as utils]))
+(ns strohm-native.log
+  (:require [strohm-native.impl.log :as impl]
+            [strohm-native.utils :as utils]))
 
 (defn set-log-level! [new-level]
   (impl/set-log-level! new-level))

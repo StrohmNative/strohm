@@ -1,6 +1,6 @@
-(ns strohm.utils-test
+(ns strohm-native.utils-test
   (:require [cljs.test :refer [deftest is testing]]
-            [strohm.utils :refer [namespaced-name clj->js' js->clj']]))
+            [strohm-native.utils :refer [namespaced-name clj->js' js->clj']]))
 
 (deftest utils-test
   (testing "namespaced-name"

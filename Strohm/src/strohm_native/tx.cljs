@@ -1,5 +1,5 @@
-(ns strohm.tx
-  (:require [strohm.utils :refer [clj->js']]))
+(ns strohm-native.tx
+  (:require [strohm-native.utils :refer [clj->js']]))
 
 (defn- js->swift-handler []
   (.. js/window -webkit -messageHandlers -jsToSwift))

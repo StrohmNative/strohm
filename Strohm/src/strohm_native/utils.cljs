@@ -1,4 +1,4 @@
-(ns strohm.utils)
+(ns strohm-native.utils)
 
 (defn namespaced-name [kwd]
   (str (when-let [kwd-ns (namespace kwd)]

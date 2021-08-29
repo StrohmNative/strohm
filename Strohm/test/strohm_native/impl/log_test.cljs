@@ -1,6 +1,6 @@
-(ns strohm.impl.log-test
+(ns strohm-native.impl.log-test
   (:require [cljs.test :refer [deftest is testing]]
-            [strohm.impl.log :as log]
+            [strohm-native.impl.log :as log]
             [test-utils :refer-macros [capturing-logs]]))
 
 (deftest log-impl-test

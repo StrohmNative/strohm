@@ -1,11 +1,11 @@
-(ns strohm.impl.store-test
+(ns strohm-native.impl.flow-test
   (:require [cljs.test :refer [deftest testing is]]
             [clojure.string :as str]
-            [strohm.native :refer [create-reducer]]
-            [strohm.impl.store :refer [create-store
-                                       combine-reducers
-                                       state->props
-                                       dispatch]]))
+            [strohm-native.flow :refer [create-reducer]]
+            [strohm-native.impl.flow :refer [create-store
+                                              combine-reducers
+                                              state->props
+                                              dispatch]]))
 
 (defn identity-reducer [state _action] state)
 

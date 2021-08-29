@@ -1,7 +1,7 @@
 (ns app.main
-  (:require [strohm.native :refer [create-store]]
-            [strohm.tx :refer [send-props!]]
-            [strohm.log :as log]
+  (:require [strohm-native.flow :refer [create-store]]
+            [strohm-native.tx :refer [send-props!]]
+            [strohm-native.log :as log]
             [clojure.string :as str]))
 
 (defn reducer 

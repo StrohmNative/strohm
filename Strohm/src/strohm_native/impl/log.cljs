@@ -1,4 +1,4 @@
-(ns strohm.impl.log)
+(ns strohm-native.impl.log)
 
 (def ^{:dynamic true} *cur-log-level* :info)
 (def ^{:dynamic true} *log-fn* tap>)

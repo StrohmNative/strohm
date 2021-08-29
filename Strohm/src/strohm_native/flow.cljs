@@ -1,8 +1,8 @@
-(ns strohm.native
-  (:require [strohm.log :as log]
-            [strohm.tx :refer [send-props!]]
-            [strohm.utils :as utils]
-            [strohm.impl.store :as impl]))
+(ns strohm-native.flow
+  (:require [strohm-native.log :as log]
+            [strohm-native.tx :refer [send-props!]]
+            [strohm-native.utils :as utils]
+            [strohm-native.impl.flow :as impl]))
 
 (defonce ^:export store (atom nil))
 
