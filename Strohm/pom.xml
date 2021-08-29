@@ -36,8 +36,8 @@
     </repository>
   </repositories>
   <scm>
-    <connection>scm:git:git://github.com/StrohmNative/strohm.git</connection>
-    <developerConnection>scm:git:ssh://github.com/StrohmNative/strohm.git</developerConnection>
-    <url>https://github.com/StrohmNative/strohm</url>
+    <connection>scm:git:git://github.com/StrohmNative/strohm-native.git</connection>
+    <developerConnection>scm:git:ssh://github.com/StrohmNative/strohm-native.git</developerConnection>
+    <url>https://github.com/StrohmNative/strohm-native</url>
   </scm>
 </project>

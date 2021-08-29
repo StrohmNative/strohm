@@ -136,9 +136,9 @@ afterEvaluate {
                         }
                     }
                     scm {
-                        connection = 'scm:git:git://github.com/StrohmNative/strohm.git'
-                        developerConnection = 'scm:git:ssh://github.com/StrohmNative/strohm.git'
-                        url = 'https://github.com/StrohmNative/strohm'
+                        connection = 'scm:git:git://github.com/StrohmNative/strohm-native.git'
+                        developerConnection = 'scm:git:ssh://github.com/StrohmNative/strohm-native.git'
+                        url = 'https://github.com/StrohmNative/strohm-native'
                     }
                 }
                 artifact androidJavadocsJar
@@ -155,4 +155,3 @@ afterEvaluate {
         sign publishing.publications.debug
     }
 }
-
