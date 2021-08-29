@@ -1,5 +1,4 @@
-{:paths ["src"
-         "test"]
+{:paths ["src" "test"]
  :deps {thheller/shadow-cljs {:mvn/version "LATEST"}}
  :aliases {:jar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.278"}}
                  :exec-fn hf.depstar/jar
@@ -8,9 +7,9 @@
                      :exec-fn deps-deploy.deps-deploy/deploy
                      :exec-args {:installer :local
                                  :sign-releases? true
-                                 :artifact "target/strohmnative.jar"}}
+                                 :artifact "target/strohm-native.jar"}}
            :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
                     :exec-fn deps-deploy.deps-deploy/deploy
                     :exec-args {:installer :remote
                                 :sign-releases? true
-                                :artifact "target/strohmnative.jar"}}}}
+                                :artifact "target/strohm-native.jar"}}}}

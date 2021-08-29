@@ -3,7 +3,7 @@
     "shadow-cljs": "^2.11.14"
   },
   "scripts": {
-    "jar": "clj -X:jar :jar target/strohmnative.jar :sync-pom true",
+    "jar": "clj -X:jar :jar target/strohm-native.jar :sync-pom true",
     "local-install": "clj -X:install",
     "deploy": "clj -X:deploy"
   },
