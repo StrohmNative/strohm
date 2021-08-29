@@ -12,6 +12,9 @@ import kotlin.reflect.KProperty
 
 typealias StatusChangeListener = (property: KProperty<*>, oldValue: Strohm.Companion.Status, newValue: Strohm.Companion.Status) -> Unit
 
+/**
+ * Strohm Native main class.
+ */
 class Strohm internal constructor(val context: Context) {
     private lateinit var appJsPath: String
     private var port: Int? = null
