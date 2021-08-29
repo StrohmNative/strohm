@@ -61,13 +61,14 @@ git init
 # Common Code
 
 The common (ClojureScript) code is built and developed using
-[`shadow-cljs`][shadow-cljs]. Hence we need a `package.json`:
+[`shadow-cljs`][shadow-cljs]. We're going to setup a pretty straight-forward
+`shadow-cljs` project. Hence we need a `package.json`:
 
 ```json
 {
   "name": "Yawn",
   "version": "1.0.0",
-  "description": "Yawn is a less than exciting weather app",
+  "description": "Yet Another Weather Nicety is a less than exciting weather app",
   "main": "index.js",
   "devDependencies": {
     "shadow-cljs": "^2.15.5"
@@ -150,12 +151,39 @@ shadow-cljs - watching build :app
 When you now browse to `http://localhost:9630` you should see the `shadow-cljs`
 dashboard. There should be one active HTTP server on `http://localhost:8080`.
 When you click that link, a new browser tab opens that says "Yawn!". Going back
-to the `shadow-cljs` dasboard, in the "Inspect Stream" tab you should see the
+to the `shadow-cljs` dashboard, in the "Inspect Stream" tab you should see the
 text "Hello world!" that was tapped in `main.cljs`.
+
+## Hot Reloading
+
+`shadow-cljs` comes with hot reloading out of the box. So for the final touch in
+this section, add the following function to your `main.cljs`:
+
+```clojure
+(defn ^:dev/after-load reload! []
+  (tap> "reloaded"))
+```
+
+Now, while having the tab with `http://localhost:8080` open, save the file. You
+should now see "reloaded" appear in the `shadow-cljs` dashboard's Tap History
+(Inspect Stream). In other words: `shadow-cljs` has hot reloaded the code and it
+has called the hook `reload!` afterwards.
 
 <div style="text-align: center; font-size: 3em;" title="Tada!">🎉</div>
 
 # Android
+
+## Create Project
+
+Create the folder `/android` that will contain the Android project sources:
+
+```bash
+mkdir android
+```
+
+Using Android Studio, create a new Android project in that folder.
+
+## Running
 
 Your app needs to be able to contact the `shadow-cljs` server and vice versa, so
 we need to configure ADB reverse port forwarding. Since we'll be doing that many
