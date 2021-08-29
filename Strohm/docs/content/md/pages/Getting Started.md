@@ -4,7 +4,7 @@
  :navbar? true
  :toc true}
 
-## Introduction
+# Introduction
 
 This *Getting Started* guide explains how to set up a new Strohm Native project.
 To make things more explicit and easier to talk about, let's say the app we're
@@ -20,7 +20,7 @@ read the examples and do the corresponding actions on Windows themselves.
 
 Strap in, here we go.
 
-## Prerequisites
+# Prerequisites
 
 When using Strohm, you or your team needs to be able to:
 
@@ -32,7 +32,7 @@ Please note that that this is only two big platforms that you have to
 understand, instead of the three that you need for popular cross-platform
 frameworks like [React Native][reactnative].
 
-## Development Environment
+# Development Environment
 
 A full development environment consists of:
 
@@ -45,7 +45,7 @@ A full development environment consists of:
 At the moment I'm using Xcode 12.5, Android Studio 2020.3, NodeJS 14, and Yarn
 1.22.10.
 
-## Setup a New Project
+# Setup a New Project
 
 Setting up your project breaks down into three parts: setup the common
 ClojureScript side, setup the Android project, and setup the iOS project.
@@ -58,7 +58,7 @@ cd ~/Documents/Yawn
 git init
 ```
 
-## Common Code
+# Common Code
 
 The common (ClojureScript) code is built and developed using
 [`shadow-cljs`][shadow-cljs]. Hence we need a `package.json`:
@@ -155,7 +155,7 @@ text "Hello world!" that was tapped in `main.cljs`.
 
 <div style="text-align: center; font-size: 3em;" title="Tada!">🎉</div>
 
-## Android
+# Android
 
 Your app needs to be able to contact the `shadow-cljs` server and vice versa, so
 we need to configure ADB reverse port forwarding. Since we'll be doing that many
@@ -171,7 +171,7 @@ times, let's add a script to our `package.json`:
 }
 ```
 
-## iOS
+# iOS
 
 [^clojurescript]: Clojure(Script) is just the language that I happen to use most at the moment. In principle, any language that compiles to JavaScript can be used instead. The common part of Strohm of course has to be rewritten in that language in that case, but it is really not a lot of code. I'm not planning to port it to another language any time soon.
 
