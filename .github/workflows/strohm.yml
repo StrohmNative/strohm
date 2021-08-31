@@ -56,7 +56,7 @@ jobs:
         run: yarn shadow-cljs compile :test
 
       - name: Release ClojureScript
-        run: yarn shadow-cljs release :strohm
+        run: yarn shadow-cljs release :strohm-native
 
       - name: Test iOS
         run: |
