@@ -20,9 +20,9 @@ class Log {
 
         private fun log(level: Level, args: Array<out Any>) {
             val argsWithLevel = arrayListOf<Any>(level.rawValue).plus(args)
-            val encodedArgs = Strohm.getInstance().comms.encode(argsWithLevel)
+            val encodedArgs = StrohmNative.getInstance().comms.encode(argsWithLevel)
 
-            Strohm.getInstance().call("globalThis.strohm_native.log.log_from_native(\"$encodedArgs\")")
+            StrohmNative.getInstance().call("globalThis.strohm_native.log.log_from_native(\"$encodedArgs\")")
         }
     }
 

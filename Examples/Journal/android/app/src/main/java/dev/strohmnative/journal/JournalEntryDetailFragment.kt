@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import dev.strohmnative.journal.databinding.JournalEntryDetailBinding
 import dev.strohmnative.journal.model.JournalEntry
 import dev.strohmnative.journal.viewmodel.JournalEntryDetailViewModel
-import dev.strohmnative.Strohm
+import dev.strohmnative.StrohmNative
 
 /**
  * A fragment representing a single JournalEntry detail screen.
@@ -52,7 +52,7 @@ class JournalEntryDetailFragment : Fragment() {
 
     override fun onPause() {
         binding.viewModel?.data?.value?.let { entry ->
-            Strohm.getInstance().dispatch("update-entry", entry)
+            StrohmNative.getInstance().dispatch("update-entry", entry)
         }
         super.onPause()
     }

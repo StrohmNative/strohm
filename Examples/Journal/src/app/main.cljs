@@ -21,7 +21,7 @@
       next-store)))
 
 (defn load-state []
-  (some-> (.-strohmPersistedState js/globalThis)
+  (some-> (.-strohmNativePersistedState js/globalThis)
           read-string))
 
 (def empty-store

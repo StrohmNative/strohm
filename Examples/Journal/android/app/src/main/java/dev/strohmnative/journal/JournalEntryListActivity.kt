@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import dev.strohmnative.journal.databinding.ActivityJournalEntryListBinding
 import dev.strohmnative.journal.model.JournalEntry
-import dev.strohmnative.Strohm
+import dev.strohmnative.StrohmNative
 
 class JournalEntryListActivity : AppCompatActivity(), JournalEntryListActivityActions {
     private lateinit var binding: ActivityJournalEntryListBinding
@@ -20,7 +20,7 @@ class JournalEntryListActivity : AppCompatActivity(), JournalEntryListActivityAc
         binding.toolbar.title = title
 
         binding.fab.setOnClickListener {
-            Strohm.getInstance().dispatch("new-entry")
+            StrohmNative.getInstance().dispatch("new-entry")
         }
 
         init()

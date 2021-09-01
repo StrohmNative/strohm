@@ -1,13 +1,13 @@
 package dev.strohmnative.journal
 
 import android.app.Application
-import dev.strohmnative.Strohm
+import dev.strohmnative.StrohmNative
 
 class JournalApplication: Application() {
-    lateinit var strohm: Strohm
+    lateinit var strohmNative: StrohmNative
 
     override fun onCreate() {
         super.onCreate()
-        strohm = Strohm.getInstance(applicationContext)
+        strohmNative = StrohmNative.getInstance(applicationContext)
     }
 }

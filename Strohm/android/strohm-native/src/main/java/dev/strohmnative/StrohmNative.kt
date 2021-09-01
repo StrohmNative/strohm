@@ -10,12 +10,12 @@ import java.util.*
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
-typealias StatusChangeListener = (property: KProperty<*>, oldValue: Strohm.Companion.Status, newValue: Strohm.Companion.Status) -> Unit
+typealias StatusChangeListener = (property: KProperty<*>, oldValue: StrohmNative.Companion.Status, newValue: StrohmNative.Companion.Status) -> Unit
 
 /**
  * Strohm Native main class.
  */
-class Strohm internal constructor(val context: Context) {
+class StrohmNative internal constructor(val context: Context) {
     private lateinit var appJsPath: String
     private var port: Int? = null
     internal var webView: WebView = WebView(context)
@@ -34,8 +34,8 @@ class Strohm internal constructor(val context: Context) {
         if (BuildConfig.DEBUG) {
             WebView.setWebContentsDebuggingEnabled(true)
         }
-        webView.addJavascriptInterface(ReceivePropsInterface(this), "strohmReceiveProps")
-        webView.webViewClient = StrohmWebViewClient(this)
+        webView.addJavascriptInterface(ReceivePropsInterface(this), "strohmNativeReceiveProps")
+        webView.webViewClient = StrohmNativeWebViewClient(this)
 
         if (18 < Build.VERSION.SDK_INT) {
             // 18 = JellyBean MR2, 19 = KitKat
@@ -52,7 +52,7 @@ class Strohm internal constructor(val context: Context) {
         status = Status.LOADING
         val initialStateVar = statePersister.loadState()?.let {
             val escaped = it.replace("\"", "\\\"")
-            "var strohmPersistedState=\"$escaped\";"
+            "var strohmNativePersistedState=\"$escaped\";"
         } ?: ""
 
         if (BuildConfig.DEBUG) {
@@ -125,14 +125,14 @@ class Strohm internal constructor(val context: Context) {
 
     companion object {
         @SuppressLint("StaticFieldLeak")
-        private var sharedInstance: Strohm? = null
+        private var sharedInstance: StrohmNative? = null
 
-        fun getInstance(context: Context? = null, onStatusChange: StatusChangeListener? = null): Strohm {
+        fun getInstance(context: Context? = null, onStatusChange: StatusChangeListener? = null): StrohmNative {
             if (sharedInstance == null && context == null) {
-                throw RuntimeException("Strohm.getInstance needs to be called with application context first; make sure you call Strohm.getInstance(applicationContext) in your application startup")
+                throw RuntimeException("StrohmNative.getInstance needs to be called with application context first; make sure you call Strohm.getInstance(applicationContext) in your main activity or Application subclass")
             }
 
-            val instance = sharedInstance ?: Strohm(context!!.applicationContext)
+            val instance = sharedInstance ?: StrohmNative(context!!.applicationContext)
             if (sharedInstance == null) {
                 onStatusChange?.let { instance.onStatusChange = it }
                 instance.install("main.js", 8080)
@@ -149,16 +149,16 @@ class Strohm internal constructor(val context: Context) {
         }
     }
 
-    class StrohmWebViewClient(private val strohm: Strohm) : WebViewClient() {
+    private class StrohmNativeWebViewClient(private val strohmNative: StrohmNative) : WebViewClient() {
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
             view?.evaluateJavascript("this.hasOwnProperty('strohm_native')") { result ->
-                val hasStrohm = result != null && result.toBoolean()
-                if (!hasStrohm) {
-                    strohm.loadingFailed()
+                val hasStrohmNative = result != null && result.toBoolean()
+                if (!hasStrohmNative) {
+                    strohmNative.loadingFailed()
                     return@evaluateJavascript
                 }
-                strohm.loadingFinished()
+                strohmNative.loadingFinished()
             }
         }
 

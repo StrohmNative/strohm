@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil
 import dev.strohmnative.journal.databinding.ActivityJournalEntryDetailBinding
 import dev.strohmnative.journal.model.JournalEntry
 import dev.strohmnative.journal.viewmodel.JournalEntryDetailViewModel
-import dev.strohmnative.Strohm
+import dev.strohmnative.StrohmNative
 
 class JournalEntryDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityJournalEntryDetailBinding
@@ -35,7 +35,7 @@ class JournalEntryDetailActivity : AppCompatActivity() {
                 binding.viewModel?.data?.let { data ->
                     data.value = data.value?.let { entry ->
                         entry.title = editField.text.toString()
-                        Strohm.getInstance().dispatch("update-entry", entry)
+                        StrohmNative.getInstance().dispatch("update-entry", entry)
                         entry
                     }
                 }

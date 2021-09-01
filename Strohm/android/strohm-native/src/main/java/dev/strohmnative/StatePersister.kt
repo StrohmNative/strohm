@@ -8,10 +8,10 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
-class StatePersister internal constructor(val strohm: Strohm) {
+class StatePersister internal constructor(val strohmNative: StrohmNative) {
 
     init {
-        strohm.comms.registerHandlerFunction("persistState") { args ->
+        strohmNative.comms.registerHandlerFunction("persistState") { args ->
             this.persistStateHandler(args)
         }
     }
@@ -21,14 +21,14 @@ class StatePersister internal constructor(val strohm: Strohm) {
         state?.let { s ->
             try {
                 val mainKey = MasterKey.Builder(
-                    strohm.context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+                    strohmNative.context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                     .build()
                     // MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-                val stateFile = File(strohm.context.filesDir, "state.enc")
+                val stateFile = File(strohmNative.context.filesDir, "state.enc")
                 stateFile.delete()
                 val encryptedFile = EncryptedFile.Builder(
-                    strohm.context,
+                    strohmNative.context,
                     stateFile,
                     mainKey,
                     EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
@@ -50,13 +50,13 @@ class StatePersister internal constructor(val strohm: Strohm) {
     fun loadState(): String? {
         try {
             val mainKey = MasterKey.Builder(
-                strohm.context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+                strohmNative.context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
                 .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                 .build()
                 //MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-            val stateFile = File(strohm.context.filesDir, "state.enc")
+            val stateFile = File(strohmNative.context.filesDir, "state.enc")
             val encryptedFile = EncryptedFile.Builder(
-                strohm.context,
+                strohmNative.context,
                 stateFile,
                 mainKey,
                 EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB

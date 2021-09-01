@@ -11,7 +11,7 @@ import dev.strohmnative.journal.databinding.JournalEntryListBinding
 import dev.strohmnative.journal.view.RecyclerItemTouchHelper
 import dev.strohmnative.journal.view.RecyclerItemTouchHelperListener
 import dev.strohmnative.journal.viewmodel.JournalEntryListViewModel
-import dev.strohmnative.Strohm
+import dev.strohmnative.StrohmNative
 
 class JournalEntryListFragment: Fragment(), RecyclerItemTouchHelperListener {
 
@@ -36,7 +36,7 @@ class JournalEntryListFragment: Fragment(), RecyclerItemTouchHelperListener {
         viewHolder?.adapterPosition?.let { index ->
             binding.viewModel?.entries?.value?.get(index)
         }?.let { entry ->
-            Strohm.getInstance().dispatch("remove-entry", mapOf("entry/id" to entry.id))
+            StrohmNative.getInstance().dispatch("remove-entry", mapOf("entry/id" to entry.id))
         }
     }
 }

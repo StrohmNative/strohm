@@ -6,7 +6,7 @@
 
 (defn- android-webview? 
   []
-  (.call (.-hasOwnProperty (.-prototype js/Object)) js/globalThis "strohmReceiveProps"))
+  (.call (.-hasOwnProperty (.-prototype js/Object)) js/globalThis "strohmNativeReceiveProps"))
 
 (defn- ios-webview?
   []
@@ -21,7 +21,7 @@
 (defn send-message! [message]
   (cond
     (android-webview?)
-    (.receiveProps (.-strohmReceiveProps js/globalThis)
+    (.receiveProps (.-strohmNativeReceiveProps js/globalThis)
                    (js/JSON.stringify (clj->js' message)))
 
     (ios-webview?)

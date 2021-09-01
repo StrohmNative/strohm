@@ -21,15 +21,15 @@ val noop: HandlerFunction = {}
 
 object SubscriptionsSpec: Spek({
     describe("Subscriptions") {
-        lateinit var strohm: Strohm
+        lateinit var strohmNative: StrohmNative
         lateinit var webViewMock: WebView
 
         beforeEachTest {
             val mockContext = mock(Context::class.java)
-            strohm = Strohm(mockContext)
+            strohmNative = StrohmNative(mockContext)
 
             webViewMock = mock(WebView::class.java)
-            strohm.webView = webViewMock
+            strohmNative.webView = webViewMock
         }
 
         context("when subscribing before load finishes") {
@@ -37,13 +37,13 @@ object SubscriptionsSpec: Spek({
 
             beforeEachTest {
                 subscriptionComplete = false
-                strohm.subscribe(propsSpec, noop) {
+                strohmNative.subscribe(propsSpec, noop) {
                     subscriptionComplete = true
                 }
             }
 
             it("remembers pending subscription details") {
-                assertEquals(1, strohm.subscriptions.pendingSubscriptions?.count())
+                assertEquals(1, strohmNative.subscriptions.pendingSubscriptions?.count())
             }
 
             it("is not yet complete") {
@@ -51,12 +51,12 @@ object SubscriptionsSpec: Spek({
             }
 
             it("has nothing pending after load finishes") {
-                strohm.whenLoadingFinished()
-                assertEquals(null, strohm.subscriptions.pendingSubscriptions)
+                strohmNative.whenLoadingFinished()
+                assertEquals(null, strohmNative.subscriptions.pendingSubscriptions)
             }
 
             it("calls completion handler after load finishes") {
-                strohm.whenLoadingFinished()
+                strohmNative.whenLoadingFinished()
                 assertEquals(true, subscriptionComplete)
             }
         }
@@ -65,9 +65,9 @@ object SubscriptionsSpec: Spek({
             var subscriptionComplete: Boolean = false
 
             beforeEachTest {
-                strohm.whenLoadingFinished()
+                strohmNative.whenLoadingFinished()
                 subscriptionComplete = false
-                strohm.subscribe(propsSpec, noop) {
+                strohmNative.subscribe(propsSpec, noop) {
                     subscriptionComplete = true
                 }
             }
@@ -99,36 +99,36 @@ object SubscriptionsSpec: Spek({
             beforeEachTest {
                 receivedProps = null
                 subscriptionId = null
-                strohm.whenLoadingFinished()
-                subscriptionId = strohm.whenSubscriptionCompletes(propsSpec, handlerFn)
+                strohmNative.whenLoadingFinished()
+                subscriptionId = strohmNative.whenSubscriptionCompletes(propsSpec, handlerFn)
             }
 
             it("receives prop updates") {
                 val props = mapOf("name" to "foo")
-                strohm.whenIncoming(props, subscriptionId!!)
+                strohmNative.whenIncoming(props, subscriptionId!!)
                 assertEquals(props, receivedProps)
             }
 
             it("does not receive props for someone else") {
                 var otherProps: Props? = null
-                val otherId = strohm.whenSubscriptionCompletes(propsSpec) { props ->
+                val otherId = strohmNative.whenSubscriptionCompletes(propsSpec) { props ->
                         otherProps = props
                 }
-                strohm.whenIncoming(mapOf("name" to "foo"), otherId)
+                strohmNative.whenIncoming(mapOf("name" to "foo"), otherId)
                 assertNull(receivedProps)
                 assertNotNull(otherProps)
             }
 
             it("does not receive props after unsubscribe") {
-                strohm.unsubscribe(subscriptionId!!)
-                strohm.whenIncoming(mapOf("name" to "foo"), subscriptionId!!)
+                strohmNative.unsubscribe(subscriptionId!!)
+                strohmNative.whenIncoming(mapOf("name" to "foo"), subscriptionId!!)
                 assertNull(receivedProps)
             }
 
             it("calls unsubscribe on the web view when unsubscribing") {
                 reset(webViewMock)
 
-                strohm.unsubscribe(subscriptionId!!)
+                strohmNative.unsubscribe(subscriptionId!!)
 
                 val jsCodeCaptor = ArgumentCaptor.forClass(String::class.java)
                 verify(webViewMock, times(1))
@@ -145,11 +145,11 @@ object SubscriptionsSpec: Spek({
 
 /* Strohm class extension methods for testing */
 
-fun Strohm.whenLoadingFinished() {
+fun StrohmNative.whenLoadingFinished() {
     this.loadingFinished()
 }
 
-fun Strohm.whenSubscriptionCompletes(propsSpec: PropsSpec, handlerFn: HandlerFunction): UUID {
+fun StrohmNative.whenSubscriptionCompletes(propsSpec: PropsSpec, handlerFn: HandlerFunction): UUID {
     val future = CompletableFuture<UUID>()
     this.subscribe(propsSpec, handlerFn) { uuid ->
         future.complete(uuid)
@@ -157,7 +157,7 @@ fun Strohm.whenSubscriptionCompletes(propsSpec: PropsSpec, handlerFn: HandlerFun
     return future.get(1, TimeUnit.SECONDS)
 }
 
-fun Strohm.whenIncoming(props: Props, subscriptionId: UUID) {
+fun StrohmNative.whenIncoming(props: Props, subscriptionId: UUID) {
     this.subscriptions.handlePropsUpdate(props, subscriptionId)
 }
 

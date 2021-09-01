@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import dev.strohmnative.example.counter.databinding.ActivityMainBinding
 import dev.strohmnative.StatusChangeListener
-import dev.strohmnative.Strohm
+import dev.strohmnative.StrohmNative
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -29,9 +29,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        // Setup Strohm in onStart so that the status can be displayed using the bindings.
+        // Setup StrohmNative in onStart so that the status can be displayed using the bindings.
         // In onCreate the bindings don't work yet. Normally you can do this in onCreate.
-        Strohm.getInstance(applicationContext, onStatusChange)
+        StrohmNative.getInstance(applicationContext, onStatusChange)
     }
 
     private val onStatusChange: StatusChangeListener = { _, _, new ->
@@ -41,26 +41,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun decrement(@Suppress("UNUSED_PARAMETER") src: View) {
-        Strohm.getInstance().dispatch("decrement")
+        StrohmNative.getInstance().dispatch("decrement")
     }
 
     fun increment(@Suppress("UNUSED_PARAMETER") src: View) {
-        Strohm.getInstance().dispatch("increment")
+        StrohmNative.getInstance().dispatch("increment")
     }
 
     private fun setCounter(count: Int) {
-        Strohm.getInstance().dispatch("setCounter", mapOf("count" to count))
+        StrohmNative.getInstance().dispatch("setCounter", mapOf("count" to count))
     }
 
     fun reload(@Suppress("UNUSED_PARAMETER") src: View) {
-        Strohm.getInstance().reload()
+        StrohmNative.getInstance().reload()
         subscription = null
         binding.txtCounter.setText("0")
         binding.txtSubscribed.text = getString(R.string.strFalse)
     }
 
     fun subscribe(@Suppress("UNUSED_PARAMETER") src: View) {
-        Strohm.getInstance().subscribe(mapOf("count" to listOf()),
+        StrohmNative.getInstance().subscribe(mapOf("count" to listOf()),
             handler = { props ->
                 val count = (props["count"] as Number).toInt()
                 runOnUiThread {
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun unsubscribe(@Suppress("UNUSED_PARAMETER") src: View) {
-        subscription?.let { Strohm.getInstance().unsubscribe(it) }
+        subscription?.let { StrohmNative.getInstance().unsubscribe(it) }
         subscription = null
         binding.txtSubscribed.text = getString(R.string.strFalse)
     }

@@ -2,12 +2,11 @@ package dev.strohmnative.viewmodels
 
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dev.strohmnative.PropName
 import dev.strohmnative.PropPath
 import dev.strohmnative.Props
-import dev.strohmnative.Strohm
+import dev.strohmnative.StrohmNative
 import kotlinx.collections.immutable.persistentMapOf
 import java.util.*
 
@@ -36,14 +35,14 @@ abstract class ViewModelBase<DataType>(
     }
 
     private fun onActive() {
-        Strohm.getInstance().subscribe(persistentMapOf(propName to propPath), ::receiveProps) {
+        StrohmNative.getInstance().subscribe(persistentMapOf(propName to propPath), ::receiveProps) {
                 subscriptionId -> this.subscriptionId = subscriptionId
         }
     }
 
     private fun onInactive() {
         this.subscriptionId = this.subscriptionId?.let {
-            Strohm.getInstance().unsubscribe(it)
+            StrohmNative.getInstance().unsubscribe(it)
             null
         }
     }

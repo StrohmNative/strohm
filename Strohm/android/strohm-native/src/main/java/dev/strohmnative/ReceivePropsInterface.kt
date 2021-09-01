@@ -2,12 +2,12 @@ package dev.strohmnative
 
 import android.webkit.JavascriptInterface
 
-internal class ReceivePropsInterface(private val strohm: Strohm) {
+internal class ReceivePropsInterface(private val strohmNative: StrohmNative) {
     @JavascriptInterface
     fun receiveProps(message: String?) { // TODO: rename to "jsToNative" or something like that
         if (message == null) {
             return
         }
-        strohm.comms.jsToNative(message)
+        strohmNative.comms.jsToNative(message)
     }
 }

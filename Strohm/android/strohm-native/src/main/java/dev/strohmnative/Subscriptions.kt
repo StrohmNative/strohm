@@ -6,16 +6,16 @@ import java.util.UUID
 import java.util.concurrent.atomic.AtomicMarkableReference
 
 class Subscriptions {
-    val strohm: Strohm
+    val strohmNative: StrohmNative
 
     internal var _pendingSubscriptions: AtomicMarkableReference<PersistentList<() -> Unit>>
     private var subscribers: MutableMap<UUID, HandlerFunction>
 
-    internal constructor(strohm: Strohm) {
-        this.strohm = strohm
+    internal constructor(strohmNative: StrohmNative) {
+        this.strohmNative = strohmNative
         this._pendingSubscriptions = AtomicMarkableReference(persistentListOf(), true)
         this.subscribers = mutableMapOf()
-        strohm.comms.registerHandlerFunction("subscriptionUpdate") { args ->
+        strohmNative.comms.registerHandlerFunction("subscriptionUpdate") { args ->
             this.subscriptionUpdateHandler(args)
         }
     }
@@ -48,14 +48,14 @@ class Subscriptions {
     ) {
         val subscriptionId = UUID.randomUUID()
         subscribers[subscriptionId] = handler
-        val encodedPropsSpec = strohm.comms.encode(propsSpec)
-        strohm.call("strohm_native.flow.subscribe_from_native(\"$subscriptionId\", \"$encodedPropsSpec\")")
+        val encodedPropsSpec = strohmNative.comms.encode(propsSpec)
+        strohmNative.call("strohm_native.flow.subscribe_from_native(\"$subscriptionId\", \"$encodedPropsSpec\")")
         completion(subscriptionId)
     }
 
     internal fun removeSubscriber(subscriptionId: UUID) {
         subscribers.remove(subscriptionId)
-        strohm.call("strohm_native.flow.unsubscribe_from_native(\"$subscriptionId\")")
+        strohmNative.call("strohm_native.flow.unsubscribe_from_native(\"$subscriptionId\")")
     }
 
     internal fun effectuatePendingSubscriptions() {

@@ -49,7 +49,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
         var initialStateVar = ""
         if let initialState = statePersister?.loadState() {
             let escaped = initialState.replacingOccurrences(of: "\"", with: "\\\"")
-            initialStateVar = "var strohmPersistedState=\"\(escaped)\";"
+            initialStateVar = "var strohmNativePersistedState=\"\(escaped)\";"
         }
         #if DEBUG
         guard let appJsPath = self.appJsPath else { return }
