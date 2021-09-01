@@ -1,11 +1,11 @@
 import SwiftUI
-import Strohm
+import StrohmNative
 
 struct ContentView: View {
     @State private var count: Int = 0
     let countFormatter = NumberFormatter()
     @State private var subscription: UUID?
-    @State var strohmStatus: Strohm.Status = .uninitialized
+    @State var strohmNativeStatus: StrohmNative.Status = .uninitialized
 
     var body: some View {
         VStack {
@@ -30,31 +30,31 @@ struct ContentView: View {
                 Button(action: {
                     self.count = 0
                     self.subscription = nil
-                    Strohm.default.reload()
+                    StrohmNative.default.reload()
                 }, label: { Text("Reload") })
                 Button(action: self.subscribe, label: { Text("Subscribe") })
                 Button(action: self.unsubscribe, label: { Text("Unsubscribe") })
             }.padding()
-            Text("Strohm status: \(strohmStatus.rawValue)")
-                .onReceive(Strohm.default.status, perform: { strohmStatus = $0 })
+            Text("StrohmNative status: \(strohmNativeStatus.rawValue)")
+                .onReceive(StrohmNative.default.status, perform: { strohmNativeStatus = $0 })
             Text("Subscribed: \(subscription != nil ? "true" : "false")")
         }
     }
 
     func decrement() {
-        Strohm.default.dispatch(type: "decrement")
+        StrohmNative.default.dispatch(type: "decrement")
     }
 
     func increment() {
-        Strohm.default.dispatch(type: "increment")
+        StrohmNative.default.dispatch(type: "increment")
     }
 
     func setCounter(count: Int) {
-        Strohm.default.dispatch(type: "setCounter", payload: ["count": count])
+        StrohmNative.default.dispatch(type: "setCounter", payload: ["count": count])
     }
 
     func subscribe() {
-        Strohm.default.subscribe(propsSpec: ["count": []]) { props in
+        StrohmNative.default.subscribe(propsSpec: ["count": []]) { props in
             print("Received props: ", props)
             if let count = props["count"] as? Int {
                 self.count = count
@@ -66,7 +66,7 @@ struct ContentView: View {
 
     func unsubscribe() {
         if let subscription = self.subscription {
-            Strohm.default.unsubscribe(subscriptionId: subscription)
+            StrohmNative.default.unsubscribe(subscriptionId: subscription)
             self.subscription = nil
         }
     }

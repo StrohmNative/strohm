@@ -19,12 +19,12 @@ class Log {
 
     static private func log(level: Level, _ args: [Any]) {
         let argsWithLevel: [Any] = ["\(level)"] + args
-        guard let encodedArgs = Strohm.default.comms.encode(object: argsWithLevel) else {
+        guard let encodedArgs = StrohmNative.default.comms.encode(object: argsWithLevel) else {
             print("[error] Failed to encode log args", argsWithLevel)
             return
         }
 
-        Strohm.default.call(method: "globalThis.strohm.log.log_from_native(\"\(encodedArgs)\")")
+        StrohmNative.default.call(method: "globalThis.strohm_native.log.log_from_native(\"\(encodedArgs)\")")
     }
 
     enum Level: String {

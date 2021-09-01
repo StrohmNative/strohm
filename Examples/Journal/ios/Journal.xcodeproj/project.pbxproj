@@ -17,7 +17,7 @@
 		F8D6CC0D25C6E36700A04537 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D6CC0C25C6E36700A04537 /* ContentView.swift */; };
 		F8D6CC0F25C6E36900A04537 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8D6CC0E25C6E36900A04537 /* Assets.xcassets */; };
 		F8D6CC1225C6E36900A04537 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8D6CC1125C6E36900A04537 /* Preview Assets.xcassets */; };
-		F8D6CC1F25C6E55C00A04537 /* Strohm in Frameworks */ = {isa = PBXBuildFile; productRef = F8D6CC1E25C6E55C00A04537 /* Strohm */; };
+		F8D6CC1F25C6E55C00A04537 /* StrohmNative in Frameworks */ = {isa = PBXBuildFile; productRef = F8D6CC1E25C6E55C00A04537 /* StrohmNative */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,7 @@
 		F8D6CC0E25C6E36900A04537 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F8D6CC1125C6E36900A04537 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F8D6CC1325C6E36900A04537 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F8D6CC1B25C6E3F200A04537 /* Strohm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Strohm; path = ../../../Strohm/ios/Strohm; sourceTree = "<group>"; };
+		F8D6CC1B25C6E3F200A04537 /* StrohmNative */ = {isa = PBXFileReference; lastKnownFileType = folder; name = StrohmNative; path = ../../../Strohm/ios/StrohmNative; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8D6CC1F25C6E55C00A04537 /* Strohm in Frameworks */,
+				F8D6CC1F25C6E55C00A04537 /* StrohmNative in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				F8D6CC0925C6E36700A04537 /* Journal */,
-				F8D6CC1B25C6E3F200A04537 /* Strohm */,
+				F8D6CC1B25C6E3F200A04537 /* StrohmNative */,
 				F8D6CC0825C6E36700A04537 /* Products */,
 				F8D6CC1D25C6E55C00A04537 /* Frameworks */,
 			);
@@ -118,7 +118,7 @@
 				F8D6CC0325C6E36700A04537 /* Sources */,
 				F8D6CC0425C6E36700A04537 /* Frameworks */,
 				F8D6CC0525C6E36700A04537 /* Resources */,
-				F85D989C268C6096004E4A48 /* Strohm Dev Support */,
+				F85D989C268C6096004E4A48 /* Strohm Native Dev Support */,
 			);
 			buildRules = (
 			);
@@ -126,7 +126,7 @@
 			);
 			name = Journal;
 			packageProductDependencies = (
-				F8D6CC1E25C6E55C00A04537 /* Strohm */,
+				F8D6CC1E25C6E55C00A04537 /* StrohmNative */,
 			);
 			productName = Journal;
 			productReference = F8D6CC0725C6E36700A04537 /* Journal.app */;
@@ -178,7 +178,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F85D989C268C6096004E4A48 /* Strohm Dev Support */ = {
+		F85D989C268C6096004E4A48 /* Strohm Native Dev Support */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -187,7 +187,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Strohm Dev Support";
+			name = "Strohm Native Dev Support";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -400,9 +400,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F8D6CC1E25C6E55C00A04537 /* Strohm */ = {
+		F8D6CC1E25C6E55C00A04537 /* StrohmNative */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Strohm;
+			productName = StrohmNative;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

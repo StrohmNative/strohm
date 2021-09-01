@@ -1,14 +1,14 @@
 import Foundation
 
 class Subscriptions {
-    let strohm: Strohm
+    let strohmNative: StrohmNative
     var pendingSubscriptions: [() -> Void]? = []
     var subscribers: [UUID: HandlerFunction] = [:]
 
-    init(strohm: Strohm) {
-        self.strohm = strohm
-        strohm.comms.registerHandlerFunction(name: "subscriptionUpdate",
-                                             function: self.subscriptionUpdateHandler)
+    init(strohmNative: StrohmNative) {
+        self.strohmNative = strohmNative
+        strohmNative.comms.registerHandlerFunction(name: "subscriptionUpdate",
+                                                   function: self.subscriptionUpdateHandler)
     }
 
     func addSubscriber(propsSpec: PropsSpec,
@@ -31,18 +31,18 @@ class Subscriptions {
     private func subscribe_(propsSpec: PropsSpec,
                             handler: @escaping HandlerFunction,
                             completion: (UUID) -> Void) {
-        guard let encodedPropsSpec = strohm.comms.encode(object: propsSpec) else {
+        guard let encodedPropsSpec = strohmNative.comms.encode(object: propsSpec) else {
             return
         }
         let subscriptionId = UUID()
         subscribers[subscriptionId] = handler
-        strohm.call(method: "strohm.native$.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(encodedPropsSpec)\")")
+        strohmNative.call(method: "strohm_native.flow.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(encodedPropsSpec)\")")
         completion(subscriptionId)
     }
 
     func removeSubscriber(subscriptionId: UUID) {
         subscribers.removeValue(forKey: subscriptionId)
-        strohm.call(method: "strohm.native$.unsubscribe_from_native(\"\(subscriptionId.uuidString)\")")
+        strohmNative.call(method: "strohm_native.flow.unsubscribe_from_native(\"\(subscriptionId.uuidString)\")")
     }
 
     func effectuatePendingSubscriptions() {

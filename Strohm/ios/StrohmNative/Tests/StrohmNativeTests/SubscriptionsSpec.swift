@@ -2,7 +2,7 @@ import Foundation
 import Quick
 import Nimble
 import WebKit
-@testable import Strohm
+@testable import StrohmNative
 
 let propsSpec = [
     "name": ["user","name"],
@@ -11,14 +11,14 @@ let propsSpec = [
 
 class SubscriptionsSpec: QuickSpec {
     override func spec() {
-        var strohm: Strohm!
+        var strohmNative: StrohmNative!
         var webViewMock: WebViewMock!
 
         beforeEach {
-            strohm = Strohm()
-            strohm.install(appJsPath: "")
+            strohmNative = StrohmNative()
+            strohmNative.install(appJsPath: "")
             webViewMock = WebViewMock()
-            strohm.webView = webViewMock
+            strohmNative.webView = webViewMock
         }
 
         context("when subscribing before load finishes") {
@@ -27,13 +27,13 @@ class SubscriptionsSpec: QuickSpec {
 
             beforeEach {
                 subscriptionComplete = false
-                strohm.subscribe(propsSpec: propsSpec, handler: handlerFn) { _ in
+                strohmNative.subscribe(propsSpec: propsSpec, handler: handlerFn) { _ in
                     subscriptionComplete = true
                 }
             }
 
             it("remembers pending subscrtiption details") {
-                expect(strohm.subscriptions?.pendingSubscriptions).to(haveCount(1))
+                expect(strohmNative.subscriptions?.pendingSubscriptions).to(haveCount(1))
             }
 
             it("is not yet complete") {
@@ -41,12 +41,12 @@ class SubscriptionsSpec: QuickSpec {
             }
 
             it("has nothing pending after load finishes") {
-                strohm.whenLoadingFinished()
-                expect(strohm.subscriptions?.pendingSubscriptions).to(beNil())
+                strohmNative.whenLoadingFinished()
+                expect(strohmNative.subscriptions?.pendingSubscriptions).to(beNil())
             }
 
             it("calls completion handler after load finishes") {
-                strohm.whenLoadingFinished()
+                strohmNative.whenLoadingFinished()
                 expect(subscriptionComplete).to(beTrue())
             }
         }
@@ -56,9 +56,9 @@ class SubscriptionsSpec: QuickSpec {
             let handlerFn: HandlerFunction = { _ in }
 
             beforeEach {
-                strohm.whenLoadingFinished()
+                strohmNative.whenLoadingFinished()
                 subscriptionComplete = false
-                strohm.subscribe(
+                strohmNative.subscribe(
                     propsSpec: propsSpec,
                     handler: handlerFn
                 ) { _ in
@@ -73,7 +73,7 @@ class SubscriptionsSpec: QuickSpec {
             it("has called subscribe on the web view") {
                 expect(webViewMock.evaluatedJavaScript).to(haveCount(1))
                 let actual = webViewMock.evaluatedJavaScript.first!
-                let pattern = #"strohm\.native\$\.subscribe_from_native\(".*", ?"(.*)"\)"#
+                let pattern = #"strohm_native\.flow\.subscribe_from_native\(".*", ?"(.*)"\)"#
                 expect(actual).to(match(pattern))
                 let regex = try! NSRegularExpression(pattern: pattern, options: [])
                 let range = NSRange(actual.startIndex..<actual.endIndex, in: actual)
@@ -99,38 +99,38 @@ class SubscriptionsSpec: QuickSpec {
             beforeEach {
                 receivedProps = nil
                 subscriptionId = nil
-                strohm.whenLoadingFinished()
-                subscriptionId = strohm.whenSubscriptionCompletes(propsSpec, handlerFn)
+                strohmNative.whenLoadingFinished()
+                subscriptionId = strohmNative.whenSubscriptionCompletes(propsSpec, handlerFn)
             }
 
             it("receives prop updates") {
                 let props = ["name": "foo"]
-                strohm.whenIncoming(props: props, for: subscriptionId!)
+                strohmNative.whenIncoming(props: props, for: subscriptionId!)
                 expect(receivedProps as? [String: String]) == props
             }
 
             it("does not receive props for someone else") {
                 var otherProps: Props?
-                let otherId = strohm.whenSubscriptionCompletes(propsSpec) { props in
+                let otherId = strohmNative.whenSubscriptionCompletes(propsSpec) { props in
                     otherProps = props
                 }
-                strohm.whenIncoming(props: ["name": "foo"], for: otherId)
+                strohmNative.whenIncoming(props: ["name": "foo"], for: otherId)
                 expect(receivedProps).to(beNil())
                 expect(otherProps).toNot(beNil())
             }
 
             it("does not receive props after unsubscribe") {
-                strohm.unsubscribe(subscriptionId: subscriptionId!)
-                strohm.whenIncoming(props: ["name": "foo"], for: subscriptionId!)
+                strohmNative.unsubscribe(subscriptionId: subscriptionId!)
+                strohmNative.whenIncoming(props: ["name": "foo"], for: subscriptionId!)
                 expect(receivedProps).to(beNil())
             }
 
             it("calls unsubscribe on the web view when unsubscribing") {
-                strohm.unsubscribe(subscriptionId: subscriptionId!)
+                strohmNative.unsubscribe(subscriptionId: subscriptionId!)
                 expect(webViewMock.evaluatedJavaScript).to(haveCount(2))
                 let actual = webViewMock.evaluatedJavaScript.last!
 
-                let pattern = #"strohm\.native\$\.unsubscribe_from_native\("(.*)"\)"#
+                let pattern = #"strohm_native\.flow\.unsubscribe_from_native\("(.*)"\)"#
                 expect(actual).to(match(pattern))
                 let regex = try! NSRegularExpression(pattern: pattern, options: [])
                 let range = NSRange(actual.startIndex..<actual.endIndex, in: actual)
@@ -143,7 +143,7 @@ class SubscriptionsSpec: QuickSpec {
     }
 }
 
-extension Strohm {
+extension StrohmNative {
     func whenLoadingFinished() {
         self.loadingFinished()
     }
@@ -168,7 +168,7 @@ extension Strohm {
     }
 }
 
-class WebViewMock: StrohmWebView {
+class WebViewMock: StrohmNativeWebView {
     var navigationDelegate: WKNavigationDelegate?
     var evaluatedJavaScript: [String] = []
 

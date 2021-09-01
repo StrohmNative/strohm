@@ -1,5 +1,5 @@
 import SwiftUI
-import Strohm
+import StrohmNative
 
 struct JournalEntryDetail: View {
     static let createdFormatter: DateFormatter = {
@@ -73,7 +73,7 @@ struct JournalEntryDetail: View {
         self.editMode = false
         var updatedEntry = viewModel.data
         updatedEntry.text = editableText
-        Strohm.default.dispatch(type: "update-entry", payload: updatedEntry)
+        StrohmNative.default.dispatch(type: "update-entry", payload: updatedEntry)
         self.presentationMode.wrappedValue.dismiss()
     }
 
@@ -82,7 +82,7 @@ struct JournalEntryDetail: View {
         DispatchQueue.main.async {
             var updatedEntry = viewModel.data
             updatedEntry.title = editableTitle
-            Strohm.default.dispatch(type: "update-entry", payload: updatedEntry)
+            StrohmNative.default.dispatch(type: "update-entry", payload: updatedEntry)
         }
     }
 }

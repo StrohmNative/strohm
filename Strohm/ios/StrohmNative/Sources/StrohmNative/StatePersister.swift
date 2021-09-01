@@ -1,11 +1,11 @@
 import Foundation
 
 class StatePersister {
-    let strohm: Strohm
+    let strohmNative: StrohmNative
 
-    init(strohm: Strohm) {
-        self.strohm = strohm
-        strohm.comms.registerHandlerFunction(
+    init(strohmNative: StrohmNative) {
+        self.strohmNative = strohmNative
+        strohmNative.comms.registerHandlerFunction(
             name: "persistState",
             function: self.persistStateHandler)
     }

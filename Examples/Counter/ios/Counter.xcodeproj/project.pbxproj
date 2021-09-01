@@ -12,7 +12,7 @@
 		F865BA4D257CD5F7007C3A0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F865BA4C257CD5F7007C3A0C /* Assets.xcassets */; };
 		F865BA50257CD5F7007C3A0C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F865BA4F257CD5F7007C3A0C /* Preview Assets.xcassets */; };
 		F8C499D1259774F300571293 /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = F8C499D0259774F300571293 /* main.js */; };
-		F8F3363625B62CAF0053F572 /* Strohm in Frameworks */ = {isa = PBXBuildFile; productRef = F8F3363525B62CAF0053F572 /* Strohm */; };
+		F8F3363625B62CAF0053F572 /* StrohmNative in Frameworks */ = {isa = PBXBuildFile; productRef = F8F3363525B62CAF0053F572 /* StrohmNative */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +23,7 @@
 		F865BA4F257CD5F7007C3A0C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F865BA51257CD5F7007C3A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8C499D0259774F300571293 /* main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
-		F8F3363025B62C5D0053F572 /* Strohm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Strohm; path = ../../../Strohm/ios/Strohm; sourceTree = "<group>"; };
+		F8F3363025B62C5D0053F572 /* StrohmNative */ = {isa = PBXFileReference; lastKnownFileType = folder; name = StrohmNative; path = ../../../Strohm/ios/StrohmNative; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,7 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8F3363625B62CAF0053F572 /* Strohm in Frameworks */,
+				F8F3363625B62CAF0053F572 /* StrohmNative in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,7 +42,7 @@
 			isa = PBXGroup;
 			children = (
 				F865BA47257CD5F6007C3A0C /* Counter */,
-				F8F3363025B62C5D0053F572 /* Strohm */,
+				F8F3363025B62C5D0053F572 /* StrohmNative */,
 				F865BA46257CD5F6007C3A0C /* Products */,
 				F8F3363425B62CAF0053F572 /* Frameworks */,
 			);
@@ -103,7 +103,7 @@
 				F865BA41257CD5F6007C3A0C /* Sources */,
 				F865BA42257CD5F6007C3A0C /* Frameworks */,
 				F865BA43257CD5F6007C3A0C /* Resources */,
-				F81B878B25B38BCB002395AB /* Strohm Dev Support */,
+				F81B878B25B38BCB002395AB /* Strohm Native Dev Support */,
 			);
 			buildRules = (
 			);
@@ -111,7 +111,7 @@
 			);
 			name = Counter;
 			packageProductDependencies = (
-				F8F3363525B62CAF0053F572 /* Strohm */,
+				F8F3363525B62CAF0053F572 /* Strohm Native */,
 			);
 			productName = Counter;
 			productReference = F865BA45257CD5F6007C3A0C /* Counter.app */;
@@ -163,7 +163,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F81B878B25B38BCB002395AB /* Strohm Dev Support */ = {
+		F81B878B25B38BCB002395AB /* Strohm Native Dev Support */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -172,7 +172,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Strohm Dev Support";
+			name = "Strohm Native Dev Support";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -380,9 +380,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F8F3363525B62CAF0053F572 /* Strohm */ = {
+		F8F3363525B62CAF0053F572 /* StrohmNative */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Strohm;
+			productName = StrohmNative;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

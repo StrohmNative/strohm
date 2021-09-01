@@ -1,7 +1,7 @@
 import XCTest
 
-import StrohmTests
+import StrohmNativeTests
 
 var tests = [XCTestCaseEntry]()
-tests += StrohmTests.allTests()
+tests += StrohmNativeTests.allTests()
 XCTMain(tests)

@@ -1,5 +1,5 @@
 import SwiftUI
-import Strohm
+import StrohmNative
 import UIKit
 
 struct JournalEntriesList: View {
@@ -28,7 +28,7 @@ struct JournalEntriesList: View {
             .listStyle(PlainListStyle())
             .navigationTitle(Text("Journal"))
             .navigationBarItems(trailing: Button("New", action: {
-                Strohm.default.dispatch(type: "new-entry")
+                StrohmNative.default.dispatch(type: "new-entry")
             }))
         }
     }
@@ -36,7 +36,7 @@ struct JournalEntriesList: View {
     func onDelete(at offsets: IndexSet) {
         print("onDelete: \(offsets)")
         let ids = offsets.map { viewModel.entries[$0].id }
-        Strohm.default.dispatch(type: "remove-entry", payload: ["entry/id": ids[0]])
+        StrohmNative.default.dispatch(type: "remove-entry", payload: ["entry/id": ids[0]])
     }
 }
 

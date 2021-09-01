@@ -60,9 +60,9 @@ jobs:
 
       - name: Test iOS
         run: |
-          cd ios/Strohm
+          cd ios/StrohmNative
           swift package generate-xcodeproj
-          xcodebuild -project Strohm.xcodeproj -scheme Strohm-Package -destination 'platform=iOS Simulator,name=iPhone 12'
+          xcodebuild -project StrohmNative.xcodeproj -scheme StrohmNative-Package -destination 'platform=iOS Simulator,name=iPhone 12'
 
       - name: Test Android
         run: |

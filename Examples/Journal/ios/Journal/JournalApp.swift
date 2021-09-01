@@ -1,9 +1,9 @@
 import SwiftUI
-import Strohm
+import StrohmNative
 
 @main
 struct JournalApp: App {
-    let strohm = Strohm.default
+    let strohmNative = StrohmNative.default
 
     var body: some Scene {
         WindowGroup {

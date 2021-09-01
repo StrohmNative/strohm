@@ -2,14 +2,14 @@ import Foundation
 import WebKit
 import Combine
 
-public class Strohm: NSObject, WKNavigationDelegate {
-    public static var `default`: Strohm = {
-        let strohm = Strohm()
-        strohm.install(appJsPath: "main.js")
-        return strohm
+public class StrohmNative: NSObject, WKNavigationDelegate {
+    public static var `default`: StrohmNative = {
+        let strohmNative = StrohmNative()
+        strohmNative.install(appJsPath: "main.js")
+        return strohmNative
     }()
 
-    var webView: StrohmWebView?
+    var webView: StrohmNativeWebView?
     var webConfiguration: WKWebViewConfiguration!
     var _status = CurrentValueSubject<Status, Never>(.uninitialized)
     public lazy var status = _status.eraseToAnyPublisher()
@@ -30,8 +30,8 @@ public class Strohm: NSObject, WKNavigationDelegate {
     }
 
     public func install(appJsPath: String, port: Int? = nil) {
-        self.subscriptions = Subscriptions(strohm: self)
-        self.statePersister = StatePersister(strohm: self)
+        self.subscriptions = Subscriptions(strohmNative: self)
+        self.statePersister = StatePersister(strohmNative: self)
 
         self.appJsPath = appJsPath
         self.port = port
@@ -59,14 +59,14 @@ public class Strohm: NSObject, WKNavigationDelegate {
            let contents = try? String(contentsOf: devhostFile) {
             devhost = contents.trimmingCharacters(in: .whitespacesAndNewlines) + ".local"
         } else {
-            print("\nStrohm error: You don't seem to have configured the Stohm Dev Support shell script build phase. Please add it to make things work.\n") // TODO: ref to doc
+            print("\nStrohmNative error: You don't seem to have configured the Stohm Dev Support shell script build phase. Please add it to make things work.\n") // TODO: ref to doc
             devhost = "localhost"
         }
         #else
         devhost = "localhost"
         #endif
-        let port = Strohm.determinePort(port: self.port,
-                                        env: ProcessInfo().environment)
+        let port = StrohmNative.determinePort(port: self.port,
+                                              env: ProcessInfo().environment)
         let myHtml = """
         <html>
         <body style='background-color: #ddd;font-size: 200%'>
@@ -80,7 +80,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
         _ = webView?.loadHTMLString(myHtml, baseURL: baseUrl)
         #else
         guard let mainJSURL = Bundle.main.url(forResource: "main", withExtension: "js") else {
-            print("\nStrohm error: JavaScript bundle main.js was not found; did you add it to the Xcode project?\n") // TODO: ref to doc
+            print("\nStrohmNative error: JavaScript bundle main.js was not found; did you add it to the Xcode project?\n") // TODO: ref to doc
             return
         }
         let jsUrlString = mainJSURL.absoluteString
@@ -109,11 +109,11 @@ public class Strohm: NSObject, WKNavigationDelegate {
     }
 
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        webView.evaluateJavaScript("Object.getOwnPropertyNames(strohm.native$)") { (result, error) in
-            print("Strohm store properties:", result ?? "nil")
+        webView.evaluateJavaScript("Object.getOwnPropertyNames(strohm_native.flow)") { (result, error) in
+            print("StrohmNative store properties:", result ?? "nil")
         }
 
-        webView.evaluateJavaScript("this.hasOwnProperty('strohm')") { (result, error) in
+        webView.evaluateJavaScript("this.hasOwnProperty('strohm_native')") { (result, error) in
             guard let returnValue = result as? Int,
                   returnValue == 1,
                   error == nil else {
@@ -131,7 +131,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
 
     func loadingFailed() {
         self._status.value = .serverNotRunning
-        print("\nStrohm error: Please make sure dev server is running\n") // TODO: ref to doc
+        print("\nStrohmNative error: Please make sure dev server is running\n") // TODO: ref to doc
     }
 
     func call(method: String) {
@@ -150,7 +150,7 @@ public class Strohm: NSObject, WKNavigationDelegate {
         guard let serializedAction = comms.encode(object: action) else {
             return
         }
-        let method = "globalThis.strohm.native$.dispatch_from_native(\"\(serializedAction)\")"
+        let method = "globalThis.strohm_native.flow.dispatch_from_native(\"\(serializedAction)\")"
         call(method: method)
     }
 
@@ -168,10 +168,10 @@ public typealias PropsSpec = [PropName: PropPath]
 public typealias Props = [PropName: Any]
 public typealias HandlerFunction = (Props) -> Void
 
-protocol StrohmWebView {
+protocol StrohmNativeWebView {
     var navigationDelegate: WKNavigationDelegate? { get set }
     func loadHTMLString(_ string: String, baseURL: URL?) -> WKNavigation?
     func evaluateJavaScript(_ javaScriptString: String, completionHandler: ((Any?, Error?) -> Void)?)
 }
 
-extension WKWebView: StrohmWebView {}
+extension WKWebView: StrohmNativeWebView {}

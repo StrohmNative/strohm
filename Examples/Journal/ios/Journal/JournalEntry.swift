@@ -1,5 +1,5 @@
 import Foundation
-import Strohm
+import StrohmNative
 
 struct JournalEntry: Identifiable, ConstructableFromDictionary, ConvertableToDictionary {
     let id: String

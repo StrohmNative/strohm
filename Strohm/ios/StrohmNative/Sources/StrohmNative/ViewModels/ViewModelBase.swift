@@ -13,7 +13,7 @@ open class ViewModelBase<DataType>: ObservableObject {
     public init(propName: PropName, propPath: PropPath) {
         self.propName = propName
         self.propPath = propPath
-        Strohm.default.subscribe(
+        StrohmNative.default.subscribe(
             propsSpec: [propName: propPath],
             handler: receiveProps) { subscriptionId in
             self.subscriptionId = subscriptionId
@@ -22,7 +22,7 @@ open class ViewModelBase<DataType>: ObservableObject {
 
     deinit {
         if let subscriptionId = self.subscriptionId {
-            Strohm.default.unsubscribe(subscriptionId: subscriptionId)
+            StrohmNative.default.unsubscribe(subscriptionId: subscriptionId)
         }
     }
 
