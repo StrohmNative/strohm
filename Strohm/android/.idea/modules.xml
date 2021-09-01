@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/StrohmProject.iml" filepath="$PROJECT_DIR$/.idea/modules/StrohmProject.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/strohm/StrohmProject.strohm.iml" filepath="$PROJECT_DIR$/.idea/modules/strohm/StrohmProject.strohm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/StrohmNative.iml" filepath="$PROJECT_DIR$/.idea/modules/StrohmNative.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/strohm-native/StrohmNative.strohm-native.iml" filepath="$PROJECT_DIR$/.idea/modules/strohm-native/StrohmNative.strohm-native.iml" />
     </modules>
   </component>
 </project>

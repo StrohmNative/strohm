@@ -1,2 +1,2 @@
-include ':strohm'
-rootProject.name = "StrohmProject"
+include ':strohm-native'
+rootProject.name = "StrohmNative"
