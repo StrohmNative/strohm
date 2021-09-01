@@ -93,7 +93,7 @@ named `shadow-cljs.edn`:
 {:source-paths ["src" "test"]
 
  :dependencies
- [[dev.strohmnative/strohmnative "0.1.0-SNAPSHOT"]] ;; replace with latest version
+ [[dev.strohmnative/strohm-native "0.1.0-SNAPSHOT"]] ;; replace with latest version
 
  :dev-http {8080  "target/"}
 
