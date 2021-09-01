@@ -1,7 +1,7 @@
 package dev.strohmnative.journal
 
 import android.app.Application
-import dev.strohmnative.strohm.Strohm
+import dev.strohmnative.Strohm
 
 class JournalApplication: Application() {
     lateinit var strohm: Strohm

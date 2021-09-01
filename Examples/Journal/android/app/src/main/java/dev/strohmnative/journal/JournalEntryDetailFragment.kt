@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import dev.strohmnative.journal.databinding.JournalEntryDetailBinding
 import dev.strohmnative.journal.model.JournalEntry
 import dev.strohmnative.journal.viewmodel.JournalEntryDetailViewModel
-import dev.strohmnative.strohm.Strohm
+import dev.strohmnative.Strohm
 
 /**
  * A fragment representing a single JournalEntry detail screen.

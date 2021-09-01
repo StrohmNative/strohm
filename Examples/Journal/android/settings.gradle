@@ -1,4 +1,4 @@
-include ':strohm'
-project(':strohm').projectDir = new File('../../../Strohm/android/strohm')
+include ':strohm-native'
+project(':strohm-native').projectDir = new File('../../../Strohm/android/strohm-native')
 include ':app'
 rootProject.name = "Journal"

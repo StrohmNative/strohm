@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil
 import dev.strohmnative.journal.databinding.ActivityJournalEntryDetailBinding
 import dev.strohmnative.journal.model.JournalEntry
 import dev.strohmnative.journal.viewmodel.JournalEntryDetailViewModel
-import dev.strohmnative.strohm.Strohm
+import dev.strohmnative.Strohm
 
 class JournalEntryDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityJournalEntryDetailBinding

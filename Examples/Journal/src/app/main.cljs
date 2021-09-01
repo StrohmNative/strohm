@@ -1,10 +1,10 @@
 (ns app.main
-  (:require [strohm.native :refer [create-store combine-reducers]]
-            [app.entries.reducer :as entries]
+  (:require [app.entries.reducer :as entries]
             [app.navigation.reducer :as navigation]
-            [strohm.tx :as tx]
-            [strohm.log :as log]
-            [cljs.reader :refer [read-string]]))
+            [cljs.reader :refer [read-string]]
+            [strohm-native.flow :refer [combine-reducers create-store]]
+            [strohm-native.log :as log]
+            [strohm-native.tx :as tx]))
 
 (def reducer (combine-reducers {"entries" entries/reducer}))
 

@@ -1,5 +1,5 @@
 (ns app.entries.reducer
-  (:require [strohm.native :refer [create-reducer]]))
+  (:require [strohm-native.flow :refer [create-reducer]]))
 
 (defn- update-entry [entries payload]
   (if (get entries (:entry/id payload))

@@ -11,7 +11,7 @@ import dev.strohmnative.journal.databinding.JournalEntryListBinding
 import dev.strohmnative.journal.view.RecyclerItemTouchHelper
 import dev.strohmnative.journal.view.RecyclerItemTouchHelperListener
 import dev.strohmnative.journal.viewmodel.JournalEntryListViewModel
-import dev.strohmnative.strohm.Strohm
+import dev.strohmnative.Strohm
 
 class JournalEntryListFragment: Fragment(), RecyclerItemTouchHelperListener {
 

@@ -1,7 +1,7 @@
 package dev.strohmnative.journal.viewmodel
 
 import dev.strohmnative.journal.model.JournalEntry
-import dev.strohmnative.strohm.viewmodels.SimpleViewModel
+import dev.strohmnative.viewmodels.SimpleViewModel
 
 class JournalEntryDetailViewModel(
     initialData: JournalEntry

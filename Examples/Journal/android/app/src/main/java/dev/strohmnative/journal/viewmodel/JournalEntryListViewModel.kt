@@ -1,7 +1,7 @@
 package dev.strohmnative.journal.viewmodel
 
 import dev.strohmnative.journal.model.JournalEntry
-import dev.strohmnative.strohm.viewmodels.KeyedArrayViewModel
+import dev.strohmnative.viewmodels.KeyedArrayViewModel
 
 class JournalEntryListViewModel(
     entries: List<JournalEntry>

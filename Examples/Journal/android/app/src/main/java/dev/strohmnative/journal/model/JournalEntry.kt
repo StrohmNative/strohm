@@ -2,8 +2,8 @@ package dev.strohmnative.journal.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import dev.strohmnative.strohm.ConstructableFromDictionary
-import dev.strohmnative.strohm.ConvertableToDictionary
+import dev.strohmnative.ConstructableFromDictionary
+import dev.strohmnative.ConvertableToDictionary
 import java.time.Instant
 
 data class JournalEntry(var id: String, var title: String, var text: String, var created: Instant):
