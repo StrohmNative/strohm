@@ -127,7 +127,9 @@ This project is work in progress. You probably should not use this yet.
 | Setup CI incl example app tests | [ ] |   [ ]   |        |
 | Setup CD of native libs         | [X] |   [X]   |        |
 | Setup CD of CLJS lib            |     |         |  [X]   |
-| Documentation                   |     |         |  [ ]   |
+| Getting Started Guide           |     |         |  […]   |
+| Deploy packages                 | […] |   […]   |  […]   |
+| API documentation               | [ ] |   [ ]   |  [ ]   |
 | Starter project?                |     |         |  [ ]   |
 | Complex example project         | [ ] |   [ ]   |        |
 | Branding, marketing, web site   |     |         |  [ ]   |
