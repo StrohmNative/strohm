@@ -116,11 +116,11 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                artifactId = 'android'
+                artifactId = 'strohm-native'
             }
             debug(MavenPublication) {
                 from components.debug
-                artifactId = 'android-debug'
+                artifactId = 'strohm-native-debug'
             }
             publications.all {
                 groupId = 'dev.strohmnative'
