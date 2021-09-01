@@ -7,8 +7,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import dev.strohmnative.example.counter.databinding.ActivityMainBinding
-import dev.strohmnative.strohm.StatusChangeListener
-import dev.strohmnative.strohm.Strohm
+import dev.strohmnative.StatusChangeListener
+import dev.strohmnative.Strohm
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
