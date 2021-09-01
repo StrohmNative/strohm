@@ -72,7 +72,7 @@ Creating new example project
 
   ```clojure
   (ns app.main
-    (:require [strohm.native :refer [create-store]]))
+    (:require [strohm-native.flow :refer [create-store]]))
 
   (defn reducer
     [state _action]
