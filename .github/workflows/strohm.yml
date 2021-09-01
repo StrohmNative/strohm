@@ -67,4 +67,4 @@ jobs:
       - name: Test Android
         run: |
           cd android
-          ./gradlew test
+          ./gradlew clean test
