@@ -107,8 +107,8 @@ task androidSourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
-tasks.named("dokkaHtml") {
-    outputDirectory.set(buildDir.resolve("dokka"))
+tasks.dokkaHtml.configure {
+    outputDirectory.set(file(buildDir.absolutePath + File.separatorChar + "dokka"))
 }
 
 afterEvaluate {
