@@ -145,9 +145,18 @@ afterEvaluate {
                 artifact androidSourcesJar
             }
         }
+        repositories {
+            maven {
+                def releasesRepoUrl = layout.buildDirectory.dir('repos/releases')
+                def snapshotsRepoUrl = layout.buildDirectory.dir('repos/snapshots')
+                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            }
+        }
     }
     signing {
+        // Set signing key using env var ORG_GRADLE_PROJECT_signingKey
         def signingKey = findProperty("signingKey")
+        // Set signing password using env varORG_GRADLE_PROJECT_signingPassword
         def signingPassword = findProperty("signingPassword")
         useInMemoryPgpKeys(signingKey, signingPassword)
 
@@ -155,3 +164,4 @@ afterEvaluate {
         sign publishing.publications.debug
     }
 }
+

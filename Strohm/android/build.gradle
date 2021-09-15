@@ -17,6 +17,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'io.github.gradle-nexus.publish-plugin' version '1.1.0'
+}
+
 allprojects {
     repositories {
         google()
@@ -26,4 +30,18 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+group = "dev.strohmnative"
+version = "$strohm_native_version"
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            // Set username using env var: ORG_GRADLE_PROJECT_sonatypeUsername
+            // Set password using env var: ORG_GRADLE_PROJECT_sonatypePassword
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
 }
