@@ -156,7 +156,7 @@ afterEvaluate {
     signing {
         // Set signing key using env var ORG_GRADLE_PROJECT_signingKey
         def signingKey = findProperty("signingKey")
-        // Set signing password using env varORG_GRADLE_PROJECT_signingPassword
+        // Set signing password using env var ORG_GRADLE_PROJECT_signingPassword
         def signingPassword = findProperty("signingPassword")
         useInMemoryPgpKeys(signingKey, signingPassword)
 
