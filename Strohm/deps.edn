@@ -3,13 +3,19 @@
  :aliases {:jar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.278"}}
                  :exec-fn hf.depstar/jar
                  :exec-args {}}
-           :install {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
+           :install {:extra-deps {#_#_slipset/deps-deploy {:mvn/version "RELEASE"}
+                                  svdo/deps-deploy {:git/url "https://github.com/svdo/deps-deploy"
+                                                    :git/sha "11c2ff28de2fc744c77f83c5a3d62ad3d074e2e3"}}
                      :exec-fn deps-deploy.deps-deploy/deploy
                      :exec-args {:installer :local
                                  :sign-releases? true
+                                 :sign-key-id "C771518B366E0C7D0C4B4368B2741AC5AFC71E0A"
                                  :artifact "target/strohm-native.jar"}}
-           :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
+           :deploy {:extra-deps {#_#_slipset/deps-deploy {:mvn/version "RELEASE"}
+                                 svdo/deps-deploy {:git/url "https://github.com/svdo/deps-deploy"
+                                                   :git/sha "11c2ff28de2fc744c77f83c5a3d62ad3d074e2e3"}}
                     :exec-fn deps-deploy.deps-deploy/deploy
                     :exec-args {:installer :remote
                                 :sign-releases? true
+                                :sign-key-id "C771518B366E0C7D0C4B4368B2741AC5AFC71E0A"
                                 :artifact "target/strohm-native.jar"}}}}
