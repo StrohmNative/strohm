@@ -175,13 +175,96 @@ has called the hook `reload!` afterwards.
 
 ## Create Project
 
-Create the folder `/android` that will contain the Android project sources:
+Using Android Studio, create a new Android project in the folder `/android`.
+Make sure to run the empty project, because this is a good time to fix potential
+issues around Java versions and the like.
 
-```bash
-mkdir android
+## Add Dependency
+
+In your app's `build.gradle` file, add the Strohm Native for Android dependency:
+
+```gradle
+ext {
+    strohmNativeVersion = '0.1.0-SNAPSHOT' // replace with latest version
+}
+
+dependencies {
+    [...]
+    debugImplementation "dev.strohmnative:strohm-native-android-debug:$strohmNativeVersion"
+    releaseImplementation "dev.strohmnative:strohm-native-android:$strohmNativeVersion"
+}
 ```
 
-Using Android Studio, create a new Android project in that folder.
+Pick the latest released version of course.
+
+## Setup Strohm Native
+
+A good way of setting up Strohm Native for Android, is to put it in your own
+`Application` subclass. For this to work, you create the `YawnApplication` class:
+
+```kotlin
+package dev.strohmnative.examples.yawn
+
+import android.app.Application
+import dev.strohmnative.StrohmNative
+
+class YawnApplication: Application() {
+    lateinit var strohmNative: StrohmNative
+
+    override fun onCreate() {
+        super.onCreate()
+        strohmNative = StrohmNative.getInstance(applicationContext)
+    }
+}
+```
+
+Then you need to tell Android to use an instance of this class by configuring
+your application in `AndroidManifest.xml`. Add the attribute `android:name` like
+so:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.strohmnative.examples.yawn">
+
+    <application
+        android:name="dev.strohmnative.examples.yawn.YawnApplication"
+        ... >
+    </application>
+</manifest>
+```
+
+## Network Security Config
+
+During development, the app needs to be able to connect to `localhost`, namely
+to communicate with shadow-cljs and the REPL. By default, this is not allowed,
+so you have to configure this. In `res/xml`, add the file
+`network_security_config.xml` with the following contents:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">localhost</domain>
+    </domain-config>
+</network-security-config>
+```
+
+Then refer to this file from your `AndroidManifest.xml` by adding the
+`android:networkSecurityConfig` attribute:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.strohmnative.examples.yawn">
+
+    <application
+        android:name="dev.strohmnative.examples.yawn.YawnApplication"
+        android:networkSecurityConfig="@xml/network_security_config"
+        ... >
+    </application>
+</manifest>
+```
 
 ## Running
 
@@ -198,6 +281,17 @@ times, let's add a script to our `package.json`:
   }
 }
 ```
+
+Now you can run your app:
+
+1. Make sure shadow-cljs is running the `:app` build, either by running `yarn
+   watch` or by jacking-in from your favorite Clojure editor.
+2. Make sure the Android simulator is running or your device is connected, and
+   run `yarn adb-reverse` to activate reverse port forwarding.
+3. Run the app from Android Studio.
+
+If everything is well, you should see a log message in Android Studio's "Run"
+tab where shadow-cljs says that it is ready.
 
 # iOS
 
