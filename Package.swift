@@ -20,6 +20,7 @@ let package = Package(
         .target(
             name: "StrohmNative",
             dependencies: [],
-            path: "Strohm/iOS/StrohmNative")
+            path: "Strohm/iOS/StrohmNative",
+            exclude: ["README.md", "Package.resolved"])
     ]
 )
