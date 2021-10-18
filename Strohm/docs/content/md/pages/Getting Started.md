@@ -113,11 +113,23 @@ named `shadow-cljs.edn`:
 Create the main source code file `/src/app/main.cljs` and put this in it:
 
 ```clojure
-(ns app.main)
+(ns app.main
+  (:require [strohm-native.flow :refer [create-store]]))
+
+;; Reducer doesn't do anything yet, simply returns state
+(defn reducer [state _action] state)
 
 (defn ^:export main! []
-  (tap> "Hello world!"))
+  (tap> "Hello world!")
+  (create-store reducer :initial-state {:greeting "Hello world!"}))
+
+(defn ^:dev/after-load reload! []
+  (tap> "reloaded"))
 ```
+
+That code is pretty much the minimum you need: create a store with some initial
+state, and create the root reducer. The reducer doesn't do anything yet, we'll
+get to that later.
 
 We'll also create a HTML file so that we can easily load the compiled JS into a
 browser. In `/target/index.html`, put this HTML source:
@@ -266,6 +278,8 @@ Then refer to this file from your `AndroidManifest.xml` by adding the
 </manifest>
 ```
 
+Please note that you can limit this to your Debug configuration if desired.
+
 ## Running
 
 Your app needs to be able to contact the `shadow-cljs` server and vice versa, so
@@ -294,6 +308,85 @@ If everything is well, you should see a log message in Android Studio's "Run"
 tab where shadow-cljs says that it is ready.
 
 # iOS
+
+## Create Project
+
+Create a new project in Xcode, using SwiftUI and Swift.
+
+## Add Dependency
+
+Then add Stohm Native as a Swift package dependency in the project settings, by
+pointing Xcode to `https://github.com/StrohmNative/strohm-native`.
+
+## Setup Strohm Native
+
+Now open the Swift file containing your `App` instance, `YawnApp` in this
+example. It is the file that contains the `@main` annotation. Add an import of
+`StrohmNative` and add a reference to `StrohmNative.default`, like this:
+
+```swift
+import SwiftUI
+import StrohmNative
+
+@main
+struct YawnApp: App {
+    let strohmNative = StrohmNative.default
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+```
+
+## Allow Local Networking
+
+Just like on Android, the app needs to be able to use local networking during
+development. In your app's info properties, add the section "App Transport
+Security Settings", and inside of it the setting "Allows Local Networking". Set
+the value to `YES`.
+
+![Info plist](/img/info_plist.png "Info property list")
+
+Note that you can limit this to your Debug configuration if desired, by setting
+the value here to a custom variable, e.g. `$(ALLOW_LOCAL_NETWORKING)`. In your
+build settings you can then set the value of that variable to `YES` and `NO`
+depending on the build configuration.
+
+## Add Compiled JavaScript
+
+In order for Xcode to include the compiled JavaScript in your project, you need
+to add it manually. Just drag-and-drop the file `target/main.js` into your
+project and make sure the checkbox indicating the file needs to be included in
+the target is checked. Also, don't allow Xcode to copy the file, just add a
+reference.
+
+## Running on Simulator
+
+You can now run your app on a simulator. Just like on Android, shadow-cljs will
+report to the JavaScript console that it is ready. Unfortunately, you cannot see
+this as you can only open the console (using Safari's develop menu) _after_ this
+line has been logged, so it has been lost. Rest assured though: when you don't
+see any errors in Xcode's debug area, everything should be fine.
+
+In shadow-cljs' [Inspect Stream](http://localhost:9630/inspect) you should now
+see the text "Hello world!" that was tapped in the clojure code.
+
+## Running on Device
+
+When running on device, a bit more setup is needed, because your app needs to
+know the hostname of your development machine, so that it can connect to
+shadow-cljs. The following simple "Run Script Phase" takes care of that:
+
+```bash
+hostname -s > ${CODESIGNING_FOLDER_PATH}/devhost.txt
+```
+
+![Devhost run script phase](/img/devhost.png "Dev host run script phase")
+
+This simply captures your IP address in a file, which is then used during
+development to connect to that shadow-cljs running on that IP address.
 
 [^clojurescript]: Clojure(Script) is just the language that I happen to use most at the moment. In principle, any language that compiles to JavaScript can be used instead. The common part of Strohm of course has to be rewritten in that language in that case, but it is really not a lot of code. I'm not planning to port it to another language any time soon.
 
