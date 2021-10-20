@@ -1,0 +1,22 @@
+Setting up your project breaks down into three parts: setup the common
+ClojureScript side, setup the Android project, and setup the iOS project.
+
+But first of course we create the root folder of our project.
+
+```bash
+mkdir ~/Documents/Yawn
+cd ~/Documents/Yawn
+git init
+```
+
+== Common Code
+
+include::NewProject-common.adoc[leveloffset=+1]
+
+== Android
+
+include::NewProject-android.adoc[leveloffset=+1]
+
+== iOS
+
+include::NewProject-ios.adoc[leveloffset=+1]

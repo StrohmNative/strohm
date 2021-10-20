@@ -1,0 +1,62 @@
+= Strohm Native Tutorial: Yet Another Weather Nicety
+:author: Stefan van den Oord
+:lang: en
+:encoding: UTF-8
+:doctype: book
+:source-highlighter: coderay
+:source-language: clojure
+:sectlinks:
+:sectanchors:
+:toc: left
+:toclevels: 3
+:sectnums:
+:imagesdir: assets/img
+:scriptsdir: js
+:imagesoutdir: assets/img
+:docinfo: shared
+:fn-clojurescript: footnote:[Clojure(Script) is just the language that I happen to use most at the moment. In principle, any language that compiles to JavaScript can be used instead. The common part of Strohm of course has to be rewritten in that language in that case, but it is really not a lot of code. I'm not planning to port it to another language any time soon.]
+
+== Introduction
+
+This tutorial explains how to set up a new Strohm Native project.
+To make things more explicit and easier to talk about, let's say the app we're
+going to setup is *Yawn: Yet Another Weather Nicety*.
+
+NOTE: Whenever I mention the *root folder*, I mean the folder that contains your
+project. The one in which you do `git init`. For example, it could be
+`~/Documents/Yawn`. Unless stated otherwise, all paths are relative to that root
+folder. So given that project location, the path `/src` is in fact
+`~/Documents/Yawn/src`. Also, my examples assume that you're using a Unix/macOS
+like operating system. I'm assuming experienced Windows users will be able to
+read the examples and figure out the corresponding actions on Windows themselves.
+
+Strap in, here we go.
+
+== Prerequisites
+
+When using Strohm, you or your team needs to be able to:
+
+* Develop native iOS apps (using https://swift.org[Swift] typically),
+* Develop native Android apps (using https://kotlinlang.org[Kotlin] typically), and
+* Use https://clojurescript.org[ClojureScript] for the common code{fn-clojurescript}.
+
+Please note that that this is only two big platforms that you have to
+understand, instead of the three that you need for popular cross-platform
+frameworks like https://reactnative.dev[React Native].
+
+== Development Environment
+
+A full development environment consists of:
+
+* https://developer.apple.com/xcode/[Xcode]
+* https://developer.android.com/studio/[Android Studio] (including SDK and emulator)
+* Your favorite Clojure(Script) editor (I'm using https://code.visualstudio.com[VSCode] and
+  https://calva.io[Calva])
+* https://nodejs.org/en/[NodeJS]
+
+At the moment I'm using Xcode 12.5, Android Studio 2020.3, NodeJS 14, and Yarn
+1.22.10.
+
+== Setup a New Project
+
+include::NewProject.adoc[leveloffset=+1]

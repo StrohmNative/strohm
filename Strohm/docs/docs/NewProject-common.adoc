@@ -1,0 +1,123 @@
+The common (ClojureScript) code is built and developed using
+https://shadow-cljs.github.io/docs/UsersGuide.html[`shadow-cljs`]. We're going to setup a pretty straight-forward
+`shadow-cljs` project. Hence we need a `package.json`:
+
+```json
+{
+  "name": "Yawn",
+  "version": "1.0.0",
+  "description": "Yet Another Weather Nicety is a less than exciting weather app",
+  "main": "index.js",
+  "devDependencies": {
+    "shadow-cljs": "^2.15.5"
+  },
+  "scripts": {
+    "watch": "shadow-cljs watch :app :test",
+    "release": "shadow-cljs release :app"
+  }
+}
+```
+
+Install:
+
+```bash
+yarn
+```
+
+For our ClojureScript code, `shadow-cljs` needs a build config file as well,
+named `shadow-cljs.edn`:
+
+```clojure
+{:source-paths ["src" "test"]
+
+ :dependencies
+ [[dev.strohmnative/strohm-native "0.1.0-SNAPSHOT"]] ;; replace with latest version
+
+ :dev-http {8080  "target/"}
+
+ :builds
+ {:app {:output-dir "target/"
+        :target :browser
+        :asset-path "."
+        :modules {:main {:entries [app.main]
+                         :init-fn app.main/main!}}}
+   :test {:target :node-test
+          :output-to "target/node-test.js"
+          :ns-regexp "-test$"
+          :autorun true
+          :compiler-options {:reader-features #{:test}}}}}
+```
+
+Create the main source code file `/src/app/main.cljs` and put this in it:
+
+```clojure
+(ns app.main
+  (:require [strohm-native.flow :refer [create-store]]))
+
+;; Reducer doesn't do anything yet, simply returns state
+(defn reducer [state _action] state)
+
+(defn ^:export main! []
+  (tap> "Hello world!")
+  (create-store reducer :initial-state {:greeting "Hello world!"}))
+
+(defn ^:dev/after-load reload! []
+  (tap> "reloaded"))
+```
+
+That code is pretty much the minimum you need: create a store with some initial
+state, and create the root reducer. The reducer doesn't do anything yet, we'll
+get to that later.
+
+We'll also create a HTML file so that we can easily load the compiled JS into a
+browser. In `/target/index.html`, put this HTML source:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="main.js"></script>
+  </head>
+  <body>
+    Yawn!
+  </body>
+</html>
+```
+
+This puts all the basics in place. We can now run `shadow-cljs`:
+
+```bash
+$ yarn shadow-cljs watch :app
+shadow-cljs - config: [path]/Documents/Yawn/shadow-cljs.edn
+shadow-cljs - HTTP server available at http://localhost:8080
+shadow-cljs - server version: 2.15.5 running at http://localhost:9630
+shadow-cljs - nREPL server started on port 56827
+shadow-cljs - watching build :app
+[:app] Configuring build.
+[:app] Compiling ...
+[:app] Build completed. (119 files, 0 compiled, 0 warnings, 2,30s)
+```
+
+When you now browse to `http://localhost:9630` you should see the `shadow-cljs`
+dashboard. There should be one active HTTP server on `http://localhost:8080`.
+When you click that link, a new browser tab opens that says "Yawn!". Going back
+to the `shadow-cljs` dashboard, in the "Inspect Stream" tab you should see the
+text "Hello world!" that was tapped in `main.cljs`.
+
+== Hot Reloading
+
+`shadow-cljs` comes with hot reloading out of the box. So for the final touch in
+this section, add the following function to your `main.cljs`:
+
+```clojure
+(defn ^:dev/after-load reload! []
+  (tap> "reloaded"))
+```
+
+Now, while having the tab with `http://localhost:8080` open, save the file. You
+should now see "reloaded" appear in the `shadow-cljs` dashboard's Tap History
+(Inspect Stream). In other words: `shadow-cljs` has hot reloaded the code and it
+has called the hook `reload!` afterwards.
+
+[.text-center]
+[.big.large-emoticon]##🎉##
