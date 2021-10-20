@@ -3,8 +3,8 @@
 :lang: en
 :encoding: UTF-8
 :doctype: book
-:source-highlighter: coderay
-:source-language: clojure
+:source-highlighter: highlight.js
+:highlightjs-languages: clojure,swift
 :sectlinks:
 :sectanchors:
 :toc: left
