@@ -14,4 +14,8 @@
            :serve {:exec-fn   cryogen.server/serve
                    :exec-args {:port 3000}}
            :serve-fast {:exec-fn   cryogen.server/serve
-                        :exec-args {:port 3000, :fast true}}}}
+                        :exec-args {:port 3000, :fast true}}
+           :outdated {:replace-paths []
+                      :replace-deps  {com.github.liquidz/antq {:mvn/version "1.1.0"}
+                                      org.slf4j/slf4j-nop     {:mvn/version "RELEASE"}}
+                      :main-opts     ["-m" "antq.core"]}}}
