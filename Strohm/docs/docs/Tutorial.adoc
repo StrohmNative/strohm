@@ -14,6 +14,7 @@
 :scriptsdir: js
 :imagesoutdir: assets/img
 :docinfo: shared
+:icons: font
 :fn-clojurescript: footnote:[Clojure(Script) is just the language that I happen to use most at the moment. In principle, any language that compiles to JavaScript can be used instead. The common part of Strohm of course has to be rewritten in that language in that case, but it is really not a lot of code. I'm not planning to port it to another language any time soon.]
 
 == Introduction
