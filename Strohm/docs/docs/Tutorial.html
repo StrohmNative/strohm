@@ -437,95 +437,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<style>
-/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
-pre.CodeRay{background:#f7f7f8}
-.CodeRay .line-numbers{border-right:1px solid currentColor;opacity:.35;padding:0 .5em 0 0}
-.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
-.CodeRay .line-numbers strong{color:#000}
-table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
-table.CodeRay td{vertical-align:top;line-height:inherit}
-table.CodeRay td.line-numbers{text-align:right}
-table.CodeRay td.code{padding:0 0 0 .75em}
-.CodeRay .debug{color:#fff !important;background:#000080 !important}
-.CodeRay .annotation{color:#007}
-.CodeRay .attribute-name{color:#000080}
-.CodeRay .attribute-value{color:#700}
-.CodeRay .binary{color:#509}
-.CodeRay .comment{color:#998;font-style:italic}
-.CodeRay .char{color:#04d}
-.CodeRay .char .content{color:#04d}
-.CodeRay .char .delimiter{color:#039}
-.CodeRay .class{color:#458;font-weight:bold}
-.CodeRay .complex{color:#a08}
-.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
-.CodeRay .color{color:#099}
-.CodeRay .class-variable{color:#369}
-.CodeRay .decorator{color:#b0b}
-.CodeRay .definition{color:#099}
-.CodeRay .delimiter{color:#000}
-.CodeRay .doc{color:#970}
-.CodeRay .doctype{color:#34b}
-.CodeRay .doc-string{color:#d42}
-.CodeRay .escape{color:#666}
-.CodeRay .entity{color:#800}
-.CodeRay .error{color:#808}
-.CodeRay .exception{color:inherit}
-.CodeRay .filename{color:#099}
-.CodeRay .function{color:#900;font-weight:bold}
-.CodeRay .global-variable{color:#008080}
-.CodeRay .hex{color:#058}
-.CodeRay .integer,.CodeRay .float{color:#099}
-.CodeRay .include{color:#555}
-.CodeRay .inline{color:#000}
-.CodeRay .inline .inline{background:#ccc}
-.CodeRay .inline .inline .inline{background:#bbb}
-.CodeRay .inline .inline-delimiter{color:#d14}
-.CodeRay .inline-delimiter{color:#d14}
-.CodeRay .important{color:#555;font-weight:bold}
-.CodeRay .interpreted{color:#b2b}
-.CodeRay .instance-variable{color:#008080}
-.CodeRay .label{color:#970}
-.CodeRay .local-variable{color:#963}
-.CodeRay .octal{color:#40e}
-.CodeRay .predefined{color:#369}
-.CodeRay .preprocessor{color:#579}
-.CodeRay .pseudo-class{color:#555}
-.CodeRay .directive{font-weight:bold}
-.CodeRay .type{font-weight:bold}
-.CodeRay .predefined-type{color:inherit}
-.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
-.CodeRay .key{color:#808}
-.CodeRay .key .delimiter{color:#606}
-.CodeRay .key .char{color:#80f}
-.CodeRay .value{color:#088}
-.CodeRay .regexp .delimiter{color:#808}
-.CodeRay .regexp .content{color:#808}
-.CodeRay .regexp .modifier{color:#808}
-.CodeRay .regexp .char{color:#d14}
-.CodeRay .regexp .function{color:#404;font-weight:bold}
-.CodeRay .string{color:#d20}
-.CodeRay .string .string .string{background:#ffd0d0}
-.CodeRay .string .content{color:#d14}
-.CodeRay .string .char{color:#d14}
-.CodeRay .string .delimiter{color:#d14}
-.CodeRay .shell{color:#d14}
-.CodeRay .shell .delimiter{color:#d14}
-.CodeRay .symbol{color:#990073}
-.CodeRay .symbol .content{color:#a60}
-.CodeRay .symbol .delimiter{color:#630}
-.CodeRay .tag{color:#008080}
-.CodeRay .tag-special{color:#d70}
-.CodeRay .variable{color:#036}
-.CodeRay .insert{background:#afa}
-.CodeRay .delete{background:#faa}
-.CodeRay .change{color:#aaf;background:#007}
-.CodeRay .head{color:#f8f;background:#505}
-.CodeRay .insert .insert{color:#080}
-.CodeRay .delete .delete{color:#800}
-.CodeRay .change .change{color:#66f}
-.CodeRay .head .head{color:#f4f}
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="book toc2 toc-left">
@@ -585,7 +498,7 @@ going to setup is <strong>Yawn: Yet Another Weather Nicety</strong>.</p>
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 Whenever I mention the <strong>root folder</strong>, I mean the folder that contains your
@@ -671,7 +584,7 @@ ClojureScript side, setup the Android project, and setup the iOS project.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">mkdir ~/Documents/Yawn
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mkdir ~/Documents/Yawn
 cd ~/Documents/Yawn
 git init</code></pre>
 </div>
@@ -685,17 +598,17 @@ git init</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="json">{
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Yawn</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1.0.0</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Yet Another Weather Nicety is a less than exciting weather app</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">main</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">index.js</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">devDependencies</span><span class="delimiter">&quot;</span></span>: {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">shadow-cljs</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">^2.15.5</span><span class="delimiter">&quot;</span></span>
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "Yawn",
+  "version": "1.0.0",
+  "description": "Yet Another Weather Nicety is a less than exciting weather app",
+  "main": "index.js",
+  "devDependencies": {
+    "shadow-cljs": "^2.15.5"
   },
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">scripts</span><span class="delimiter">&quot;</span></span>: {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">watch</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">shadow-cljs watch :app :test</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">release</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">shadow-cljs release :app</span><span class="delimiter">&quot;</span></span>
+  "scripts": {
+    "watch": "shadow-cljs watch :app :test",
+    "release": "shadow-cljs release :app"
   }
 }</code></pre>
 </div>
@@ -705,7 +618,7 @@ git init</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">yarn</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">yarn</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -714,24 +627,24 @@ named <code>shadow-cljs.edn</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="clojure">{<span class="symbol">:source-paths</span> [<span class="string"><span class="delimiter">&quot;</span><span class="content">src</span><span class="delimiter">&quot;</span></span> <span class="string"><span class="delimiter">&quot;</span><span class="content">test</span><span class="delimiter">&quot;</span></span>]
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:source-paths ["src" "test"]
 
- <span class="symbol">:dependencies</span>
- [[dev.strohmnative/strohm-native <span class="string"><span class="delimiter">&quot;</span><span class="content">0.1.0-SNAPSHOT</span><span class="delimiter">&quot;</span></span>]] <span class="comment">;; replace with latest version</span>
+ :dependencies
+ [[dev.strohmnative/strohm-native "0.1.0-SNAPSHOT"]] ;; replace with latest version
 
- <span class="symbol">:dev-http</span> {<span class="integer">8080</span>  <span class="string"><span class="delimiter">&quot;</span><span class="content">target/</span><span class="delimiter">&quot;</span></span>}
+ :dev-http {8080  "target/"}
 
- <span class="symbol">:builds</span>
- {<span class="symbol">:app</span> {<span class="symbol">:output-dir</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">target/</span><span class="delimiter">&quot;</span></span>
-        <span class="symbol">:target</span> <span class="symbol">:browser</span>
-        <span class="symbol">:asset-path</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">.</span><span class="delimiter">&quot;</span></span>
-        <span class="symbol">:modules</span> {<span class="symbol">:main</span> {<span class="symbol">:entries</span> [app.main]
-                         <span class="symbol">:init-fn</span> app.main/main!}}}
-   <span class="symbol">:test</span> {<span class="symbol">:target</span> <span class="symbol">:node-test</span>
-          <span class="symbol">:output-to</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">target/node-test.js</span><span class="delimiter">&quot;</span></span>
-          <span class="symbol">:ns-regexp</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">-test$</span><span class="delimiter">&quot;</span></span>
-          <span class="symbol">:autorun</span> <span class="predefined-constant">true</span>
-          <span class="symbol">:compiler-options</span> {<span class="symbol">:reader-features</span> #{<span class="symbol">:test</span>}}}}}</code></pre>
+ :builds
+ {:app {:output-dir "target/"
+        :target :browser
+        :asset-path "."
+        :modules {:main {:entries [app.main]
+                         :init-fn app.main/main!}}}
+   :test {:target :node-test
+          :output-to "target/node-test.js"
+          :ns-regexp "-test$"
+          :autorun true
+          :compiler-options {:reader-features #{:test}}}}}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -739,18 +652,18 @@ named <code>shadow-cljs.edn</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="clojure">(<span class="keyword">ns</span> <span class="namespace">app.main</span>
-  (<span class="symbol">:require</span> [strohm-native.flow <span class="symbol">:refer</span> [create-store]]))
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(ns app.main
+  (:require [strohm-native.flow :refer [create-store]]))
 
-<span class="comment">;; Reducer doesn't do anything yet, simply returns state</span>
-(<span class="keyword">defn</span> <span class="function">reducer</span> [state _action] state)
+;; Reducer doesn't do anything yet, simply returns state
+(defn reducer [state _action] state)
 
-(<span class="keyword">defn</span> ^<span class="symbol">:export</span> main! []
-  (tap&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello world!</span><span class="delimiter">&quot;</span></span>)
-  (create-store reducer <span class="symbol">:initial-state</span> {<span class="symbol">:greeting</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello world!</span><span class="delimiter">&quot;</span></span>}))
+(defn ^:export main! []
+  (tap&gt; "Hello world!")
+  (create-store reducer :initial-state {:greeting "Hello world!"}))
 
-(<span class="keyword">defn</span> ^<span class="symbol">:dev/after-load</span> reload! []
-  (tap&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">reloaded</span><span class="delimiter">&quot;</span></span>))</code></pre>
+(defn ^:dev/after-load reload! []
+  (tap&gt; "reloaded"))</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -764,15 +677,15 @@ browser. In <code>/target/index.html</code>, put this HTML source:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="html"><span class="doctype">&lt;!DOCTYPE html&gt;</span>
-<span class="tag">&lt;html&gt;</span>
-  <span class="tag">&lt;head&gt;</span>
-    <span class="tag">&lt;script</span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">main.js</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/script&gt;</span>
-  <span class="tag">&lt;/head&gt;</span>
-  <span class="tag">&lt;body&gt;</span>
+<pre class="highlightjs highlight"><code class="language-html hljs" data-lang="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;script src="main.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
     Yawn!
-  <span class="tag">&lt;/body&gt;</span>
-<span class="tag">&lt;/html&gt;</span></code></pre>
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -780,7 +693,7 @@ browser. In <code>/target/index.html</code>, put this HTML source:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">$ yarn shadow-cljs watch :app
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ yarn shadow-cljs watch :app
 shadow-cljs - config: [path]/Documents/Yawn/shadow-cljs.edn
 shadow-cljs - HTTP server available at http://localhost:8080
 shadow-cljs - server version: 2.15.5 running at http://localhost:9630
@@ -806,8 +719,8 @@ this section, add the following function to your <code>main.cljs</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="clojure">(<span class="keyword">defn</span> ^<span class="symbol">:dev/after-load</span> reload! []
-  (tap&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">reloaded</span><span class="delimiter">&quot;</span></span>))</code></pre>
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(defn ^:dev/after-load reload! []
+  (tap&gt; "reloaded"))</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -838,14 +751,14 @@ issues around Java versions and the like.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="gradle">ext {
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">ext {
     strohmNativeVersion = '0.1.0-SNAPSHOT' // replace with latest version
 }
 
 dependencies {
     [...]
-    debugImplementation &quot;dev.strohmnative:strohm-native-android-debug:$strohmNativeVersion&quot;
-    releaseImplementation &quot;dev.strohmnative:strohm-native-android:$strohmNativeVersion&quot;
+    debugImplementation "dev.strohmnative:strohm-native-android-debug:$strohmNativeVersion"
+    releaseImplementation "dev.strohmnative:strohm-native-android:$strohmNativeVersion"
 }</code></pre>
 </div>
 </div>
@@ -861,7 +774,7 @@ dependencies {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="kotlin">package dev.strohmnative.examples.yawn
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">package dev.strohmnative.examples.yawn
 
 import android.app.Application
 import dev.strohmnative.StrohmNative
@@ -883,15 +796,15 @@ so:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
-<span class="tag">&lt;manifest</span> <span class="attribute-name">xmlns:android</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://schemas.android.com/apk/res/android</span><span class="delimiter">&quot;</span></span>
-    <span class="attribute-name">package</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">dev.strohmnative.examples.yawn</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.strohmnative.examples.yawn"&gt;
 
-    <span class="tag">&lt;application</span>
-        <span class="attribute-name">android:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">dev.strohmnative.examples.yawn.YawnApplication</span><span class="delimiter">&quot;</span></span>
-        <span class="attribute-name">...</span> <span class="tag">&gt;</span>
-    <span class="tag">&lt;/application&gt;</span>
-<span class="tag">&lt;/manifest&gt;</span></code></pre>
+    &lt;application
+        android:name="dev.strohmnative.examples.yawn.YawnApplication"
+        ... &gt;
+    &lt;/application&gt;
+&lt;/manifest&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -905,12 +818,12 @@ so you have to configure this. In <code>res/xml</code>, add the file
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
-<span class="tag">&lt;network-security-config&gt;</span>
-    <span class="tag">&lt;domain-config</span> <span class="attribute-name">cleartextTrafficPermitted</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-        <span class="tag">&lt;domain</span> <span class="attribute-name">includeSubdomains</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>localhost<span class="tag">&lt;/domain&gt;</span>
-    <span class="tag">&lt;/domain-config&gt;</span>
-<span class="tag">&lt;/network-security-config&gt;</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;network-security-config&gt;
+    &lt;domain-config cleartextTrafficPermitted="true"&gt;
+        &lt;domain includeSubdomains="false"&gt;localhost&lt;/domain&gt;
+    &lt;/domain-config&gt;
+&lt;/network-security-config&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -919,16 +832,16 @@ so you have to configure this. In <code>res/xml</code>, add the file
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
-<span class="tag">&lt;manifest</span> <span class="attribute-name">xmlns:android</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://schemas.android.com/apk/res/android</span><span class="delimiter">&quot;</span></span>
-    <span class="attribute-name">package</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">dev.strohmnative.examples.yawn</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.strohmnative.examples.yawn"&gt;
 
-    <span class="tag">&lt;application</span>
-        <span class="attribute-name">android:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">dev.strohmnative.examples.yawn.YawnApplication</span><span class="delimiter">&quot;</span></span>
-        <span class="attribute-name">android:networkSecurityConfig</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">@xml/network_security_config</span><span class="delimiter">&quot;</span></span>
-        <span class="attribute-name">...</span> <span class="tag">&gt;</span>
-    <span class="tag">&lt;/application&gt;</span>
-<span class="tag">&lt;/manifest&gt;</span></code></pre>
+    &lt;application
+        android:name="dev.strohmnative.examples.yawn.YawnApplication"
+        android:networkSecurityConfig="@xml/network_security_config"
+        ... &gt;
+    &lt;/application&gt;
+&lt;/manifest&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -944,11 +857,11 @@ times, let&#8217;s add a script to our <code>package.json</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="json">{
-  <span class="error">.</span><span class="error">.</span><span class="error">.</span>
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">scripts</span><span class="delimiter">&quot;</span></span>: {
-    <span class="error">.</span><span class="error">.</span><span class="error">.</span>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">adb-reverse</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">adb reverse tcp:8080 tcp:8080 &amp;&amp; adb reverse tcp:9630 tcp:9630</span><span class="delimiter">&quot;</span></span>
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  ...
+  "scripts": {
+    ...
+    "adb-reverse": "adb reverse tcp:8080 tcp:8080 &amp;&amp; adb reverse tcp:9630 tcp:9630"
   }
 }</code></pre>
 </div>
@@ -996,17 +909,16 @@ pointing Xcode to <code><a href="https://github.com/StrohmNative/strohm-native" 
 <h4 id="_setup_strohm_native_2"><a class="anchor" href="#_setup_strohm_native_2"></a><a class="link" href="#_setup_strohm_native_2">4.3.3. Setup Strohm Native</a></h4>
 <div class="paragraph">
 <p>Now open the Swift file containing your <code>App</code> instance, <code>YawnApp</code> in this
-example. It is the file that contains the <code>@main</code> annotation. Add an import of
-<code>StrohmNative</code> and add a reference to <code>StrohmNative.default</code>, like this:</p>
+example. It is the file that contains the <code>@main</code> annotation. Modify it like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="swift">import SwiftUI
-import StrohmNative
+<pre class="highlightjs highlight"><code class="language-swift hljs" data-lang="swift">import SwiftUI
+import StrohmNative <i class="conum" data-value="1"></i><b>(1)</b>
 
 @main
 struct YawnApp: App {
-    let strohmNative = StrohmNative.default
+    let strohmNative = StrohmNative.default <i class="conum" data-value="2"></i><b>(2)</b>
 
     var body: some Scene {
         WindowGroup {
@@ -1015,6 +927,18 @@ struct YawnApp: App {
     }
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Import Strohm Native</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Add a reference to <code>StrohmNative.default</code></td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -1070,7 +994,7 @@ shadow-cljs. The following simple "Run Script Phase" takes care of that:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">hostname -s &gt; ${CODESIGNING_FOLDER_PATH}/devhost.txt</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">hostname -s &gt; ${CODESIGNING_FOLDER_PATH}/devhost.txt</code></pre>
 </div>
 </div>
 <div class="imageblock">
@@ -1095,8 +1019,17 @@ development to connect to that shadow-cljs running on that IP address.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-10-20 12:24:58 +0200
+Last updated 2021-10-20 13:53:01 +0200
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/clojure.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
 </body>
 </html>

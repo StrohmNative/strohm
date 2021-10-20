@@ -10,16 +10,15 @@ pointing Xcode to `https://github.com/StrohmNative/strohm-native`.
 == Setup Strohm Native
 
 Now open the Swift file containing your `App` instance, `YawnApp` in this
-example. It is the file that contains the `@main` annotation. Add an import of
-`StrohmNative` and add a reference to `StrohmNative.default`, like this:
+example. It is the file that contains the `@main` annotation. Modify it like this:
 
 ```swift
 import SwiftUI
-import StrohmNative
+import StrohmNative // <1>
 
 @main
 struct YawnApp: App {
-    let strohmNative = StrohmNative.default
+    let strohmNative = StrohmNative.default // <2>
 
     var body: some Scene {
         WindowGroup {
@@ -28,6 +27,8 @@ struct YawnApp: App {
     }
 }
 ```
+<1> Import Strohm Native
+<2> Add a reference to `StrohmNative.default`
 
 == Allow Local Networking
 
