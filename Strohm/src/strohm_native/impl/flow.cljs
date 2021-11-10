@@ -44,7 +44,7 @@
   {:state (or initial-state default-initial-state)
    :reducer reducer
    :dispatch (if (seq middlewares)
-               ((apply comp (reverse middlewares)) reduce-action)
+               ((apply comp middlewares) reduce-action)
                reduce-action)})
 
 (defn dispatch [store action]
