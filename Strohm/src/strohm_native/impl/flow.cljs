@@ -14,14 +14,14 @@
 
 (defn- reduce-action [store action]
   (let [reducer     (:reducer store)
-        reducing-fn (compute-reducer-fn reducer (:type action))]
+        reducing-fn (compute-reducer-fn reducer (or (:type action) nil))]
     (update store
             :state
-            (fn [state] (reducing-fn state action)))))
+            (fn reduce-action-update-store [state] (reducing-fn state action)))))
 
 (defn- apply-substate-reducer
   [action state substate-key reducer]
-  (let [reducer-fn (compute-reducer-fn reducer (:type action))]
+  (let [reducer-fn (compute-reducer-fn reducer (or (:type action) nil))]
     (update state
             substate-key
             (fn [substate] (reducer-fn substate action)))))

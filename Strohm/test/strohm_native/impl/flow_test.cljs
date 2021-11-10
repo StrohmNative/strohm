@@ -108,7 +108,7 @@
                      (dispatch {:type :test})
                      :state
                      :extra)))))
-  
+
   (testing "multiple middlewares"
     (let [plus-10-middleware (fn [next]
                                (fn [store action]
@@ -119,15 +119,13 @@
           minus-4-middleware (fn [next]
                                (fn [store action]
                                  (next store (update action :payload - 4))))
-          store (create-store {:test (fn [state payload] 
+          store (create-store {:test (fn [state payload]
                                        (assoc state :value payload))}
-                              :initial-state {:value nil} 
+                              :initial-state {:value nil}
                               :middlewares [plus-10-middleware
                                             times-2-middleware
                                             minus-4-middleware])]
-      (is (= (- (* (+ 10 1) 2) 4) (-> store 
-                    (dispatch {:type :test :payload 1})
-                    :state 
-                    :value)))
-      ))
-  )
+      (is (= (- (* (+ 10 1) 2) 4) (-> store
+                                      (dispatch {:type :test :payload 1})
+                                      :state
+                                      :value))))))
