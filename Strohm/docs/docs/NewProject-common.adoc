@@ -60,9 +60,6 @@ Create the main source code file `/src/app/main.cljs` and put this in it:
 (defn ^:export main! []
   (tap> "Hello world!")
   (create-store reducer :initial-state {:greeting "Hello world!"}))
-
-(defn ^:dev/after-load reload! []
-  (tap> "reloaded"))
 ```
 
 That code is pretty much the minimum you need: create a store with some initial
