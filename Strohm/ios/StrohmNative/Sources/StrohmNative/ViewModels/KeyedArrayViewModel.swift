@@ -10,8 +10,10 @@ open class KeyedArrayViewModel<EntryType: ConstructableFromDictionary>: ViewMode
         }
     }
 
-    public init(initialEntries: [EntryType], propName: PropName, propPath: PropPath) {
+    public init(initialEntries: [EntryType], propName: PropName, propPath: PropPath,
+                sorter: ((EntryType, EntryType) -> Bool)? = nil) {
         self.entries = initialEntries
+        self.sorter = sorter
         super.init(propName: propName, propPath: propPath)
     }
 
