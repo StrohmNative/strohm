@@ -17,6 +17,11 @@ open class KeyedArrayViewModel<EntryType: ConstructableFromDictionary>: ViewMode
         super.init(propName: propName, propPath: propPath)
     }
 
+    init(constantEntries: [EntryType]) {
+        self.entries = constantEntries
+        super.init()
+    }
+
     override func propsToData(props: Props) -> [EntryType]? {
         guard let rawData = props[self.propName] as? [PropName: Props] else {
             return nil
@@ -32,5 +37,9 @@ open class KeyedArrayViewModel<EntryType: ConstructableFromDictionary>: ViewMode
 
     override func store(data: [EntryType]) {
         self.entries = data
+    }
+
+    public static func constant(_ entries: [EntryType]) -> KeyedArrayViewModel<EntryType> {
+        return .init(constantEntries: entries)
     }
 }
