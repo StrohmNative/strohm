@@ -14,6 +14,11 @@ open class SimpleViewModel<EntryType: ConstructableFromDictionary>: ViewModelBas
         super.init(propName: propName, propPath: propPath)
     }
 
+    public required init(constant: EntryType) {
+        self.data = constant
+        super.init()
+    }
+
     override func propsToData(props: Props) -> EntryType? {
         guard let rawData = props[self.propName] as? [String:Any],
            let data = EntryType.init(from: rawData) else {
@@ -26,5 +31,9 @@ open class SimpleViewModel<EntryType: ConstructableFromDictionary>: ViewModelBas
 
     override func store(data: EntryType) {
         self.data = data
+    }
+
+    public static func constant(_ data: EntryType) -> Self {
+        return .init(constant: data)
     }
 }

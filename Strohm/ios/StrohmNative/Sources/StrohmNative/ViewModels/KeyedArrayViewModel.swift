@@ -17,7 +17,7 @@ open class KeyedArrayViewModel<EntryType: ConstructableFromDictionary>: ViewMode
         super.init(propName: propName, propPath: propPath)
     }
 
-    init(constantEntries: [EntryType]) {
+    public required init(constantEntries: [EntryType]) {
         self.entries = constantEntries
         super.init()
     }
@@ -39,7 +39,7 @@ open class KeyedArrayViewModel<EntryType: ConstructableFromDictionary>: ViewMode
         self.entries = data
     }
 
-    public static func constant(_ entries: [EntryType]) -> KeyedArrayViewModel<EntryType> {
+    public static func constant(_ entries: [EntryType]) -> Self {
         return .init(constantEntries: entries)
     }
 }

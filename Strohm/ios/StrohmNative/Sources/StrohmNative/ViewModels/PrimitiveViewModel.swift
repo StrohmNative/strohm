@@ -13,7 +13,7 @@ open class PrimitiveViewModel<T>: ViewModelBase<T>, PropsHandler {
         super.init(propName: propName, propPath: propPath)
     }
 
-    init(constantValue: T) {
+    public required init(constantValue: T) {
         self.data = constantValue
         super.init()
     }
@@ -32,7 +32,7 @@ open class PrimitiveViewModel<T>: ViewModelBase<T>, PropsHandler {
         self.data = data
     }
 
-    public static func constant(_ value: T) -> PrimitiveViewModel<T> {
+    public static func constant(_ value: T) -> Self {
         return .init(constantValue: value)
     }
 }
