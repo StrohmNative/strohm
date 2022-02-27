@@ -1,26 +1,26 @@
 import Foundation
 
-open class PrimitiveViewModel<Int>: ViewModelBase<Int>, PropsHandler {
-    public var data: Int {
+open class PrimitiveViewModel<T>: ViewModelBase<T>, PropsHandler {
+    public var data: T {
         willSet {
             // https://stackoverflow.com/questions/57615920/published-property-wrapper-not-working-on-subclass-of-observableobject
             self.objectWillChange.send()
         }
     }
     
-    public init(initialValue: Int, propName: PropName, propPath: PropPath) {
+    public init(initialValue: T, propName: PropName, propPath: PropPath) {
         self.data = initialValue
         super.init(propName: propName, propPath: propPath)
     }
 
-    init(constantValue: Int) {
+    init(constantValue: T) {
         self.data = constantValue
         super.init()
     }
 
-    override func propsToData(props: Props) -> Int? {
+    override func propsToData(props: Props) -> T? {
         guard let rawData = props[self.propName] as? [String:Any],
-              let value = rawData[self.propName] as? Int else {
+              let value = rawData[self.propName] as? T else {
             return nil
         }
 
@@ -28,12 +28,11 @@ open class PrimitiveViewModel<Int>: ViewModelBase<Int>, PropsHandler {
         return value
     }
 
-    override func store(data: Int) {
+    override func store(data: T) {
         self.data = data
     }
 
-    public static func constant(_ value: Int) -> PrimitiveViewModel<Int> {
+    public static func constant(_ value: T) -> PrimitiveViewModel<T> {
         return .init(constantValue: value)
     }
 }
-
