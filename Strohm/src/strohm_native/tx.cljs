@@ -15,8 +15,8 @@
 (defn props->message [subscriptionId old-props new-props]
   {:function "subscriptionUpdate"
    :subscriptionId (str subscriptionId)
-   :old old-props
-   :new new-props})
+   :old (js/JSON.stringify (clj->js' old-props))
+   :new (js/JSON.stringify (clj->js' new-props))})
 
 (defn send-message! [message]
   (cond

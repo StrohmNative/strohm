@@ -15,7 +15,7 @@ open class ViewModelBase<DataType>: ObservableObject {
         self.propPath = propPath
         StrohmNative.default.subscribe(
             propsSpec: [propName: propPath],
-            handler: receiveProps) { subscriptionId in
+            handler: receiveProps2) { subscriptionId in
             self.subscriptionId = subscriptionId
         }
     }
@@ -34,7 +34,19 @@ open class ViewModelBase<DataType>: ObservableObject {
         }
     }
 
+    func receiveProps2(serializedProps: String) {
+        if let data = propsToData2(serializedProps: serializedProps) {
+            DispatchQueue.main.async { [weak self] in
+                self?.store(data: data)
+            }
+        }
+    }
+
     func propsToData(props: Props) -> DataType? {
+        fatalError("abstract method")
+    }
+
+    func propsToData2(serializedProps: String) -> DataType? {
         fatalError("abstract method")
     }
 
