@@ -41,9 +41,7 @@ open class KeyedArrayViewModel<EntryType: ConstructableFromDictionary & Codable>
         }
 
         do {
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .millisecondsSince1970
-            let data = try decoder.decode(PropEnvelope<[String:EntryType]>.self, from: rawData)
+            let data = try decoder().decode(PropEnvelope<[String:EntryType]>.self, from: rawData)
             let entries = [EntryType](data.propValue.values)
 
             print("Received entries: ", entries.count)

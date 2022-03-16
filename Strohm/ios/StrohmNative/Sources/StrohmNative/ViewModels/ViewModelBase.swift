@@ -53,6 +53,12 @@ open class ViewModelBase<DataType>: ObservableObject {
     func store(data: DataType) {
         fatalError("abstract method")
     }
+
+    func decoder() -> JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .millisecondsSince1970
+        return decoder
+    }
 }
 
 protocol PropsHandler {

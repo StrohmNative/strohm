@@ -35,9 +35,7 @@ open class SimpleViewModel<EntryType: ConstructableFromDictionary & Decodable>: 
         }
 
         do {
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .millisecondsSince1970
-            let data = try decoder.decode(PropEnvelope<EntryType>.self, from: rawData)
+            let data = try decoder().decode(PropEnvelope<EntryType>.self, from: rawData)
             let value = data.propValue
             print("Received entry: ", value)
             return value
