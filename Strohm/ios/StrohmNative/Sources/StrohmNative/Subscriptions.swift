@@ -72,6 +72,7 @@ class Subscriptions {
 
     func removeSubscriber(subscriptionId: UUID) {
         subscribers.removeValue(forKey: subscriptionId)
+        subscribers2.removeValue(forKey: subscriptionId)
         strohmNative.call(method: "strohm_native.flow.unsubscribe_from_native(\"\(subscriptionId.uuidString)\")")
     }
 
@@ -82,22 +83,18 @@ class Subscriptions {
         }
     }
 
-    func handlePropsUpdate(props: Props, subscriptionId: UUID) {
-        subscribers[subscriptionId]?(props)
-    }
-
-    func handlePropsUpdate2(serializedProps: String, subscriptionId: UUID) {
-        subscribers2[subscriptionId]?(serializedProps)
-    }
-
     func subscriptionUpdateHandler(args: JsonComms.Arguments) {
         if let subscriptionIdString = args["subscriptionId"] as? String,
            let subscriptionId = UUID(uuidString: subscriptionIdString),
            let newPropsSerialized = args["new"] as? String {
-            handlePropsUpdate2(serializedProps: newPropsSerialized, subscriptionId: subscriptionId)
-//           let newProps = args["new"] as? [String: Any] {
-//            handlePropsUpdate(props: newProps,
-//                              subscriptionId: subscriptionId)
+            if let subscriber = subscribers[subscriptionId],
+               let data = newPropsSerialized.data(using: .utf8),
+               let newProps = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                subscriber(newProps)
+            } else if let subscriber2 = subscribers2[subscriptionId] {
+                subscriber2(newPropsSerialized)
+            }
         }
     }
 }
+

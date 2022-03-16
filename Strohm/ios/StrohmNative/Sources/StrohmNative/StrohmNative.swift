@@ -104,9 +104,9 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
         self.subscriptions?.addSubscriber(propsSpec: propsSpec, handler: handler, completion: completion)
     }
 
-    public func subscribe(propsSpec: PropsSpec,
-                          handler: @escaping HandlerFunction2,
-                          completion: @escaping (UUID) -> Void) {
+    public func subscribe2(propsSpec: PropsSpec,
+                           handler: @escaping HandlerFunction2,
+                           completion: @escaping (UUID) -> Void) {
         self.subscriptions?.addSubscriber2(propsSpec: propsSpec, handler: handler, completion: completion)
     }
 
@@ -146,8 +146,9 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
         }
     }
 
-    public func dispatch(type: String, payload: ConvertableToDictionary) {
-        dispatch(type: type, payload: payload.toDict())
+    public func dispatch<T: Encodable>(type: String, payload: T) throws {
+        let encodedPayload: [String: Any] = try DictionaryEncoder().encode(payload)
+        dispatch(type: type, payload: encodedPayload)
     }
 
     public func dispatch(type: String, payload: [String: Any] = [:]) {

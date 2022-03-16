@@ -1,7 +1,7 @@
 import Foundation
 import StrohmNative
 
-struct JournalEntry: Identifiable, ConstructableFromDictionary, ConvertableToDictionary {
+struct JournalEntry: Identifiable, Codable, ConstructableFromDictionary, ConvertableToDictionary {
     let id: String
     var title: String
     var text: String
@@ -33,5 +33,12 @@ struct JournalEntry: Identifiable, ConstructableFromDictionary, ConvertableToDic
             "entry/text": text,
             "entry/created": created.timeIntervalSince1970 * 1000
         ]
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id = "entry/id"
+        case title = "entry/title"
+        case text = "entry/text"
+        case created = "entry/created"
     }
 }

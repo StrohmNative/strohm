@@ -36,7 +36,7 @@ struct JournalEntriesList: View {
     func onDelete(at offsets: IndexSet) {
         print("onDelete: \(offsets)")
         let ids = offsets.map { viewModel.entries[$0].id }
-        StrohmNative.default.dispatch(type: "remove-entry", payload: ["entry/id": ids[0]])
+        try! StrohmNative.default.dispatch(type: "remove-entry", payload: ["entry/id": ids[0]])
     }
 }
 

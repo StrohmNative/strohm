@@ -34,7 +34,9 @@ open class PrimitiveViewModel<T: Decodable>: ViewModelBase<T>, PropsHandler {
         }
 
         do {
-            let data = try JSONDecoder().decode(PropEnvelope<T>.self, from: rawData)
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .millisecondsSince1970
+            let data = try decoder.decode(PropEnvelope<T>.self, from: rawData)
             let value = data.propValue
             print("Received value: ", value)
             return value

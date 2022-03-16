@@ -13,7 +13,7 @@ open class ViewModelBase<DataType>: ObservableObject {
     public init(propName: PropName, propPath: PropPath) {
         self.propName = propName
         self.propPath = propPath
-        StrohmNative.default.subscribe(
+        StrohmNative.default.subscribe2(
             propsSpec: [propName: propPath],
             handler: receiveProps2) { subscriptionId in
             self.subscriptionId = subscriptionId

@@ -73,7 +73,7 @@ struct JournalEntryDetail: View {
         self.editMode = false
         var updatedEntry = viewModel.data
         updatedEntry.text = editableText
-        StrohmNative.default.dispatch(type: "update-entry", payload: updatedEntry)
+        try! StrohmNative.default.dispatch(type: "update-entry", payload: updatedEntry)
         self.presentationMode.wrappedValue.dismiss()
     }
 
@@ -82,7 +82,7 @@ struct JournalEntryDetail: View {
         DispatchQueue.main.async {
             var updatedEntry = viewModel.data
             updatedEntry.title = editableTitle
-            StrohmNative.default.dispatch(type: "update-entry", payload: updatedEntry)
+            try! StrohmNative.default.dispatch(type: "update-entry", payload: updatedEntry)
         }
     }
 }
