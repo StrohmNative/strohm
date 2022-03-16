@@ -9,7 +9,7 @@
      [logged]
      (log/debug "foo debug")
      (is (= [] @logged))))
-  
+
   (testing "there is an info level"
     (capturing-logs
      [logged]

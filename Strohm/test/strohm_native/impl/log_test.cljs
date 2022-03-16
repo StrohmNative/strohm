@@ -49,7 +49,7 @@
          (log/log [:info "i"])
          (log/log [:debug "d"])
          (is (= ["e" "w" "i"] (mapcat second @logged))))))
-    
+
     (testing "level :warn"
       (binding [log/*cur-log-level* :warn]
         (capturing-logs
@@ -59,7 +59,7 @@
          (log/log [:info "i"])
          (log/log [:debug "d"])
          (is (= ["e" "w"] (mapcat second @logged))))))
-    
+
     (testing "level :error"
       (binding [log/*cur-log-level* :error]
         (capturing-logs

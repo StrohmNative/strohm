@@ -1,10 +1,11 @@
 (ns strohm-native.tx
   (:require [strohm-native.utils :refer [clj->js']]))
 
-(defn- js->swift-handler []
+(defn- js->swift-handler
+  []
   (.. js/window -webkit -messageHandlers -jsToSwift))
 
-(defn- android-webview? 
+(defn- android-webview?
   []
   (.call (.-hasOwnProperty (.-prototype js/Object)) js/globalThis "strohmNativeReceiveProps"))
 
@@ -12,13 +13,15 @@
   []
   (some? (.-webkit js/window)))
 
-(defn props->message [subscriptionId old-props new-props]
+(defn props->message
+  [subscriptionId old-props new-props]
   {:function "subscriptionUpdate"
    :subscriptionId (str subscriptionId)
    :old (js/JSON.stringify (clj->js' old-props))
    :new (js/JSON.stringify (clj->js' new-props))})
 
-(defn send-message! [message]
+(defn send-message!
+  [message]
   (cond
     (android-webview?)
     (.receiveProps (.-strohmNativeReceiveProps js/globalThis)

@@ -27,7 +27,7 @@
     (let [subscription-triggered (atom false)]
       (subscribe! #(reset! subscription-triggered true))
       (is (= true @subscription-triggered))))
-  
+
   (testing "subscribe calls callback with current value"
     (reset! store nil)
     (create-store {} :initial-state :foo)
@@ -55,13 +55,13 @@
                   :initial-state 0)
     (let [received-old-state (atom nil)
           received-new-state (atom nil)]
-      (subscribe! (fn [old new] 
+      (subscribe! (fn [old new]
                     (reset! received-old-state old)
                     (reset! received-new-state new)))
       (dispatch! {:type :increment})
       (is (= 0 @received-old-state))
       (is (= 1 @received-new-state))))
-  
+
   (testing "create reducer"
     (let [reducer       (create-reducer {"append" conj "plus" +})
           append-action {:type "append" :payload :foo}
@@ -69,7 +69,7 @@
       (is (= [:foo] (reducer [] append-action)))
       (is (= 3 (reducer 1 plus-action)))
       (is (= :something (reducer :something {:type "unknown"})))))
-  
+
   (testing "middleware dispatches extra action"
     (let [reducer        (create-reducer {:extra #(assoc %1 :extra true)})
           dispatch-extra (fn [next]

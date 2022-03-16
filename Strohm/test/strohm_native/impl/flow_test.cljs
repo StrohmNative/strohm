@@ -3,11 +3,13 @@
             [clojure.string :as str]
             [strohm-native.flow :refer [create-reducer]]
             [strohm-native.impl.flow :refer [create-store
-                                              combine-reducers
-                                              state->props
-                                              dispatch]]))
+                                             combine-reducers
+                                             state->props
+                                             dispatch]]))
 
-(defn identity-reducer [state _action] state)
+(defn identity-reducer
+  [state _action]
+  state)
 
 (deftest store-impl-test
   (testing "a store has a reducer, state and a dispatch function"
@@ -36,15 +38,18 @@
       (is (=  3 (:state (dispatch store {:type :add :payload 3}))))))
 
   (testing "nested reducer functions"
-    (let [sub1-reducer (fn sub1-reducer [state action]
+    (let [sub1-reducer (fn sub1-reducer
+                         [state action]
                          (if (= :test (:type action))
                            (str/join "-1-" [state (:payload action)])
                            state))
-          sub2-reducer (fn sub2-reducer [state action]
+          sub2-reducer (fn sub2-reducer
+                         [state action]
                          (if (= :test (:type action))
                            (str/join "-2-" [state (:payload action)])
                            state))
-          root-reducer (fn root-reducer [state action]
+          root-reducer (fn root-reducer
+                         [state action]
                          {:sub1 (sub1-reducer (:sub1 state) action)
                           :sub2 (sub2-reducer (:sub2 state) action)})
           store        (create-store root-reducer :initial-state {:sub1 "" :sub2 ""})]
@@ -52,11 +57,13 @@
              (:state (dispatch store {:type :test :payload "test"}))))))
 
   (testing "combine-reducers with reducer functions"
-    (let [sub1-reducer (fn sub1-reducer [state action]
+    (let [sub1-reducer (fn sub1-reducer
+                         [state action]
                          (if (= "test" (:type action))
                            (str/join "-1-" [state (:payload action)])
                            state))
-          sub2-reducer (fn sub2-reducer [state action]
+          sub2-reducer (fn sub2-reducer
+                         [state action]
                          (if (= "test" (:type action))
                            (str/join "-2-" [state (:payload action)])
                            state))

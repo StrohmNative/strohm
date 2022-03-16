@@ -1,6 +1,6 @@
 (ns strohm-native.impl.flow
-  (:require [com.fulcrologic.guardrails.core :refer [>defn >defn- ?]]
-            [clojure.spec.alpha :as s]
+  (:require [clojure.spec.alpha :as s]
+            [com.fulcrologic.guardrails.core :refer [>defn >defn- ?]]
             [strohm-native.spec]))
 
 (def default-initial-state {})
@@ -15,7 +15,8 @@
   [:strohm/reducer any? => :strohm/reducer-fn]
   (if (associative? reducer)
     (if-let [reducer-for-action (get reducer action-type)]
-      (fn reducer-from-map [state action]
+      (fn reducer-from-map
+        [state action]
         (reducer-for-action state (:payload action)))
       identity-reducer)
     reducer))
@@ -40,7 +41,8 @@
 (>defn combine-reducers
   [reducers]
   [map? => :strohm/reducer]
-  (fn combined-reducer [state action]
+  (fn combined-reducer
+    [state action]
     (reduce-kv (partial apply-substate-reducer action)
                state
                reducers)))
@@ -54,7 +56,6 @@
   [state prop-spec]
   [:strohm/state :strohm/prop-spec => :strohm/prop-value]
   (state-for-prop-spec state prop-spec))
-
 
 (>defn create-store'
   [reducer initial-state middlewares]

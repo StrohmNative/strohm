@@ -1,11 +1,12 @@
 (ns strohm-native.utils)
 
-(defn namespaced-name [kwd]
+(defn namespaced-name
+  [kwd]
   (str (when-let [kwd-ns (namespace kwd)]
          (str kwd-ns "/"))
        (name kwd)))
 
-(defn clj->js' 
+(defn clj->js'
   "A version of clj->js that keeps namespaces when keys are keywords."
   [x]
   (clj->js x :keyword-fn namespaced-name))

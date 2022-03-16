@@ -8,7 +8,8 @@
 
 (def reducer (combine-reducers {"entries" entries/reducer}))
 
-(defn send-state! [state]
+(defn send-state!
+  [state]
   (let [serialized-state (pr-str state)]
     (tx/send-message! {:function "persistState"
                        :state serialized-state})))
@@ -20,7 +21,8 @@
       (send-state! (:state next-store))
       next-store)))
 
-(defn load-state []
+(defn load-state
+  []
   (some-> (.-strohmNativePersistedState js/globalThis)
           read-string))
 
@@ -28,19 +30,23 @@
   {"entries"   entries/initial-state
    :navigation navigation/initial-state})
 
-(defn- setup []
+(defn- setup
+  []
   (let [initial-state (or (load-state) empty-store)]
     (create-store reducer
                   :initial-state initial-state
                   :middlewares [persist-state-middleware])))
 
-(defn ^:export main! []
+(defn ^:export main!
+  []
   (log/set-log-level! :debug)
   (setup)
   (log/debug "[main] started"))
 
-(defn ^:export init []
+(defn ^:export init
+  []
   (log/debug "[main] init done"))
 
-(defn ^:dev/after-load reload! []
+(defn ^:dev/after-load reload!
+  []
   (log/debug "[main] reloaded"))

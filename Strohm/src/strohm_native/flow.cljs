@@ -1,8 +1,8 @@
 (ns strohm-native.flow
-  (:require [strohm-native.log :as log]
+  (:require [strohm-native.impl.flow :as impl]
+            [strohm-native.log :as log]
             [strohm-native.tx :refer [send-props!]]
-            [strohm-native.utils :as utils]
-            [strohm-native.impl.flow :as impl]))
+            [strohm-native.utils :as utils]))
 
 (defonce ^:export store (atom nil))
 
@@ -28,7 +28,8 @@
   (let [action (utils/js->clj' (js/JSON.parse serialized-action))]
     (dispatch! action)))
 
-(defn- subscribe-and-send-current-value [key watch-fn]
+(defn- subscribe-and-send-current-value
+  [key watch-fn]
   (add-watch store key watch-fn)
   (watch-fn key nil nil @store))
 
@@ -68,7 +69,7 @@
 
 (def ^:export combine-reducers impl/combine-reducers)
 
-(defn ^:export create-reducer 
+(defn ^:export create-reducer
   [reducer-map]
   (let [all-reducers (into {} (map (fn [[action-type _]]
                                      [action-type

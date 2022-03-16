@@ -1,9 +1,9 @@
 (ns strohm-native.spec
   (:require [clojure.spec.alpha :as s]
-            [com.fulcrologic.guardrails.core :refer [>def ? >fspec]]
+            [clojure.test.check]
             [clojure.test.check.generators]
             [clojure.test.check.properties]
-            [clojure.test.check]))
+            [com.fulcrologic.guardrails.core :refer [>def ? >fspec]]))
 
 (>def :strohm/prop-name string?)
 (>def :strohm/state any?)
@@ -16,7 +16,10 @@
 (>def :strohm/dispatch (s/with-gen ifn? #(s/gen #{(fn [store _action] store)})))
 (>def :strohm/store (s/keys :opt-un [:strohm/state :strohm/reducer :strohm/dispatch]))
 (s/def ::store-action-fn :strohm/dispatch)
-(s/def :strohm/middleware (s/fspec :args (s/cat :next :strohm/dispatch)
-                                   :ret ::store-action-fn))
+
+(s/def :strohm/middleware
+  (s/fspec :args (s/cat :next :strohm/dispatch)
+           :ret ::store-action-fn))
+
 (>def :strohm/middlewares (s/coll-of :strohm/middleware))
 (>def :strohm/action (s/with-gen any? #(s/gen #{{:type :sample-action}})))

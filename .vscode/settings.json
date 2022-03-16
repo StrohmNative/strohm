@@ -1,3 +1,12 @@
 {
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.clj[sc]?",
+        "isAsync": false,
+        "cmd": "cljstyle fix ${file}"
+      }
+    ]
+  },
   "calva.fmt.configPath": ".cljfmt.edn"
 }

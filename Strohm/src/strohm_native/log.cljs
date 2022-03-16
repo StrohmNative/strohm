@@ -2,22 +2,28 @@
   (:require [strohm-native.impl.log :as impl]
             [strohm-native.utils :as utils]))
 
-(defn set-log-level! [new-level]
+(defn set-log-level!
+  [new-level]
   (impl/set-log-level! new-level))
 
-(defn debug [& args]
+(defn debug
+  [& args]
   (impl/log (cons :debug args)))
 
-(defn info [& args]
+(defn info
+  [& args]
   (impl/log (cons :info args)))
 
-(defn warn [& args]
+(defn warn
+  [& args]
   (impl/log (cons :warn args)))
 
-(defn error [& args]
+(defn error
+  [& args]
   (impl/log (cons :error args)))
 
-(defn ^:export log-from-native [serialized-args]
+(defn ^:export log-from-native
+  [serialized-args]
   (-> serialized-args
       js/JSON.parse
       utils/js->clj'
