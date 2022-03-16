@@ -1,0 +1,4 @@
+{:list-indent 1
+ :indents     {>def   [[:inner 0]]
+               >defn  [[:inner 0]]
+               >defn- [[:inner 0]]}}

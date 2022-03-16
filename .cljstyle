@@ -1,0 +1,9 @@
+{:files {:ignore #{".clj-kondo"}}
+ :rules {:indentation {:list-indent 1
+                       :indents     {>def   [[:inner 0]]
+                                     >defn  [[:inner 0]]
+                                     >defn- [[:inner 0]]}}
+         :comments    {:inline-prefix "; "}
+         :blank-lines {:max-consecutive 1
+                       :padding-lines   1}
+         :namespaces  {:break-libs? false}}}
