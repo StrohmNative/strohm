@@ -1,14 +1,31 @@
 {:deps true
 
  :dev-http {8080  "target/"}
- 
+
  :builds
- {:strohm-native {:output-dir       "target/"
-                  :target           :browser
-                  :asset-path       "."
-                  :modules          {:main {:entries [strohm-native.flow]}}}
+ {:strohm-native {:output-dir "target/"
+                  :target     :browser
+                  :asset-path "."
+                  :modules    {:main {:entries [strohm-native.flow]}}
+                  :dev        {:compiler-options
+                               {:closure-defines {'goog.DEBUG true}
+                                :external-config
+                                {:guardrails {:async? false
+                                              :throw? true
+                                              :expound    {:show-valid-values? true
+                                                           :print-specs?       true}
+}}}}
+                  :release    {}}
   :test   {:target           :node-test
            :output-to        "target/node-test.js"
            :ns-regexp        "-test$"
            :autorun          true
-           :compiler-options {:reader-features #{:test}}}}}
+           :compiler-options {:reader-features #{:test}}
+           :dev        {:compiler-options
+                        {:closure-defines {'goog.DEBUG true}
+                         :external-config
+                         {:guardrails {:async? false
+                                       :throw? false
+                                       :expound    {:show-valid-values? true
+                                                    :print-specs?       true}}}}}
+           :release    {}}}}

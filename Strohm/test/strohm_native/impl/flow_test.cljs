@@ -11,13 +11,13 @@
 
 (deftest store-impl-test
   (testing "a store has a reducer, state and a dispatch function"
-    (let [store (create-store 'some-reducer)]
+    (let [store (create-store identity-reducer)]
       (is (= {} (:state store)))
-      (is (= 'some-reducer (:reducer store)))))
+      (is (= identity-reducer (:reducer store)))))
 
   (testing "a store can be created with an initial state"
     (is (= {:test "foo"}
-           (:state (create-store 'some-reducer
+           (:state (create-store identity-reducer
                                  :initial-state {:test "foo"})))))
 
   (testing "it can reduce an action to a new state"
@@ -50,7 +50,7 @@
           store        (create-store root-reducer :initial-state {:sub1 "" :sub2 ""})]
       (is (= {:sub1 "-1-test" :sub2 "-2-test"}
              (:state (dispatch store {:type :test :payload "test"}))))))
-  
+
   (testing "combine-reducers with reducer functions"
     (let [sub1-reducer (fn sub1-reducer [state action]
                          (if (= "test" (:type action))
@@ -64,36 +64,36 @@
           store        (create-store root-reducer :initial-state {:sub1 "" :sub2 ""})]
       (is (= {:sub1 "-1-test" :sub2 "-2-test"}
              (:state (dispatch store {:type "test" :payload "test"}))))))
-  
+
   (testing "combine-reducers with reducer maps"
     (let [sub1-reducer (create-reducer {"test" #(str/join "-1-" [%1 %2])})
           sub2-reducer {"test" #(str/join "-2-" [%1 %2])}
-          root-reducer (combine-reducers {"sub1" sub1-reducer :sub2 sub2-reducer})
+          root-reducer (combine-reducers {"sub1" sub1-reducer :sub2 sub2-reducer}) ;; TODO: moet vectors worden
           store        (create-store root-reducer :initial-state {"sub1" "" :sub2 ""})]
       (is (= {"sub1" "-1-test" :sub2 "-2-test"}
              (:state (dispatch store {:type "test" :payload "test"}))))))
-  
+
   (testing "combine-reducers with unknown action"
     (let [sub-reducer  (create-reducer {"test" #(str/join "-1-" [%1 %2])})
           root-reducer (combine-reducers {"sub" sub-reducer})
           store        (create-store root-reducer :initial-state {"sub" "foo"})]
       (is (= {"sub" "foo"} (:state (dispatch store {:type "unknown-action-type"}))))))
-  
+
   (testing "combine-reducers with reducer maps and unknown action"
     (let [sub-reducer  {"test" #(str/join "-1-" [%1 %2])}
           root-reducer (combine-reducers {"sub" sub-reducer})
           store        (create-store root-reducer :initial-state {"sub" "foo"})]
       (is (= {"sub" "foo"} (:state (dispatch store {:type "unknown-action-type"}))))))
-  
+
   (testing "state->props"
-    (is (= {"prop-name" {:foo :bar}}
-           (state->props {:foo :bar} {"prop-name" []})))
-    (is (= {"prop-name" :bar}
-           (state->props {:foo :bar} {"prop-name" [:foo]})))
-    (is (= {"prop-name" {:goal "target"}}
+    (is (= ["my-prop" {:foo :bar}]
+           (state->props {:foo :bar} ["my-prop" []])))
+    (is (= ["my-prop" :bar]
+           (state->props {:foo :bar} ["my-prop" [:foo]])))
+    (is (= ["my-prop" {:goal "target"}]
            (state->props {:foo :bar
                           :baz [0 1 {:goal "target"}]}
-                         {"prop-name" [:baz 2]})))))
+                         ["my-prop" [:baz 2]])))))
 
 (deftest middleware-test
   (testing "middleware dispatches extra action"
