@@ -1,6 +1,6 @@
 import Foundation
 
-open class SimpleViewModel<EntryType: ConstructableFromDictionary & Decodable>: ViewModelBase<EntryType>, PropsHandler {
+open class SimpleViewModel<EntryType: Decodable>: ViewModelBase<EntryType>, PropsHandler {
 
     public var data: EntryType {
         willSet {
@@ -17,16 +17,6 @@ open class SimpleViewModel<EntryType: ConstructableFromDictionary & Decodable>: 
     public required init(constant: EntryType) {
         self.data = constant
         super.init()
-    }
-
-    override func propsToData(props: Props) -> EntryType? {
-        guard let rawData = props[self.propName] as? [String:Any],
-           let data = EntryType.init(from: rawData) else {
-            return nil
-        }
-
-        print("Received entry: ", data)
-        return data
     }
 
     override func propsToData2(serializedProps: String) -> EntryType? {

@@ -1,6 +1,6 @@
 import Foundation
 
-open class KeyedArrayViewModel<EntryType: ConstructableFromDictionary & Codable>: ViewModelBase<[EntryType]> {
+open class KeyedArrayViewModel<EntryType: Codable>: ViewModelBase<[EntryType]> {
     public var sorter: ((EntryType, EntryType) -> Bool)?
 
     public var entries: [EntryType] {
@@ -20,19 +20,6 @@ open class KeyedArrayViewModel<EntryType: ConstructableFromDictionary & Codable>
     public required init(constantEntries: [EntryType]) {
         self.entries = constantEntries
         super.init()
-    }
-
-    override func propsToData(props: Props) -> [EntryType]? {
-        guard let rawData = props[self.propName] as? [PropName: Props] else {
-            return nil
-        }
-
-        var data = rawData.values.compactMap(EntryType.init(from:))
-        if let sorter = self.sorter {
-            data = data.sorted(by: sorter)
-        }
-        print("Received entries: ", data.count)
-        return data
     }
 
     override func propsToData2(serializedProps: String) -> [EntryType]? {

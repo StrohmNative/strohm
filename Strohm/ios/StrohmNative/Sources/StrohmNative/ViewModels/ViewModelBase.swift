@@ -26,24 +26,12 @@ open class ViewModelBase<DataType>: ObservableObject {
         }
     }
 
-    func receiveProps(props: Props) {
-        if let data = propsToData(props: props) {
-            DispatchQueue.main.async { [weak self] in
-                self?.store(data: data)
-            }
-        }
-    }
-
     func receiveProps2(serializedProps: String) {
         if let data = propsToData2(serializedProps: serializedProps) {
             DispatchQueue.main.async { [weak self] in
                 self?.store(data: data)
             }
         }
-    }
-
-    func propsToData(props: Props) -> DataType? {
-        fatalError("abstract method")
     }
 
     func propsToData2(serializedProps: String) -> DataType? {
@@ -64,5 +52,5 @@ open class ViewModelBase<DataType>: ObservableObject {
 protocol PropsHandler {
     associatedtype Data
 
-    func propsToData(props: Props) -> Data?
+    func propsToData2(serializedProps: String) -> Data?
 }
