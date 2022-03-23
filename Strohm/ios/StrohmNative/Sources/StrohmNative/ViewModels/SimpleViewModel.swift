@@ -1,6 +1,6 @@
 import Foundation
 
-open class SimpleViewModel<EntryType: Decodable>: ViewModelBase<EntryType>, PropsHandler {
+open class SimpleViewModel<EntryType: Decodable>: ViewModelBase<EntryType> {
 
     public var data: EntryType {
         willSet {

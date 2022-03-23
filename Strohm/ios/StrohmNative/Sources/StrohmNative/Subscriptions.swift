@@ -86,14 +86,14 @@ class Subscriptions {
     func subscriptionUpdateHandler(args: JsonComms.Arguments) {
         if let subscriptionIdString = args["subscriptionId"] as? String,
            let subscriptionId = UUID(uuidString: subscriptionIdString),
-           let newPropsSerialized = args["new"] as? String {
+           let newPropSerialized = args["new"] as? String {
             if let subscriber = subscribers[subscriptionId],
-               let data = newPropsSerialized.data(using: .utf8),
-               let newProps = try? JSONSerialization.jsonObject(with: data) as? [Any],
-               let propName = newProps.first as? String {
-                subscriber((propName, newProps[1]))
+               let data = newPropSerialized.data(using: .utf8),
+               let newProp = try? JSONSerialization.jsonObject(with: data) as? [Any],
+               let propName = newProp.first as? String {
+                subscriber((propName, newProp[1]))
             } else if let subscriber2 = subscribers2[subscriptionId] {
-                subscriber2(newPropsSerialized)
+                subscriber2(newPropSerialized)
             }
         }
     }

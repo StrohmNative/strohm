@@ -1,6 +1,6 @@
 import Foundation
 
-open class PrimitiveViewModel<T: Decodable>: ViewModelBase<T>, PropsHandler {
+open class PrimitiveViewModel<T: Decodable>: ViewModelBase<T> {
     public var data: T {
         willSet {
             // https://stackoverflow.com/questions/57615920/published-property-wrapper-not-working-on-subclass-of-observableobject
