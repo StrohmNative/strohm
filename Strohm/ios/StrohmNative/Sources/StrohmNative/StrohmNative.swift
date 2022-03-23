@@ -171,7 +171,7 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
 
 public typealias PropName = String
 public typealias PropPath = [Any]
-public typealias PropsSpec = [PropName: PropPath]
+public typealias PropsSpec = (PropName, PropPath)
 public typealias Props = [PropName: Any]
 public typealias HandlerFunction = (Props) -> Void
 public typealias HandlerFunction2 = (String) -> Void

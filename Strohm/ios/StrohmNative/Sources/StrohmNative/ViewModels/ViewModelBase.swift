@@ -14,7 +14,7 @@ open class ViewModelBase<DataType>: ObservableObject {
         self.propName = propName
         self.propPath = propPath
         StrohmNative.default.subscribe2(
-            propsSpec: [propName: propPath],
+            propsSpec: (propName, propPath),
             handler: receiveProps2) { subscriptionId in
             self.subscriptionId = subscriptionId
         }

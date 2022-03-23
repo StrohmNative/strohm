@@ -72,9 +72,9 @@ struct PropEnvelope<T: Decodable>: Decodable {
     let propValue: T
 
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        propName = try container.decode(PropName.self, forKey: .propName)
-        propValue = try container.decode(T.self, forKey: CodingKeys.make(key: propName))
+        var container = try decoder.unkeyedContainer()
+        propName = try container.decode(PropName.self)
+        propValue = try container.decode(T.self)
     }
 }
 
