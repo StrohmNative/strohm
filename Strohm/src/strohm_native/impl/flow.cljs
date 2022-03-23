@@ -47,10 +47,21 @@
                state
                reducers)))
 
+(defn keywordize
+  [str]
+  (when (string? str)
+    (if (= \: (first str))
+      (keyword (subs str 1))
+      (keyword str))))
+
 (>defn state-for-prop-spec
   [state [prop-name prop-path]]
   [:strohm/state :strohm/prop-spec => :strohm/prop-value]
-  [prop-name (reduce (fn [acc prop] (get acc prop)) state prop-path)])
+  [prop-name (reduce (fn [acc prop]
+                       (or (get acc (keywordize prop))
+                           (get acc prop)))
+                     state
+                     prop-path)])
 
 (>defn state->props
   [state prop-spec]

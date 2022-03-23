@@ -97,10 +97,20 @@
            (state->props {:foo :bar} ["my-prop" []])))
     (is (= ["my-prop" :bar]
            (state->props {:foo :bar} ["my-prop" [:foo]])))
+    (is (= ["my-prop" :bar]
+           (state->props {"foo" :bar} ["my-prop" ["foo"]])))
     (is (= ["my-prop" {:goal "target"}]
            (state->props {:foo :bar
                           :baz [0 1 {:goal "target"}]}
-                         ["my-prop" [:baz 2]])))))
+                         ["my-prop" [:baz 2]]))))
+
+  (testing "state->props accepts strings in path"
+    (is (= ["my-prop" :bar]
+           (state->props {:test-ns/foo :bar} ["my-prop" ["test-ns/foo"]]))))
+
+  (testing "state->props accepts strings with colons in path"
+    (is (= ["my-prop" :bar]
+           (state->props {:test-ns/foo :bar} ["my-prop" [":test-ns/foo"]])))))
 
 (deftest middleware-test
   (testing "middleware dispatches extra action"
