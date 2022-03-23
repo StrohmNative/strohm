@@ -25,8 +25,18 @@
 (defn ^:export dispatch-from-native
   [serialized-action]
   (log/debug "dispatch-from-native" serialized-action)
-  (let [action (utils/js->clj' (js/JSON.parse serialized-action))]
-    (dispatch! action)))
+  (try
+    (let [action (utils/js->clj' (js/JSON.parse serialized-action))]
+      (dispatch! action))
+    (catch ExceptionInfo ex-info
+      (tap> {:ex-info ex-info})
+      (throw (js/Error. (ex-message ex-info))))
+    (catch js/Error js-error
+      (tap> {:js-error js-error})
+      (throw js-error))
+    (catch :default e
+      (tap> e)
+      (throw e))))
 
 (defn- subscribe-and-send-current-value
   [key watch-fn]
@@ -51,11 +61,21 @@
 
 (defn ^:export subscribe-from-native
   [subscription-id serialized-props-spec]
-  (let [props-spec (utils/js->clj' (js/JSON.parse serialized-props-spec))
-        watch-fn   (partial trigger-subscription-update-to-native props-spec)]
-    (log/debug "subscribe-from-native" subscription-id props-spec)
-    (subscribe-and-send-current-value (uuid subscription-id) watch-fn)
-    subscription-id))
+  (try
+    (let [props-spec (utils/js->clj' (js/JSON.parse serialized-props-spec))
+          watch-fn   (partial trigger-subscription-update-to-native props-spec)]
+      (log/debug "subscribe-from-native" subscription-id props-spec)
+      (subscribe-and-send-current-value (uuid subscription-id) watch-fn)
+      subscription-id)
+    (catch ExceptionInfo ex-info
+      (tap> {:ex-info ex-info})
+      (throw (js/Error. (ex-message ex-info))))
+    (catch js/Error js-error
+      (tap> {:js-error js-error})
+      (throw js-error))
+    (catch :default e
+      (tap> e)
+      (throw e))))
 
 (defn ^:export unsubscribe!
   [key]
