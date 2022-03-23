@@ -22,8 +22,8 @@ open class KeyedArrayViewModel<EntryType: Codable>: ViewModelBase<[EntryType]> {
         super.init()
     }
 
-    override func propsToData2(serializedProps: String) -> [EntryType]? {
-        guard let rawData = serializedProps.data(using: .utf8) else {
+    override func propToData2(serializedProp: String) -> [EntryType]? {
+        guard let rawData = serializedProp.data(using: .utf8) else {
             return nil
         }
 

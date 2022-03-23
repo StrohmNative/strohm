@@ -98,16 +98,16 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
 
     }
 
-    public func subscribe(propsSpec: PropsSpec,
+    public func subscribe(propSpec: PropSpec,
                           handler: @escaping HandlerFunction,
                           completion: @escaping (UUID) -> Void) {
-        self.subscriptions?.addSubscriber(propsSpec: propsSpec, handler: handler, completion: completion)
+        self.subscriptions?.addSubscriber(propSpec: propSpec, handler: handler, completion: completion)
     }
 
-    public func subscribe2(propsSpec: PropsSpec,
+    public func subscribe2(propSpec: PropSpec,
                            handler: @escaping HandlerFunction2,
                            completion: @escaping (UUID) -> Void) {
-        self.subscriptions?.addSubscriber2(propsSpec: propsSpec, handler: handler, completion: completion)
+        self.subscriptions?.addSubscriber2(propSpec: propSpec, handler: handler, completion: completion)
     }
 
     public func unsubscribe(subscriptionId: UUID) {
@@ -173,9 +173,9 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
 
 public typealias PropName = String
 public typealias PropPath = [Any]
-public typealias PropsSpec = (PropName, PropPath)
-public typealias Props = (name: PropName, value: Any)
-public typealias HandlerFunction = (Props) -> Void
+public typealias PropSpec = (name: PropName, path: PropPath)
+public typealias Prop = (name: PropName, value: Any)
+public typealias HandlerFunction = (Prop) -> Void
 public typealias HandlerFunction2 = (String) -> Void
 
 protocol StrohmNativeWebView {

@@ -18,8 +18,8 @@ open class PrimitiveViewModel<T: Decodable>: ViewModelBase<T>, PropsHandler {
         super.init()
     }
 
-    override func propsToData2(serializedProps: String) -> T? {
-        guard let rawData = serializedProps.data(using: .utf8) else {
+    override func propToData2(serializedProp: String) -> T? {
+        guard let rawData = serializedProp.data(using: .utf8) else {
             return nil
         }
 

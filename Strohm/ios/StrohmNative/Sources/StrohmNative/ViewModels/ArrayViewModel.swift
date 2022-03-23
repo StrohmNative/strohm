@@ -3,8 +3,8 @@ import Foundation
 open class ArrayViewModel<EntryType: Codable>: ViewModelBase<[EntryType]> {
     public var sorter: ((EntryType, EntryType) -> Bool)?
 
-    override func propsToData2(serializedProps: String) -> [EntryType]? {
-        guard let rawData = serializedProps.data(using: .utf8) else {
+    override func propToData2(serializedProp: String) -> [EntryType]? {
+        guard let rawData = serializedProp.data(using: .utf8) else {
             return nil
         }
 

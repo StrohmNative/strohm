@@ -12,61 +12,61 @@ class Subscriptions {
                                                    function: self.subscriptionUpdateHandler)
     }
 
-    func addSubscriber(propsSpec: PropsSpec,
+    func addSubscriber(propSpec: PropSpec,
                        handler: @escaping HandlerFunction,
                        completion: @escaping (UUID) -> Void) {
         if pendingSubscriptions != nil {
             pendingSubscriptions!.append({ [weak self] in
                 self?.subscribe_(
-                    propsSpec: propsSpec,
+                    propSpec: propSpec,
                     handler: handler,
                     completion: completion)
             })
         } else {
-            subscribe_(propsSpec: propsSpec,
+            subscribe_(propSpec: propSpec,
                        handler: handler,
                        completion: completion)
         }
     }
 
-    private func subscribe_(propsSpec: PropsSpec,
+    private func subscribe_(propSpec: PropSpec,
                             handler: @escaping HandlerFunction,
                             completion: (UUID) -> Void) {
-        guard let encodedPropsSpec = strohmNative.comms.encode(object: propsSpec) else {
+        guard let encodedPropSpec = strohmNative.comms.encode(object: propSpec) else {
             return
         }
         let subscriptionId = UUID()
         subscribers[subscriptionId] = handler
-        strohmNative.call(method: "strohm_native.flow.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(encodedPropsSpec)\")")
+        strohmNative.call(method: "strohm_native.flow.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(encodedPropSpec)\")")
         completion(subscriptionId)
     }
 
-    func addSubscriber2(propsSpec: PropsSpec,
+    func addSubscriber2(propSpec: PropSpec,
                         handler: @escaping HandlerFunction2,
                         completion: @escaping (UUID) -> Void) {
         if pendingSubscriptions != nil {
             pendingSubscriptions!.append({ [weak self] in
                 self?.subscribe2_(
-                    propsSpec: propsSpec,
+                    propSpec: propSpec,
                     handler: handler,
                     completion: completion)
             })
         } else {
-            subscribe2_(propsSpec: propsSpec,
+            subscribe2_(propSpec: propSpec,
                         handler: handler,
                         completion: completion)
         }
     }
 
-    private func subscribe2_(propsSpec: PropsSpec,
+    private func subscribe2_(propSpec: PropSpec,
                              handler: @escaping HandlerFunction2,
                              completion: (UUID) -> Void) {
-        guard let encodedPropsSpec = strohmNative.comms.encode(object: propsSpec) else {
+        guard let encodedPropSpec = strohmNative.comms.encode(object: propSpec) else {
             return
         }
         let subscriptionId = UUID()
         subscribers2[subscriptionId] = handler
-        strohmNative.call(method: "strohm_native.flow.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(encodedPropsSpec)\")")
+        strohmNative.call(method: "strohm_native.flow.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(encodedPropSpec)\")")
         completion(subscriptionId)
     }
 
