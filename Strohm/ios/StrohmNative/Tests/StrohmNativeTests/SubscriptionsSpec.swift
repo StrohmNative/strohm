@@ -4,10 +4,7 @@ import Nimble
 import WebKit
 @testable import StrohmNative
 
-let propsSpec = [
-    "name": ["user","name"],
-    "city": ["user","address","city"]
-]
+let userNamepropSpec: (name: String, path: [String]) = ("name", ["user","name"])
 
 class SubscriptionsSpec: QuickSpec {
     override func spec() {
@@ -27,7 +24,7 @@ class SubscriptionsSpec: QuickSpec {
 
             beforeEach {
                 subscriptionComplete = false
-                strohmNative.subscribe(propsSpec: propsSpec, handler: handlerFn) { _ in
+                strohmNative.subscribe(propSpec: userNamepropSpec, handler: handlerFn) { _ in
                     subscriptionComplete = true
                 }
             }
@@ -59,7 +56,7 @@ class SubscriptionsSpec: QuickSpec {
                 strohmNative.whenLoadingFinished()
                 subscriptionComplete = false
                 strohmNative.subscribe(
-                    propsSpec: propsSpec,
+                    propSpec: userNamepropSpec,
                     handler: handlerFn
                 ) { _ in
                     subscriptionComplete = true
@@ -79,50 +76,51 @@ class SubscriptionsSpec: QuickSpec {
                 let range = NSRange(actual.startIndex..<actual.endIndex, in: actual)
                 let matches = regex.matches(in: actual, options: [], range: range)
                 let capturedRange = Range(matches[0].range(at: 1), in: actual)!
-                let matchedSerializedPropsSpec = actual[capturedRange]
-                let unescaped = matchedSerializedPropsSpec.replacingOccurrences(of: "\\\"", with: "\"")
+                let matchedSerializedPropSpec = actual[capturedRange]
+                let unescaped = matchedSerializedPropSpec.replacingOccurrences(of: "\\\"", with: "\"")
                 let parsed = try! JSONSerialization.jsonObject(
                     with: unescaped.data(using: .utf8)!,
-                    options: []) as! Dictionary<String, [String]>
-                expect(parsed["name"]) == propsSpec["name"]
-                expect(parsed["city"]) == propsSpec["city"]
+                    options: []) as! [Any]
+                expect(parsed[0] as? String) == userNamepropSpec.name
+                expect(parsed[1] as? [String]) == userNamepropSpec.path
+//                expect(parsed["city"]) == propSpec["city"]
             }
         }
 
         context("when subscribed") {
-            var receivedProps: [String: Any]?
+            var receivedProp: Prop?
             var subscriptionId: UUID?
-            let handlerFn: HandlerFunction = { props in
-                receivedProps = props
+            let handlerFn: HandlerFunction = { prop in
+                receivedProp = prop
             }
 
             beforeEach {
-                receivedProps = nil
+                receivedProp = nil
                 subscriptionId = nil
                 strohmNative.whenLoadingFinished()
-                subscriptionId = strohmNative.whenSubscriptionCompletes(propsSpec, handlerFn)
+                subscriptionId = strohmNative.whenSubscriptionCompletes(userNamepropSpec, handlerFn)
             }
 
             it("receives prop updates") {
-                let props = ["name": "foo"]
-                strohmNative.whenIncoming(props: props, for: subscriptionId!)
-                expect(receivedProps as? [String: String]) == props
+                let prop = ("name", "foo")
+                strohmNative.whenIncoming(prop: prop, for: subscriptionId!)
+                expect(receivedProp as? (String, String)) == prop
             }
 
-            it("does not receive props for someone else") {
-                var otherProps: Props?
-                let otherId = strohmNative.whenSubscriptionCompletes(propsSpec) { props in
-                    otherProps = props
+            it("does not receive prop for someone else") {
+                var otherProp: Prop?
+                let otherId = strohmNative.whenSubscriptionCompletes(userNamepropSpec) { prop in
+                    otherProp = prop
                 }
-                strohmNative.whenIncoming(props: ["name": "foo"], for: otherId)
-                expect(receivedProps).to(beNil())
-                expect(otherProps).toNot(beNil())
+                strohmNative.whenIncoming(prop: ("name", "foo"), for: otherId)
+                expect(receivedProp).to(beNil())
+                expect(otherProp).toNot(beNil())
             }
 
-            it("does not receive props after unsubscribe") {
+            it("does not receive prop after unsubscribe") {
                 strohmNative.unsubscribe(subscriptionId: subscriptionId!)
-                strohmNative.whenIncoming(props: ["name": "foo"], for: subscriptionId!)
-                expect(receivedProps).to(beNil())
+                strohmNative.whenIncoming(prop: ("name", "foo"), for: subscriptionId!)
+                expect(receivedProp).to(beNil())
             }
 
             it("calls unsubscribe on the web view when unsubscribing") {
@@ -148,12 +146,12 @@ extension StrohmNative {
         self.loadingFinished()
     }
 
-    func whenSubscriptionCompletes(_ propsSpec: PropsSpec,
+    func whenSubscriptionCompletes(_ propSpec: PropSpec,
                                    _ handlerFn: @escaping HandlerFunction) -> UUID {
         var subscriptionId: UUID! = nil
         waitUntil { done in
             self.subscribe(
-                propsSpec: propsSpec,
+                propSpec: propSpec,
                 handler: handlerFn) { id in
                     subscriptionId = id
                     done()
@@ -163,8 +161,13 @@ extension StrohmNative {
         return subscriptionId
     }
 
-    func whenIncoming(props: Props, for subscriptionId: UUID) {
-        self.subscriptions?.handlePropsUpdate(props: props, subscriptionId: subscriptionId)
+    func whenIncoming(prop: Prop, for subscriptionId: UUID) {
+        let newData = try! JSONSerialization.data(withJSONObject: [prop.name, prop.value])
+        let args: [String: Any] = [
+            "subscriptionId": subscriptionId.uuidString,
+            "new": String(data: newData, encoding: .utf8)!
+        ]
+        self.subscriptions?.subscriptionUpdateHandler(args: args)
     }
 }
 
