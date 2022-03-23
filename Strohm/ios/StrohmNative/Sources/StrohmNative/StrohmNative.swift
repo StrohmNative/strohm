@@ -154,7 +154,7 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
     }
 
     public func dispatch(type: String, payload: [String: Any] = [:]) {
-        Log.debug("dispatch-swift", type, payload, "foo", 1)
+        Log.debug("dispatch-swift", type, payload)
         let action: [String: Any] = ["type": type, "payload": payload]
         guard let serializedAction = comms.encode(object: action) else {
             return
