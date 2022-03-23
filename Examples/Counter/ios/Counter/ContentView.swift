@@ -52,7 +52,7 @@ struct ContentView: View {
     }
 
     func setCounter(count: Int) {
-        StrohmNative.default.dispatch(type: "setCounter", payload: ["count": count])
+        try! StrohmNative.default.dispatch(type: "setCounter", payload: ["count": count])
     }
 
     func subscribe() {
