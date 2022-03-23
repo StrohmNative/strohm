@@ -25,7 +25,7 @@ open class SimpleViewModel<EntryType: Decodable>: ViewModelBase<EntryType> {
         }
 
         do {
-            let data = try decoder().decode(PropEnvelope<EntryType>.self, from: rawData)
+            let data = try decoder().decode(PropEnvelope<EntryType?>.self, from: rawData)
             let value = data.propValue
             print("Received entry: ", value)
             return value
