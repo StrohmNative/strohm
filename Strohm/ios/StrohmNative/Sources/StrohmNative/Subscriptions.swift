@@ -89,8 +89,9 @@ class Subscriptions {
            let newPropsSerialized = args["new"] as? String {
             if let subscriber = subscribers[subscriptionId],
                let data = newPropsSerialized.data(using: .utf8),
-               let newProps = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                subscriber(newProps)
+               let newProps = try? JSONSerialization.jsonObject(with: data) as? [Any],
+               let propName = newProps.first as? String {
+                subscriber((propName, newProps[1]))
             } else if let subscriber2 = subscribers2[subscriptionId] {
                 subscriber2(newPropsSerialized)
             }

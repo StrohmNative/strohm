@@ -54,9 +54,9 @@ struct ContentView: View {
     }
 
     func subscribe() {
-        StrohmNative.default.subscribe(propsSpec: ["count": []]) { props in
-            print("Received props: ", props)
-            if let count = props["count"] as? Int {
+        StrohmNative.default.subscribe(propsSpec: ("count", [])) { prop in
+            print("Received prop: ", prop)
+            if let count = prop.value as? Int {
                 self.count = count
             }
         } completion: { subscription in
