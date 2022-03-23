@@ -142,7 +142,9 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
 
     func call(method: String) {
         webView?.evaluateJavaScript(method) { (result, error) in
-            print("cljs call result error: \(String(describing: error))")
+            if let error = error {
+                print("cljs call result error: \(String(describing: error))")
+            }
         }
     }
 
