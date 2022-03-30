@@ -1,0 +1,2 @@
+{:config-paths ["../resources/clj-kondo.exports/strohm-native/strohm-native"]
+ :lint-as {test-utils/capturing-logs clojure.core/fn}}

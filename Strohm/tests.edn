@@ -1,0 +1,11 @@
+#kaocha/v1
+ {:tests    [{:id           :clj-kondo-hooks
+              :ns-patterns  ["-test$" "-spec$"]
+              :test-paths   ["test-clj-kondo"]
+              :skip-meta    [:integration]
+              :source-paths ["src"
+                             "resources"
+                             "resources/clj-kondo.exports/strohm-native/strohm-native"]}]
+  ;; :reporter [fulcro-spec.reporters.terminal/fulcro-report]
+  :plugins  []
+  :capture-output? true}
