@@ -7,7 +7,7 @@
 
 (defonce ^:export store (atom nil))
 
-(defn ^:export create-store
+(defn ^:export create-store!
   [& args]
   (reset! store (apply impl/create-store args)))
 
