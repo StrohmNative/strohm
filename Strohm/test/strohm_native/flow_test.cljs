@@ -1,8 +1,7 @@
 (ns strohm-native.flow-test
   (:require [cljs.test :refer [deftest is testing]]
-            [strohm-native.flow :refer [store create-store get-state
-                                        dispatch! dispatch subscribe! unsubscribe!
-                                        create-reducer]]))
+            [strohm-native.flow :refer [create-reducer store create-store get-state
+                                        dispatch! dispatch subscribe! unsubscribe!]]))
 
 (deftest store-test
   (testing "store is nil initially"

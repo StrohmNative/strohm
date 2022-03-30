@@ -3,7 +3,7 @@
             [strohm-native.log :as log]
             [strohm-native.tx :refer [send-props!]]
             [strohm-native.utils :as utils])
-  (:require-macros [strohm-native.flow :refer [>defreducer defreducer]]))
+  (:require-macros [strohm-native.flow]))
 
 (defonce ^:export store (atom nil))
 

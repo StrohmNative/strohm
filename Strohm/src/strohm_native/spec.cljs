@@ -3,7 +3,7 @@
             [clojure.test.check]
             [clojure.test.check.generators]
             [clojure.test.check.properties]
-            [com.fulcrologic.guardrails.core :refer [>def ? >fspec]]))
+            [com.fulcrologic.guardrails.core :refer [>def]]))
 
 (>def :strohm/prop-name (s/or :keyword keyword?
                               :string string?))
