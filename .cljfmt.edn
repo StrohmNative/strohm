@@ -1,5 +1,8 @@
 {:list-indent 1
- :indents     {>def   [[:inner 0]]
-               >defn  [[:inner 0]]
-               >defn- [[:inner 0]]
-               >fdef  [[:inner 0]]}}
+ :indents     {>def         [[:inner 0]]
+               >defn        [[:inner 0]]
+               >defn-       [[:inner 0]]
+               >fdef        [[:inner 0]]
+               defreducer   [[:inner 0]]
+               defnreducer  [[:inner 0]]
+               >defnreducer [[:inner 0]]}}
