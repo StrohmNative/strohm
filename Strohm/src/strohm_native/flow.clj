@@ -10,7 +10,7 @@
       `(fn identity-reducer# [state# action#] state#))
     `~reducer))
 
-(defmacro defreducer*
+(defmacro defreducer
   [reducer-map]
   (let [all-reducers (into {} (map (fn [[action-type _]]
                                      [action-type
@@ -21,7 +21,7 @@
          (reducer-for-action# state# action#)
          state#))))
 
-(defmacro defreducer
+(defmacro defnreducer
   [reducer-name reducer-map]
   (let [all-reducers (into {} (map (fn [[action-type _]]
                                      [action-type
@@ -32,7 +32,7 @@
          (reducer-for-action# state# action#)
          state#))))
 
-(defmacro >defreducer
+(defmacro >defnreducer
   [reducer-name gspec reducer-map]
   (let [all-reducers (into {} (map (fn [[action-type _]]
                                      [action-type

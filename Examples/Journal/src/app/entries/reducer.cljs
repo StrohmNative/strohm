@@ -1,5 +1,5 @@
 (ns app.entries.reducer
-  (:require [strohm-native.flow :refer-macros [defreducer]]))
+  (:require [strohm-native.flow :refer-macros [defnreducer]))
 
 (defn- update-entry
   [entries payload]
@@ -7,7 +7,7 @@
     (update entries (:entry/id payload) (fn [entry] (merge entry payload)))
     entries))
 
-(defreducer reducer
+(defnreducerreducer
   {"new-entry" #(let [id (str (random-uuid))]
                   (assoc %1 id {:entry/id id
                                 :entry/title "Untitled"

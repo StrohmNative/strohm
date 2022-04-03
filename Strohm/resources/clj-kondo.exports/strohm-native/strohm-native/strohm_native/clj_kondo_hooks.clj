@@ -48,18 +48,18 @@
                                          gspec))
                                  {:message (str "Reducers have two arguments. "
                                                 "Too " (if too-many-specs? "many" "few") " specs.")
-                                  :type :clj-kondo.strohm-native.>defreducer/invalid-gspec})))
+                                  :type :clj-kondo.strohm-native.>defnreducer/invalid-gspec})))
             (when (not= (api/sexpr ret-spec) (api/sexpr (first arg-specs)))
               (api/reg-finding! (merge
                                  (meta ret-spec)
                                  {:message "A reducer's first spec should equal its return spec."
-                                  :type :clj-kondo.strohm-native.>defreducer/return-spec-not-equal-to-first-arg-spec})))))
+                                  :type :clj-kondo.strohm-native.>defnreducer/return-spec-not-equal-to-first-arg-spec})))))
         (let [reducer-body (first body)]
           (if-not (api/map-node? reducer-body)
             (api/reg-finding! (merge
                                (meta reducer-body)
                                {:message "Reducer body should be a map."
-                                :type :clj-kondo.strohm-native.>defreducer/invalid-body}))
+                                :type :clj-kondo.strohm-native.>defnreducer/invalid-body}))
             (let [reducer-map (partition 2 (:children reducer-body))]
               (doseq [wrong-key-finding
                       (->> reducer-map
@@ -70,11 +70,11 @@
                                   (merge
                                    (meta key-node)
                                    {:message "Reducer map keys should be strings or keywords."
-                                    :type :clj-kondo.strohm-native.>defreducer/invalid-body}))))]
+                                    :type :clj-kondo.strohm-native.>defnreducer/invalid-body}))))]
                 (api/reg-finding! wrong-key-finding)))))))
     new-nodes))
 
-(defn >defreducer
+(defn >defnreducer
   [{:keys [node]}]
   (let [args       (rest (:children node))
         fn-name    (first args)
@@ -104,7 +104,7 @@
         (api/reg-finding! (merge
                            (meta reducer-body)
                            {:message "Reducer body should be a map."
-                            :type :clj-kondo.strohm-native.defreducer/invalid-body}))
+                            :type :clj-kondo.strohm-native.defnreducer/invalid-body}))
         (let [reducer-map (partition 2 (:children reducer-body))]
           (doseq [wrong-key-finding
                   (->> reducer-map
@@ -115,11 +115,11 @@
                               (merge
                                (meta key-node)
                                {:message "Reducer map keys should be strings or keywords."
-                                :type :clj-kondo.strohm-native.defreducer/invalid-body}))))]
+                                :type :clj-kondo.strohm-native.defnreducer/invalid-body}))))]
             (api/reg-finding! wrong-key-finding)))))
     new-nodes))
 
-(defn defreducer
+(defn defnreducer
   [{:keys [node]}]
   (let [args       (rest (:children node))
         fn-name    (first args)
