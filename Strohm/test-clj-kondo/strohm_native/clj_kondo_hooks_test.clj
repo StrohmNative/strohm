@@ -12,14 +12,17 @@
          {:lint  ["-"]
           :cache false
           :config
-          '{:hooks {:analyze-call {strohm-native.flow/defnreducer
+          '{:hooks {:analyze-call {strohm-native.flow/defreducer
+                                   strohm-native.clj-kondo-hooks/defreducer
+                                   strohm-native.flow/defnreducer
                                    strohm-native.clj-kondo-hooks/defnreducer
                                    strohm-native.flow/>defnreducer
                                    strohm-native.clj-kondo-hooks/>defnreducer}}
             :linters {:clj-kondo.strohm-native.>defnreducer/invalid-gspec {:level :error}
                       :clj-kondo.strohm-native.>defnreducer/return-spec-not-equal-to-first-arg-spec {:level :error}
                       :clj-kondo.strohm-native.>defnreducer/invalid-body {:level :error}
-                      :clj-kondo.strohm-native.defnreducer/invalid-body {:level :error}}}}))
+                      :clj-kondo.strohm-native.defnreducer/invalid-body {:level :error}
+                      :clj-kondo.strohm-native.defreducer/invalid-body {:level :error}}}}))
       (:findings)))
 
 (deftest >defnreducer-happy-path
@@ -41,6 +44,15 @@
            (defnreducer
              sample-reducer
              {\"sample-action\" #(assoc %1 :sample %2)})"))))
+
+(deftest defreducer-happy-path
+  (is (= []
+         (clj-kondo-findings
+          "(ns foo
+             (:require [strohm-native.flow :refer [defreducer]]))
+           (def sample-reducer
+             (defreducer
+               {\"sample-action\" #(assoc %1 :sample %2)}))"))))
 
 (deftest >defnreducer-invalid-gspec
   (is (= [{:type :clj-kondo.strohm-native.>defnreducer/invalid-gspec
@@ -173,5 +185,51 @@
                (:require [strohm-native.flow :refer [defnreducer]]))
              (defnreducer
                sample-reducer
+               {1 #(assoc %1 :foo %2)
+                2 #(assoc %1 :foo %2)})")))))
+
+(deftest defreducer-invalid-body
+  (testing "body is not a map"
+    (is (= [{:type :clj-kondo.strohm-native.defreducer/invalid-body
+             :message "Reducer body should be a map."
+             :col 16 :end-col 20
+             :row 4 :end-row 4
+             :filename "<stdin>"
+             :level :error}]
+           (clj-kondo-findings
+            "(ns foo
+               (:require [strohm-native.flow :refer [defreducer]]))
+             (defreducer
+               :foo)"))))
+
+  (testing "body is not a map"
+    (is (= [{:type :clj-kondo.strohm-native.defreducer/invalid-body
+             :message "Reducer body should be a map."
+             :col 16 :end-col 20
+             :row 4 :end-row 4
+             :filename "<stdin>"
+             :level :error}]
+           (clj-kondo-findings
+            "(ns foo
+               (:require [strohm-native.flow :refer [defreducer]]))
+             (defreducer
+               :foo)")))
+
+    (is (= [{:type :clj-kondo.strohm-native.defreducer/invalid-body
+             :message "Reducer map keys should be strings or keywords."
+             :col 17 :end-col 18
+             :row 4 :end-row 4
+             :filename "<stdin>"
+             :level :error}
+            {:type :clj-kondo.strohm-native.defreducer/invalid-body
+             :message "Reducer map keys should be strings or keywords."
+             :col 17 :end-col 18
+             :row 5 :end-row 5
+             :filename "<stdin>"
+             :level :error}]
+           (clj-kondo-findings
+            "(ns foo
+               (:require [strohm-native.flow :refer [defreducer]]))
+             (defreducer
                {1 #(assoc %1 :foo %2)
                 2 #(assoc %1 :foo %2)})")))))
