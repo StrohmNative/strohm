@@ -25,7 +25,7 @@
     (create-store! {:increment (fn incfn [state _] (inc state))}
                    :initial-state 0)
     (let [subscription-triggered (atom false)]
-      (subscribe! #(reset! subscription-triggered true))
+      (subscribe! (fn [_ _] (reset! subscription-triggered true)))
       (is (= true @subscription-triggered))))
 
   (testing "subscribe calls callback with current value"
