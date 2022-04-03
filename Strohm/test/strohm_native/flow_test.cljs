@@ -1,7 +1,8 @@
 (ns strohm-native.flow-test
   (:require [cljs.test :refer [deftest is testing]]
-            [strohm-native.flow :refer [create-reducer store create-store! get-state
-                                        dispatch! dispatch subscribe! unsubscribe!]]))
+            [strohm-native.flow :refer [store create-store! get-state
+                                        dispatch! dispatch subscribe! unsubscribe!]
+             :refer-macros [defreducer*]]))
 
 (deftest store-test
   (testing "store is nil initially"
@@ -62,7 +63,7 @@
       (is (= 1 @received-new-state))))
 
   (testing "create reducer"
-    (let [reducer       (create-reducer {"append" conj "plus" +})
+    (let [reducer       (defreducer* {"append" conj "plus" +})
           append-action {:type "append" :payload :foo}
           plus-action   {:type "plus"   :payload 2}]
       (is (= [:foo] (reducer [] append-action)))
@@ -70,7 +71,7 @@
       (is (= :something (reducer :something {:type "unknown"})))))
 
   (testing "middleware dispatches extra action"
-    (let [reducer        (create-reducer {:extra #(assoc %1 :extra true)})
+    (let [reducer        (defreducer* {:extra #(assoc %1 :extra true)})
           dispatch-extra (fn [next]
                            (fn [store action]
                              (cond-> store

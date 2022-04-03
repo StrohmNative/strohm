@@ -90,16 +90,5 @@
 
 (def ^:export combine-reducers impl/combine-reducers)
 
-(defn ^:export create-reducer
-  [reducer-map]
-  (let [all-reducers (into {} (map (fn [[action-type _]]
-                                     [action-type
-                                      (impl/compute-reducer-fn reducer-map action-type)])
-                                   reducer-map))]
-    (fn [state action]
-      (if-let [reducer-for-action (get all-reducers (:type action))]
-        (reducer-for-action state action)
-        state))))
-
 (def ^:export clj->js' utils/clj->js')
 (def ^:export js->clj' utils/js->clj')

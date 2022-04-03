@@ -1,7 +1,7 @@
 (ns strohm-native.impl.flow-test
   (:require [cljs.test :refer [deftest testing is]]
             [clojure.string :as str]
-            [strohm-native.flow :refer [create-reducer]]
+            [strohm-native.flow :refer-macros [defreducer*]]
             [strohm-native.impl.flow :refer [create-store
                                              combine-reducers
                                              state->props
@@ -73,7 +73,7 @@
              (:state (dispatch store {:type "test" :payload "test"}))))))
 
   (testing "combine-reducers with reducer maps"
-    (let [sub1-reducer (create-reducer {"test" #(str/join "-1-" [%1 %2])})
+    (let [sub1-reducer (defreducer* {"test" #(str/join "-1-" [%1 %2])})
           sub2-reducer {"test" #(str/join "-2-" [%1 %2])}
           root-reducer (combine-reducers {"sub1" sub1-reducer :sub2 sub2-reducer}) ;; TODO: moet vectors worden
           store        (create-store root-reducer :initial-state {"sub1" "" :sub2 ""})]
@@ -81,7 +81,7 @@
              (:state (dispatch store {:type "test" :payload "test"}))))))
 
   (testing "combine-reducers with unknown action"
-    (let [sub-reducer  (create-reducer {"test" #(str/join "-1-" [%1 %2])})
+    (let [sub-reducer  (defreducer* {"test" #(str/join "-1-" [%1 %2])})
           root-reducer (combine-reducers {"sub" sub-reducer})
           store        (create-store root-reducer :initial-state {"sub" "foo"})]
       (is (= {"sub" "foo"} (:state (dispatch store {:type "unknown-action-type"}))))))
