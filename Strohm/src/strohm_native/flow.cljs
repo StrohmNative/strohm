@@ -1,6 +1,9 @@
 (ns strohm-native.flow
-  (:require [strohm-native.impl.flow :as impl]
+  (:require [clojure.spec.alpha :as s]
+            [com.fulcrologic.guardrails.core :refer [>defn >def >fdef]]
+            [strohm-native.impl.flow :as impl]
             [strohm-native.log :as log]
+            [strohm-native.spec]
             [strohm-native.tx :refer [send-props!]]
             [strohm-native.utils :as utils])
   (:require-macros [strohm-native.flow]))
@@ -11,20 +14,23 @@
   [& args]
   (reset! store (apply impl/create-store args)))
 
-(defn ^:export get-state
+(>defn ^:export get-state
   []
+  [=> :strohm/state]
   (:state @store))
 
-(defn ^:export dispatch!
+(>defn ^:export dispatch!
   [action]
+  [:strohm/action => :strohm/action]
   (log/debug "dispatch!" action)
   (swap! store (:dispatch @store) action)
   action)
 
 (def ^:export dispatch impl/dispatch)
 
-(defn ^:export dispatch-from-native
+(>defn ^:export dispatch-from-native
   [serialized-action]
+  [string? => :strohm/action]
   (log/debug "dispatch-from-native" serialized-action)
   (try
     (let [action (utils/js->clj' (js/JSON.parse serialized-action))]
@@ -44,8 +50,9 @@
   (add-watch store key watch-fn)
   (watch-fn key nil nil @store))
 
-(defn ^:export subscribe!
+(>defn ^:export subscribe!
   [callback]
+  [[any? any? => any?] => :strohm/subscription-key]
   (let [key (random-uuid)
         watch-fn (fn [_key _ref old new]
                    (log/debug "Triggered cljs subscription" key)
@@ -60,8 +67,9 @@
         new-props (impl/state->props (:state new) props-spec)]
     (send-props! key old-props new-props)))
 
-(defn ^:export subscribe-from-native
+(>defn ^:export subscribe-from-native
   [subscription-id serialized-props-spec]
+  [:strohm/subscription-key string? => :strohm/subscription-key]
   (try
     (let [props-spec (utils/js->clj' (js/JSON.parse serialized-props-spec))
           watch-fn   (partial trigger-subscription-update-to-native props-spec)]
@@ -78,17 +86,23 @@
       (tap> e)
       (throw e))))
 
-(defn ^:export unsubscribe!
+(>defn ^:export unsubscribe!
   [key]
-  (remove-watch store key))
+  [:strohm/subscription-key => nil?]
+  (remove-watch store key)
+  nil)
 
-(defn ^:export unsubscribe-from-native
+(>defn ^:export unsubscribe-from-native
   [subscription-id]
+  [:strohm/subscription-key => boolean?]
   (log/debug "unsubscribe-from-native" subscription-id)
   (let [key (uuid subscription-id)]
     (some? (unsubscribe! key))))
 
-(def ^:export combine-reducers impl/combine-reducers)
+(>defn ^:export combine-reducers
+  [reducers]
+  [map? => :strohm/reducer]
+  (impl/combine-reducers reducers))
 
 (def ^:export clj->js' utils/clj->js')
 (def ^:export js->clj' utils/js->clj')

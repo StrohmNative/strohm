@@ -30,3 +30,4 @@
 
 (>def :strohm/middlewares (s/coll-of :strohm/middleware))
 (>def :strohm/action (s/with-gen any? #(s/gen #{{:type :sample-action}})))
+(>def :strohm/subscription-key uuid?)
