@@ -5,7 +5,8 @@
   "scripts": {
     "jar": "clj -X:jar :jar target/strohm-native.jar :sync-pom true",
     "local-install": "clj -X:install",
-    "deploy": "clj -X:deploy"
+    "deploy": "clj -X:deploy",
+    "test-clj-kondo": "clj -X:clj-kondo-test:test/run"
   },
   "license": "MIT"
 }
