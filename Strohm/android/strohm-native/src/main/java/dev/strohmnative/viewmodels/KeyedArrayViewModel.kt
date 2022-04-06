@@ -15,9 +15,10 @@ open class KeyedArrayViewModel<EntryType>(
         data -> data as List<EntryType>
     }
 
-    override fun propsToData(props: Props): List<EntryType>? {
-        val m = props[this.propName] as? Map<*, *> ?: return null
-        val rawData = m.asMapOfType<PropName, Props>() ?: return null
+    override fun propToData(prop: Prop): List<EntryType>? {
+        if (prop.first != propName) { return null; }
+        val m = prop.second as? Map<*, *> ?: return null
+        val rawData = m.asMapOfType<PropName, Map<String, Any>>() ?: return null
         var data = rawData.values.mapNotNull(instanceFactory::createFromDict)
         return sorter?.let { data.sortedWith(it) } ?: data
     }

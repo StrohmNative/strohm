@@ -5,9 +5,9 @@ import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import dev.strohmnative.PropName
 import dev.strohmnative.PropPath
-import dev.strohmnative.Props
+import dev.strohmnative.PropSpec
+import dev.strohmnative.Prop
 import dev.strohmnative.StrohmNative
-import kotlinx.collections.immutable.persistentMapOf
 import java.util.*
 
 abstract class ViewModelBase<DataType>(
@@ -26,8 +26,8 @@ abstract class ViewModelBase<DataType>(
         data.value = initialData
     }
 
-    private fun receiveProps(props: Props): Unit {
-        propsToData(props)?.let { data ->
+    private fun receiveProp(prop: Prop): Unit {
+        propToData(prop)?.let { data ->
             handler.post(Runnable {
                 this.data.value  = data
             })
@@ -35,7 +35,7 @@ abstract class ViewModelBase<DataType>(
     }
 
     private fun onActive() {
-        StrohmNative.getInstance().subscribe(persistentMapOf(propName to propPath), ::receiveProps) {
+        StrohmNative.getInstance().subscribe(PropSpec(propName, propPath), ::receiveProp) {
                 subscriptionId -> this.subscriptionId = subscriptionId
         }
     }
@@ -47,6 +47,6 @@ abstract class ViewModelBase<DataType>(
         }
     }
 
-    abstract fun propsToData(props: Props): DataType?
+    abstract fun propToData(prop: Prop): DataType?
 }
 

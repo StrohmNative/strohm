@@ -6,9 +6,11 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import dev.strohmnative.PropSpec
 import dev.strohmnative.example.counter.databinding.ActivityMainBinding
 import dev.strohmnative.StatusChangeListener
 import dev.strohmnative.StrohmNative
+import dev.strohmnative.asMapOfType
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -60,11 +62,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun subscribe(@Suppress("UNUSED_PARAMETER") src: View) {
-        StrohmNative.getInstance().subscribe(mapOf("count" to listOf()),
-            handler = { props ->
-                val count = (props["count"] as Number).toInt()
+        StrohmNative.getInstance().subscribe(PropSpec("count", listOf()),
+            handler = { prop ->
+                val count = (prop.second as Number).toInt()
                 runOnUiThread {
-                    binding.txtCounter.setText("$count")
+                  binding.txtCounter.setText("$count")
                 }
             },
             completion = { subscription ->

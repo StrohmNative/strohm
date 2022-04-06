@@ -1,5 +1,6 @@
 package dev.strohmnative
 
+import com.google.gson.Gson
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
@@ -21,7 +22,7 @@ class Subscriptions {
     }
 
     fun addSubscriber(
-        propsSpec: PropsSpec,
+        propSpec: PropSpec,
         handler: HandlerFunction,
         completion: (UUID) -> Unit
     ) {
@@ -32,23 +33,23 @@ class Subscriptions {
             val isUsingPending = holder[0]
 
             if (isUsingPending) {
-                val newPending = pending.add { this.subscribe_(propsSpec, handler, completion) }
+                val newPending = pending.add { this.subscribe_(propSpec, handler, completion) }
                 succeeded = _pendingSubscriptions.compareAndSet(pending, newPending, true, true)
             } else {
-                subscribe_(propsSpec, handler, completion)
+                subscribe_(propSpec, handler, completion)
                 succeeded = true
             }
         }
     }
 
     private fun subscribe_(
-        propsSpec: PropsSpec,
+        propSpec: PropSpec,
         handler: HandlerFunction,
         completion: (UUID) -> Unit
     ) {
         val subscriptionId = UUID.randomUUID()
         subscribers[subscriptionId] = handler
-        val encodedPropsSpec = strohmNative.comms.encode(propsSpec)
+        val encodedPropsSpec = strohmNative.comms.encode(propSpec)
         strohmNative.call("strohm_native.flow.subscribe_from_native(\"$subscriptionId\", \"$encodedPropsSpec\")")
         completion(subscriptionId)
     }
@@ -75,17 +76,20 @@ class Subscriptions {
         }
     }
 
-    internal fun handlePropsUpdate(props: Props, subscriptionId: UUID) {
-        subscribers[subscriptionId]?.let { it(props) }
+    internal fun handlePropUpdate(prop: Prop, subscriptionId: UUID) {
+        subscribers[subscriptionId]?.let { it(prop) }
     }
 
     internal fun subscriptionUpdateHandler(args: CommsHandlerArguments) {
-        val subscriptionIdString = args["subscriptionId"] as? String
-        @Suppress("UNCHECKED_CAST")
-        val newProps = args["new"] as? Props
-        if (subscriptionIdString != null && newProps != null) {
+        val subscriptionIdString = args["subscriptionId"] as? String ?: return
+
+        val newEnc = args["new"] as? String
+        val new = Gson().fromJson(newEnc, ArrayList::class.java)
+        (new[0] as? PropName)?.let { propName ->
+            @Suppress("UNCHECKED_CAST")
+            val newProp = Prop(propName, new[1])
             val subscriptionId = UUID.fromString(subscriptionIdString)
-            handlePropsUpdate(newProps, subscriptionId)
+            handlePropUpdate(newProp, subscriptionId)
         }
     }
 }

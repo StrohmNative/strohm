@@ -100,11 +100,11 @@ class StrohmNative internal constructor(val context: Context) {
     }
 
     fun subscribe(
-        propsSpec: PropsSpec,
+        propSpec: PropSpec,
         handler: HandlerFunction,
         completion: (UUID) -> Unit
     ) {
-        subscriptions.addSubscriber(propsSpec, handler, completion)
+        subscriptions.addSubscriber(propSpec, handler, completion)
     }
 
     fun unsubscribe(subscriptionId: UUID) {
@@ -181,6 +181,6 @@ class StrohmNative internal constructor(val context: Context) {
 
 typealias PropName = String
 typealias PropPath = List<Any>
-typealias PropsSpec = Map<PropName, PropPath>
-typealias Props = Map<PropName, Any>
-typealias HandlerFunction = (Props) -> Unit
+typealias PropSpec = Pair<PropName, PropPath>
+typealias Prop = Pair<PropName, Any>
+typealias HandlerFunction = (Prop) -> Unit

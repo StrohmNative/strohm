@@ -18,6 +18,11 @@ internal class JsonComms {
         return data.replace("\"", "\\\"")
     }
 
+    fun encode(propSpec: PropSpec): String {
+        val data = Gson().toJson(listOf(propSpec.first, propSpec.second))
+        return data.replace("\"", "\\\"")
+    }
+
     fun registerHandlerFunction(name: String, function: CommsHandlerFunction) {
         registeredFunctions[name] = function
     }
