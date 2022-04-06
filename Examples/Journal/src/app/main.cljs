@@ -2,7 +2,7 @@
   (:require [app.entries.reducer :as entries]
             [app.navigation.reducer :as navigation]
             [cljs.reader :refer [read-string]]
-            [strohm-native.flow :refer [combine-reducers create-store]]
+            [strohm-native.flow :refer [combine-reducers create-store!]]
             [strohm-native.log :as log]
             [strohm-native.tx :as tx]))
 
@@ -33,9 +33,9 @@
 (defn- setup
   []
   (let [initial-state (or (load-state) empty-store)]
-    (create-store reducer
-                  :initial-state initial-state
-                  :middlewares [persist-state-middleware])))
+    (create-store! reducer
+                   :initial-state initial-state
+                   :middlewares [persist-state-middleware])))
 
 (defn ^:export main!
   []

@@ -1,6 +1,6 @@
 (ns app.main
   (:require [clojure.string :as str]
-            [strohm-native.flow :refer [create-store]]
+            [strohm-native.flow :refer [create-store!]]
             [strohm-native.log :as log]
             [strohm-native.tx :refer [send-props!]]))
 
@@ -16,7 +16,7 @@
 (defn ^:export main!
   []
   (log/set-log-level! :debug)
-  (create-store reducer :initial-state 0)
+  (create-store! reducer :initial-state 0)
   (log/debug "[main] started"))
 
 (defn sendTestMessage
