@@ -40,10 +40,10 @@ jobs:
             ~/.gradle/wrapper
             Strohm/.shadow-cljs
             Strohm/ios/Strohm/.build
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Strohm/**/deps.edn', 'Strohm/**/build.gradle', 'Strohm/**/Package.resolved') }}
+          key: ${{ runner.os }}-v2-build-${{ env.cache-name }}-${{ hashFiles('Strohm/**/deps.edn', 'Strohm/**/build.gradle', 'Strohm/**/Package.resolved') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
+            ${{ runner.os }}-v2-build-${{ env.cache-name }}-
+            ${{ runner.os }}-v2-build-
             ${{ runner.os }}-
 
       - name: Install prerequisites
