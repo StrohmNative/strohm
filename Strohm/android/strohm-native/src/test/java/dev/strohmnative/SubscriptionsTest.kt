@@ -13,10 +13,7 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
-val propsSpec: PropsSpec = mapOf(
-    "name" to arrayListOf("user", "name"),
-    "city" to arrayListOf("user", "address", "city")
-)
+val propSpec = PropSpec("name" , arrayListOf("user", "name"))
 val noop: HandlerFunction = {}
 
 object SubscriptionsSpec: Spek({
@@ -37,7 +34,7 @@ object SubscriptionsSpec: Spek({
 
             beforeEachTest {
                 subscriptionComplete = false
-                strohmNative.subscribe(propsSpec, noop) {
+                strohmNative.subscribe(propSpec, noop) {
                     subscriptionComplete = true
                 }
             }
@@ -67,7 +64,7 @@ object SubscriptionsSpec: Spek({
             beforeEachTest {
                 strohmNative.whenLoadingFinished()
                 subscriptionComplete = false
-                strohmNative.subscribe(propsSpec, noop) {
+                strohmNative.subscribe(propSpec, noop) {
                     subscriptionComplete = true
                 }
             }
@@ -83,46 +80,46 @@ object SubscriptionsSpec: Spek({
                 val expected = """strohm_native\.flow\.subscribe_from_native\(".*", ?"(.*)"\)"""
                 assertLinesMatch(listOf(expected), listOf(jsCodeCaptor.value))
                 val matchResult = expected.toRegex().matchEntire(jsCodeCaptor.value)
-                val matchedSerializedPropsSpec = matchResult!!.groups[1]!!.value
-                val unescaped = matchedSerializedPropsSpec.replace("\\\"", "\"")
-                val parsed = Gson().fromJson(unescaped, HashMap::class.java)
-                assertEquals(propsSpec["name"], parsed["name"])
-                assertEquals(propsSpec["city"], parsed["city"])
+                val matchedSerializedPropSpec = matchResult!!.groups[1]!!.value
+                val unescaped = matchedSerializedPropSpec.replace("\\\"", "\"")
+                val parsed = Gson().fromJson(unescaped, ArrayList::class.java)
+                assertEquals(propSpec.first, parsed[0])
+                assertEquals(propSpec.second, parsed[1])
             }
         }
 
         context("when subscribed") {
-            var receivedProps: Props? = null
+            var receivedProp: Prop? = null
             var subscriptionId: UUID? = null
-            val handlerFn: HandlerFunction = { receivedProps = it }
+            val handlerFn: HandlerFunction = { receivedProp = it }
 
             beforeEachTest {
-                receivedProps = null
+                receivedProp = null
                 subscriptionId = null
                 strohmNative.whenLoadingFinished()
-                subscriptionId = strohmNative.whenSubscriptionCompletes(propsSpec, handlerFn)
+                subscriptionId = strohmNative.whenSubscriptionCompletes(propSpec, handlerFn)
             }
 
             it("receives prop updates") {
-                val props = mapOf("name" to "foo")
-                strohmNative.whenIncoming(props, subscriptionId!!)
-                assertEquals(props, receivedProps)
+                val prop = Prop("name", "foo")
+                strohmNative.whenIncoming(prop, subscriptionId!!)
+                assertEquals(prop, receivedProp)
             }
 
-            it("does not receive props for someone else") {
-                var otherProps: Props? = null
-                val otherId = strohmNative.whenSubscriptionCompletes(propsSpec) { props ->
-                        otherProps = props
+            it("does not receive prop for someone else") {
+                var otherProp: Prop? = null
+                val otherId = strohmNative.whenSubscriptionCompletes(propSpec) { prop ->
+                        otherProp = prop
                 }
-                strohmNative.whenIncoming(mapOf("name" to "foo"), otherId)
-                assertNull(receivedProps)
-                assertNotNull(otherProps)
+                strohmNative.whenIncoming(Prop("name", "foo"), otherId)
+                assertNull(receivedProp)
+                assertNotNull(otherProp)
             }
 
-            it("does not receive props after unsubscribe") {
+            it("does not receive prop after unsubscribe") {
                 strohmNative.unsubscribe(subscriptionId!!)
-                strohmNative.whenIncoming(mapOf("name" to "foo"), subscriptionId!!)
-                assertNull(receivedProps)
+                strohmNative.whenIncoming(Prop("name", "foo"), subscriptionId!!)
+                assertNull(receivedProp)
             }
 
             it("calls unsubscribe on the web view when unsubscribing") {
@@ -149,16 +146,16 @@ fun StrohmNative.whenLoadingFinished() {
     this.loadingFinished()
 }
 
-fun StrohmNative.whenSubscriptionCompletes(propsSpec: PropsSpec, handlerFn: HandlerFunction): UUID {
+fun StrohmNative.whenSubscriptionCompletes(propSpec: PropSpec, handlerFn: HandlerFunction): UUID {
     val future = CompletableFuture<UUID>()
-    this.subscribe(propsSpec, handlerFn) { uuid ->
+    this.subscribe(propSpec, handlerFn) { uuid ->
         future.complete(uuid)
     }
     return future.get(1, TimeUnit.SECONDS)
 }
 
-fun StrohmNative.whenIncoming(props: Props, subscriptionId: UUID) {
-    this.subscriptions.handlePropsUpdate(props, subscriptionId)
+fun StrohmNative.whenIncoming(prop: Prop, subscriptionId: UUID) {
+    this.subscriptions.handlePropUpdate(prop, subscriptionId)
 }
 
 /* Subscriptions class extension methods for testing */
