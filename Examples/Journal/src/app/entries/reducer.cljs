@@ -1,5 +1,7 @@
 (ns app.entries.reducer
-  (:require [strohm-native.flow :refer-macros [defnreducer]]))
+  (:require [clojure.spec.alpha :as s]
+            [com.fulcrologic.guardrails.core :refer [>def]]
+            [strohm-native.flow :refer-macros [>defnreducer]]))
 
 (defn- update-entry
   [entries payload]
@@ -7,7 +9,21 @@
     (update entries (:entry/id payload) (fn [entry] (merge entry payload)))
     entries))
 
-(defnreducer reducer
+(>def :entry/id string?)
+(>def :entry/title string?)
+(>def :entry/text string?)
+(>def :entry/created inst?)
+
+(>def :journal/entry (s/keys :req [:entry/id
+                                   :entry/title
+                                   :entry/text
+                                   :entry/created]))
+
+(>def :journal/state (s/map-of nat-int? :journal/entry))
+(>def :journal/action any?)
+
+(>defnreducer reducer
+  [:journal/state :journal/action => :journal/state]
   {"new-entry" #(let [id (str (random-uuid))]
                   (assoc %1 id {:entry/id id
                                 :entry/title "Untitled"
