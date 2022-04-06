@@ -44,7 +44,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-v2-build-${{ env.cache-name }}-
             ${{ runner.os }}-v2-build-
-            ${{ runner.os }}-
+            ${{ runner.os }}-v2-
 
       - name: Install prerequisites
         run: brew install clojure/tools/clojure
