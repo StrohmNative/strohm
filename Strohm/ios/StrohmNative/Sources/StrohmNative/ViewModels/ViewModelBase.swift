@@ -26,7 +26,9 @@ open class ViewModelBase<DataType>: ObservableObject {
 
     deinit {
         if let subscriptionId = self.subscriptionId {
-            StrohmNative.default.unsubscribe(subscriptionId: subscriptionId)
+            DispatchQueue.main.async {
+                StrohmNative.default.unsubscribe(subscriptionId: subscriptionId)
+            }
         }
     }
 
