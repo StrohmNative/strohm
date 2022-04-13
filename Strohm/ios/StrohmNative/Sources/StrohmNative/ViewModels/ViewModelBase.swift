@@ -15,9 +15,13 @@ open class ViewModelBase<DataType>: ObservableObject {
         self.propPath = propPath
         StrohmNative.default.subscribe2(
             propSpec: (propName, propPath),
-            handler: receiveProp2) { subscriptionId in
-            self.subscriptionId = subscriptionId
-        }
+            handler: { [weak self] serializedProp in
+                self?.receiveProp2(serializedProp: serializedProp)
+            },
+            completion: { [weak self] subscriptionId in
+                self?.subscriptionId = subscriptionId
+            }
+        )
     }
 
     deinit {
