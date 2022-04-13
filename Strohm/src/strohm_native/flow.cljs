@@ -69,7 +69,7 @@
 
 (>defn ^:export subscribe-from-native
   [subscription-id serialized-props-spec]
-  [:strohm/subscription-key string? => :strohm/subscription-key]
+  [string? string? => string?]
   (try
     (let [props-spec (utils/js->clj' (js/JSON.parse serialized-props-spec))
           watch-fn   (partial trigger-subscription-update-to-native props-spec)]
@@ -94,7 +94,7 @@
 
 (>defn ^:export unsubscribe-from-native
   [subscription-id]
-  [:strohm/subscription-key => boolean?]
+  [string? => boolean?]
   (log/debug "unsubscribe-from-native" subscription-id)
   (let [key (uuid subscription-id)]
     (some? (unsubscribe! key))))
