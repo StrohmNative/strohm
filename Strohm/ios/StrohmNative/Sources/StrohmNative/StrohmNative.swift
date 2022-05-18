@@ -168,7 +168,8 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
         payload: T,
         onError: ErrorHandler? = nil
     ) throws {
-        let encodedPayload: [String: Any] = try DictionaryEncoder().encode(payload)
+        let jsonEncoded = try JSONEncoder().encode(payload)
+        let encodedPayload = try JSONSerialization.jsonObject(with: jsonEncoded) as! [String: Any]
         dispatch(type: type, payload: encodedPayload, onError: onError)
     }
 
