@@ -14,66 +14,92 @@ class Subscriptions {
 
     func addSubscriber(propSpec: PropSpec,
                        handler: @escaping HandlerFunction,
-                       completion: @escaping (UUID) -> Void) {
+                       completion: @escaping (UUID) -> Void,
+                       onError: ErrorHandler?
+    ) {
         if pendingSubscriptions != nil {
             pendingSubscriptions!.append({ [weak self] in
                 self?.subscribe_(
                     propSpec: propSpec,
                     handler: handler,
-                    completion: completion)
+                    completion: completion,
+                    onError: onError
+                )
             })
         } else {
             subscribe_(propSpec: propSpec,
                        handler: handler,
-                       completion: completion)
+                       completion: completion,
+                       onError: onError
+            )
         }
     }
 
     private func subscribe_(propSpec: PropSpec,
                             handler: @escaping HandlerFunction,
-                            completion: (UUID) -> Void) {
+                            completion: (UUID) -> Void,
+                            onError: ErrorHandler?
+    ) {
         guard let encodedPropSpec = strohmNative.comms.encode(object: propSpec) else {
             return
         }
+        let stringEncoded = encodedPropSpec.replacingOccurrences(of: "\"", with: "\\\"")
         let subscriptionId = UUID()
         subscribers[subscriptionId] = handler
-        strohmNative.call(method: "strohm_native.flow.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(encodedPropSpec)\")")
+        strohmNative.call(
+            method: "strohm_native.flow.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(stringEncoded)\")",
+            onError: onError
+        )
         completion(subscriptionId)
     }
 
     func addSubscriber2(propSpec: PropSpec,
                         handler: @escaping HandlerFunction2,
-                        completion: @escaping (UUID) -> Void) {
+                        completion: @escaping (UUID) -> Void,
+                        onError: ErrorHandler?
+    ) {
         if pendingSubscriptions != nil {
             pendingSubscriptions!.append({ [weak self] in
                 self?.subscribe2_(
                     propSpec: propSpec,
                     handler: handler,
-                    completion: completion)
+                    completion: completion,
+                    onError: onError
+                )
             })
         } else {
             subscribe2_(propSpec: propSpec,
                         handler: handler,
-                        completion: completion)
+                        completion: completion,
+                        onError: onError
+            )
         }
     }
 
     private func subscribe2_(propSpec: PropSpec,
                              handler: @escaping HandlerFunction2,
-                             completion: (UUID) -> Void) {
+                             completion: (UUID) -> Void,
+                             onError: ErrorHandler?
+    ) {
         guard let encodedPropSpec = strohmNative.comms.encode(object: propSpec) else {
             return
         }
+        let stringEncoded = encodedPropSpec.replacingOccurrences(of: "\"", with: "\\\"")
         let subscriptionId = UUID()
         subscribers2[subscriptionId] = handler
-        strohmNative.call(method: "strohm_native.flow.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(encodedPropSpec)\")")
+        strohmNative.call(
+            method: "strohm_native.flow.subscribe_from_native(\"\(subscriptionId.uuidString)\", \"\(stringEncoded)\")",
+            onError: onError
+        )
         completion(subscriptionId)
     }
 
     func removeSubscriber(subscriptionId: UUID) {
         subscribers.removeValue(forKey: subscriptionId)
         subscribers2.removeValue(forKey: subscriptionId)
-        strohmNative.call(method: "strohm_native.flow.unsubscribe_from_native(\"\(subscriptionId.uuidString)\")")
+        strohmNative.call(method: "strohm_native.flow.unsubscribe_from_native(\"\(subscriptionId.uuidString)\")") { cljsError in
+            Log.warn("removeSubscriber failed with error \(cljsError)")
+        }
     }
 
     func effectuatePendingSubscriptions() {
@@ -83,7 +109,7 @@ class Subscriptions {
         }
     }
 
-    func subscriptionUpdateHandler(args: JsonComms.Arguments) {
+    func subscriptionUpdateHandler(args: CommsArguments) {
         if let subscriptionIdString = args["subscriptionId"] as? String,
            let subscriptionId = UUID(uuidString: subscriptionIdString),
            let newPropSerialized = args["new"] as? String {

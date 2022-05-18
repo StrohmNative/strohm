@@ -100,14 +100,18 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
 
     public func subscribe(propSpec: PropSpec,
                           handler: @escaping HandlerFunction,
-                          completion: @escaping (UUID) -> Void) {
-        self.subscriptions?.addSubscriber(propSpec: propSpec, handler: handler, completion: completion)
+                          completion: @escaping (UUID) -> Void,
+                          onError: ErrorHandler? = nil
+    ) {
+        self.subscriptions?.addSubscriber(propSpec: propSpec, handler: handler, completion: completion, onError: onError)
     }
 
     public func subscribe2(propSpec: PropSpec,
                            handler: @escaping HandlerFunction2,
-                           completion: @escaping (UUID) -> Void) {
-        self.subscriptions?.addSubscriber2(propSpec: propSpec, handler: handler, completion: completion)
+                           completion: @escaping (UUID) -> Void,
+                           onError: ErrorHandler? = nil
+    ) {
+        self.subscriptions?.addSubscriber2(propSpec: propSpec, handler: handler, completion: completion, onError: onError)
     }
 
     public func unsubscribe(subscriptionId: UUID) {
@@ -140,33 +144,47 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
         print("\nStrohmNative error: Please make sure dev server is running\n") // TODO: ref to doc
     }
 
-    func call(method: String) {
+    func call(method: String, onError: ErrorHandler?) {
         webView?.evaluateJavaScript(method) { (result, error) in
             if let nsError = error as NSError?, nsError.domain == "WKErrorDomain" {
                 print("cljs call exception: \(String(describing: error))")
-                if let message = nsError.userInfo["WKJavaScriptExceptionMessage"] {
+                if let message = nsError.userInfo["WKJavaScriptExceptionMessage"] as? String {
                     print(message)
+                    onError?(.jsException(message: message, wrappedError: nsError))
+                }
+                else {
+                    onError?(.nsError(wrappedError: nsError))
                 }
             }
             else if let error = error {
                 print("cljs call result error: \(String(describing: error))")
+                onError?(.error(wrappedError: error))
             }
         }
     }
 
-    public func dispatch<T: Encodable>(type: String, payload: T) throws {
+    public func dispatch<T: Encodable>(
+        type: String,
+        payload: T,
+        onError: ErrorHandler? = nil
+    ) throws {
         let encodedPayload: [String: Any] = try DictionaryEncoder().encode(payload)
-        dispatch(type: type, payload: encodedPayload)
+        dispatch(type: type, payload: encodedPayload, onError: onError)
     }
 
-    public func dispatch(type: String, payload: [String: Any] = [:]) {
+    public func dispatch(
+        type: String,
+        payload: [String: Any] = [:],
+        onError: ErrorHandler? = nil
+    ) {
         Log.debug("dispatch-swift", type, payload)
         let action: [String: Any] = ["type": type, "payload": payload]
         guard let serializedAction = comms.encode(object: action) else {
             return
         }
-        let method = "globalThis.strohm_native.flow.dispatch_from_native(\"\(serializedAction)\")"
-        call(method: method)
+        let encoded = serializedAction.replacingOccurrences(of: "\"", with: "\\\"")
+        let method = "globalThis.strohm_native.flow.dispatch_from_native(\"\(encoded)\")"
+        call(method: method, onError: onError)
     }
 
     public enum Status: String {
@@ -174,6 +192,10 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
         case loading = "loading"
         case serverNotRunning = "server not running"
         case ok = "ok"
+    }
+
+    public func registerHandlerFunction(name: String, function: @escaping CommsFunction) {
+        comms.registerHandlerFunction(name: name, function: function)
     }
 }
 
@@ -183,6 +205,7 @@ public typealias PropSpec = (name: PropName, path: PropPath)
 public typealias Prop = (name: PropName, value: Any)
 public typealias HandlerFunction = (Prop) -> Void
 public typealias HandlerFunction2 = (String) -> Void
+public typealias ErrorHandler = (CLJSError) -> Void
 
 protocol StrohmNativeWebView {
     var navigationDelegate: WKNavigationDelegate? { get set }
@@ -191,3 +214,9 @@ protocol StrohmNativeWebView {
 }
 
 extension WKWebView: StrohmNativeWebView {}
+
+public enum CLJSError: Error {
+    case jsException(message: String, wrappedError: NSError)
+    case nsError(wrappedError: NSError)
+    case error(wrappedError: Error)
+}

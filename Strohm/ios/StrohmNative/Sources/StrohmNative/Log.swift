@@ -26,7 +26,10 @@ class Log {
             return
         }
 
-        StrohmNative.default.call(method: "globalThis.strohm_native.log.log_from_native(\"\(encodedArgs)\")")
+        let encoded = encodedArgs.replacingOccurrences(of: "\"", with: "\\\"")
+        StrohmNative.default.call(method: "globalThis.strohm_native.log.log_from_native(\"\(encoded)\")") { cljsError in
+            print("[fatal] Call to log error in cljs failed with error \(cljsError)")
+        }
     }
 
     enum Level: String {

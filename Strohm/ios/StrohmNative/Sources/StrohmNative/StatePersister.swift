@@ -17,7 +17,7 @@ class StatePersister {
         return dir.appendingPathComponent("state.enc")
     }
 
-    func persistStateHandler(args: JsonComms.Arguments) {
+    func persistStateHandler(args: CommsArguments) {
         if let state = args["state"] as? String {
             print("got state")
             do {

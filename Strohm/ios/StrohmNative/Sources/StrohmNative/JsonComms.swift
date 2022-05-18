@@ -1,13 +1,13 @@
 import Foundation
 import WebKit
 
+public typealias CommsArguments = [String:Any]
+public typealias CommsFunction = (CommsArguments) -> Void
+
 class JsonComms: NSObject, WKScriptMessageHandler {
-    typealias Arguments = [String:Any]
-    typealias Function = (Arguments) -> Void
+    var registeredFunctions = [String: CommsFunction]()
 
-    var registeredFunctions = [String: Function]()
-
-    func registerHandlerFunction(name: String, function: @escaping Function) {
+    func registerHandlerFunction(name: String, function: @escaping CommsFunction) {
         registeredFunctions[name] = function
     }
 

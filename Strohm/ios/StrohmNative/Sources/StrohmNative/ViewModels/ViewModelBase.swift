@@ -20,6 +20,9 @@ open class ViewModelBase<DataType>: ObservableObject {
             },
             completion: { [weak self] subscriptionId in
                 self?.subscriptionId = subscriptionId
+            },
+            onError: { /*[weak self]*/ cljsError in
+                fatalError("ViewModelBase.init failed. Going to assume this is a dev setup error. Make sure the JavaScript code is correctly compiled. Error: \(cljsError)")
             }
         )
     }
