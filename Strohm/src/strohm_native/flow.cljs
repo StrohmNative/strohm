@@ -1,6 +1,5 @@
 (ns strohm-native.flow
-  (:require [clojure.spec.alpha :as s]
-            [com.fulcrologic.guardrails.core :refer [>defn >def >fdef]]
+  (:require [com.fulcrologic.guardrails.core :refer [=> >defn]]
             [strohm-native.impl.flow :as impl]
             [strohm-native.log :as log]
             [strohm-native.spec]
