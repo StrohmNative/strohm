@@ -1,13 +1,13 @@
 {:paths ["src" "test" "resources"]
- :deps {thheller/shadow-cljs {:mvn/version "2.17.8"}
+ :deps {thheller/shadow-cljs {:mvn/version "2.19.0"}
         com.fulcrologic/guardrails {:mvn/version "1.1.11"}
-        org.clojure/clojure {:mvn/version "1.11.0"}}
+        org.clojure/clojure {:mvn/version "1.11.1"}}
  :aliases {:clj-kondo-test {:extra-paths ["test-clj-kondo"]
                             :extra-deps  {fulcrologic/fulcro-spec {:mvn/version "3.1.12"}
-                                          clj-kondo/clj-kondo     {:mvn/version "2022.03.09"}}}
+                                          clj-kondo/clj-kondo     {:mvn/version "2022.04.25"}}}
            :runner {:extra-paths ["test"]
                     :extra-deps {io.github.cognitect-labs/test-runner
-                                 {:git/tag "v0.5.0" :git/sha "b3fd0d2"}}
+                                 {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
                     :main-opts ["-m" "cognitect.test-runner"]
                     :exec-fn cognitect.test-runner.api/test}
            :jar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.303"}}
@@ -30,5 +30,5 @@
                                 :sign-key-id "C771518B366E0C7D0C4B4368B2741AC5AFC71E0A"
                                 :artifact "target/strohm-native.jar"}}
 
-           :outdated {:extra-deps {com.github.liquidz/antq {:mvn/version "1.6.0"}}
+           :outdated {:extra-deps {com.github.liquidz/antq {:mvn/version "1.6.2"}}
                       :main-opts ["-m" "antq.core"]}}}

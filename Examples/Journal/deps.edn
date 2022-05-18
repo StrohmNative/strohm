@@ -1,5 +1,5 @@
-{:paths ["dev" 
+{:paths ["dev"
          "src"
          "test"]
- :deps {thheller/shadow-cljs {:mvn/version "2.17.8"}
+ :deps {thheller/shadow-cljs {:mvn/version "2.19.0"}
         strohm/native {:local/root "../../Strohm"}}}

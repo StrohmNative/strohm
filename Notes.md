@@ -56,7 +56,7 @@ Creating new example project
   {:paths ["dev"
            "src"
            "test"]
-   :deps {thheller/shadow-cljs {:mvn/version "2.11.14"}
+   :deps {thheller/shadow-cljs {:mvn/version "2.19.0"}
           strohm/native {:local/root "../../Strohm"}}}
   ```
 
