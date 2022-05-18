@@ -22,30 +22,27 @@ class JsonComms: NSObject, WKScriptMessageHandler {
     }
 
     func encode(object: [String: Any]) -> String? {
-        guard let data = try? JSONSerialization.data(withJSONObject: object),
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .withoutEscapingSlashes),
             let args = String(data: data, encoding: .utf8) else {
                 return nil
         }
-        let encoded = args.replacingOccurrences(of: "\"", with: "\\\"")
-        return encoded
+        return args
     }
 
     func encode(object: (String, Any)) -> String? {
         let asArray = [object.0, object.1]
-        guard let data = try? JSONSerialization.data(withJSONObject: asArray),
+        guard let data = try? JSONSerialization.data(withJSONObject: asArray, options: .withoutEscapingSlashes),
             let args = String(data: data, encoding: .utf8) else {
                 return nil
         }
-        let encoded = args.replacingOccurrences(of: "\"", with: "\\\"")
-        return encoded
+        return args
     }
 
     func encode(object: [Any]) -> String? {
-        guard let data = try? JSONSerialization.data(withJSONObject: object),
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .withoutEscapingSlashes),
             let args = String(data: data, encoding: .utf8) else {
                 return nil
         }
-        let encoded = args.replacingOccurrences(of: "\"", with: "\\\"")
-        return encoded
+        return args
     }
 }
