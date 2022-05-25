@@ -13,6 +13,10 @@
 		F84A1DC8283EB5D900DFD4AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F84A1DC6283EB5D900DFD4AD /* Main.storyboard */; };
 		F84A1DCA283EB5DA00DFD4AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F84A1DC9283EB5DA00DFD4AD /* Assets.xcassets */; };
 		F84A1DCD283EB5DA00DFD4AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F84A1DCB283EB5DA00DFD4AD /* LaunchScreen.storyboard */; };
+		F84A1DD6283EB87100DFD4AD /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = F84A1DD5283EB87100DFD4AD /* Differentiator */; };
+		F84A1DD8283EB87100DFD4AD /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = F84A1DD7283EB87100DFD4AD /* RxDataSources */; };
+		F84A1DDC283EB8BA00DFD4AD /* JournalEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84A1DDB283EB8BA00DFD4AD /* JournalEntry.swift */; };
+		F84A1DE0283EBB1100DFD4AD /* StrohmNative in Frameworks */ = {isa = PBXBuildFile; productRef = F84A1DDF283EBB1100DFD4AD /* StrohmNative */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,8 @@
 		F84A1DC9283EB5DA00DFD4AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F84A1DCC283EB5DA00DFD4AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F84A1DCE283EB5DA00DFD4AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F84A1DDB283EB8BA00DFD4AD /* JournalEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JournalEntry.swift; sourceTree = "<group>"; };
+		F84A1DDD283EBAF500DFD4AD /* StrohmNative */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = StrohmNative; path = ../../../../Strohm/ios/StrohmNative; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +37,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F84A1DD6283EB87100DFD4AD /* Differentiator in Frameworks */,
+				F84A1DD8283EB87100DFD4AD /* RxDataSources in Frameworks */,
+				F84A1DE0283EBB1100DFD4AD /* StrohmNative in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +51,7 @@
 			children = (
 				F84A1DBF283EB5D900DFD4AD /* UIJournal */,
 				F84A1DBE283EB5D900DFD4AD /* Products */,
+				F84A1DDE283EBB1100DFD4AD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,12 +69,21 @@
 				F84A1DC0283EB5D900DFD4AD /* AppDelegate.swift */,
 				F84A1DC2283EB5D900DFD4AD /* SceneDelegate.swift */,
 				F84A1DC4283EB5D900DFD4AD /* JournalEntriesList.swift */,
+				F84A1DDB283EB8BA00DFD4AD /* JournalEntry.swift */,
 				F84A1DC6283EB5D900DFD4AD /* Main.storyboard */,
 				F84A1DC9283EB5DA00DFD4AD /* Assets.xcassets */,
 				F84A1DCB283EB5DA00DFD4AD /* LaunchScreen.storyboard */,
 				F84A1DCE283EB5DA00DFD4AD /* Info.plist */,
+				F84A1DDD283EBAF500DFD4AD /* StrohmNative */,
 			);
 			path = UIJournal;
+			sourceTree = "<group>";
+		};
+		F84A1DDE283EBB1100DFD4AD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +102,11 @@
 			dependencies = (
 			);
 			name = UIJournal;
+			packageProductDependencies = (
+				F84A1DD5283EB87100DFD4AD /* Differentiator */,
+				F84A1DD7283EB87100DFD4AD /* RxDataSources */,
+				F84A1DDF283EBB1100DFD4AD /* StrohmNative */,
+			);
 			productName = UIJournal;
 			productReference = F84A1DBD283EB5D900DFD4AD /* UIJournal.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +135,9 @@
 				Base,
 			);
 			mainGroup = F84A1DB4283EB5D900DFD4AD;
+			packageReferences = (
+				F84A1DD4283EB87100DFD4AD /* XCRemoteSwiftPackageReference "RxDataSources" */,
+			);
 			productRefGroup = F84A1DBE283EB5D900DFD4AD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -140,6 +167,7 @@
 			files = (
 				F84A1DC5283EB5D900DFD4AD /* JournalEntriesList.swift in Sources */,
 				F84A1DC1283EB5D900DFD4AD /* AppDelegate.swift in Sources */,
+				F84A1DDC283EB8BA00DFD4AD /* JournalEntry.swift in Sources */,
 				F84A1DC3283EB5D900DFD4AD /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,6 +386,34 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F84A1DD4283EB87100DFD4AD /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F84A1DD5283EB87100DFD4AD /* Differentiator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F84A1DD4283EB87100DFD4AD /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = Differentiator;
+		};
+		F84A1DD7283EB87100DFD4AD /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F84A1DD4283EB87100DFD4AD /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
+		};
+		F84A1DDF283EBB1100DFD4AD /* StrohmNative */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = StrohmNative;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F84A1DB5283EB5D900DFD4AD /* Project object */;
 }
