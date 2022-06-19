@@ -3,56 +3,58 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 import Differentiator
+import StrohmNative
 
-class JournalEntriesList: UIViewController {
-    @IBOutlet private var tableView: UITableView!
+class JournalEntriesList: UITableViewController {
+//    @IBOutlet private var tableView: UITableView!
 
     let disposeBag = DisposeBag()
-
-    var dataSource: RxTableViewSectionedAnimatedDataSource<MySection>?
+    var viewModel: KeyedArraySubject<JournalEntry>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.delegate = nil
+        self.tableView.dataSource = nil
 
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        viewModel = KeyedArraySubject(initialEntries: [],
+                                      propName: "entries",
+                                      propPath: ["entries"])
+        viewModel.sorter = { (e1, e2) -> Bool in
+            e1.created > e2.created
+        }
 
-        let dataSource = RxTableViewSectionedAnimatedDataSource<MySection>(
-            configureCell: { ds, tv, _, item in
-                let cell = tv.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
-                cell.textLabel?.text = item.title
-                return cell
-            }
-        )
+//        let data = Observable<[JournalEntry]>.just([
+//            JournalEntry(id: "1", title: "One", text: "one", created: Date()),
+//            JournalEntry(id: "2", title: "Two", text: "two", created: Date())
+//        ])
 
-        self.dataSource = dataSource
+        viewModel.publisher.bind(to: tableView.rx.items(cellIdentifier: "Cell")) { index, entry, cell in
+            cell.accessoryType = .disclosureIndicator
+            cell.textLabel?.text = entry.title
+            cell.detailTextLabel?.text = entry.created.formatted(date: .abbreviated, time: .shortened)
+        }.disposed(by: disposeBag)
 
-        let sections = [
-            MySection(header: "First section", items: [
-                JournalEntry(id: "1", title: "one", text: "one", created: Date()),
-                JournalEntry(id: "2", title: "two", text: "two", created: Date())
-            ])
-        ]
-
-        Observable.just(sections)
-            .bind(to: tableView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
-    }
-}
-
-struct MySection {
-    var header: String
-    var items: [JournalEntry]
-}
-
-extension MySection: AnimatableSectionModelType {
-    typealias Item = JournalEntry
-
-    var identity: String {
-        return header
+        tableView.rx.itemDeleted.subscribe { [unowned self] indexPath in
+            self.deleteEntry(at: indexPath)
+        }.disposed(by: disposeBag)
     }
 
-    init(original: MySection, items: [JournalEntry]) {
-        self = original
-        self.items = items
+    @IBAction func newEntry(_ sender: UIBarButtonItem) {
+        StrohmNative.default.dispatch(type: "new-entry")
+    }
+
+    func deleteEntry(at indexPath: IndexPath) {
+        if let entries = try? viewModel.publisher.value() {
+            let id = entries[indexPath.row].id
+            try! StrohmNative.default.dispatch(type: "remove-entry", payload: ["entry/id": id])
+        }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let targetVc = segue.destination as? JournalEntryDetail,
+            let index = self.tableView.indexPathForSelectedRow?.row,
+            let entry = try? viewModel.publisher.value()[index] {
+            targetVc.set(entry: entry)
+        }
     }
 }
