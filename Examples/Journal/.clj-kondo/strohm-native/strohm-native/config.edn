@@ -1,0 +1,11 @@
+{:hooks {:analyze-call {strohm-native.flow/defreducer
+                        strohm-native.clj-kondo-hooks/defreducer
+                        strohm-native.flow/defnreducer
+                        strohm-native.clj-kondo-hooks/defnreducer
+                        strohm-native.flow/>defnreducer
+                        strohm-native.clj-kondo-hooks/>defnreducer}}
+ :linters {:clj-kondo.strohm-native.defreducer/invalid-body {:level :error}
+           :clj-kondo.strohm-native.defnreducer/invalid-body {:level :error}
+           :clj-kondo.strohm-native.>defnreducer/invalid-gspec {:level :error}
+           :clj-kondo.strohm-native.>defnreducer/return-spec-not-equal-to-first-arg-spec {:level :error}
+           :clj-kondo.strohm-native.>defnreducer/invalid-body {:level :error}}}
