@@ -47,7 +47,7 @@ open class ViewModelBase<DataType>: ObservableObject {
         fatalError("abstract method")
     }
 
-    func store(data: DataType) {
+    open func store(data: DataType) {
         fatalError("abstract method")
     }
 

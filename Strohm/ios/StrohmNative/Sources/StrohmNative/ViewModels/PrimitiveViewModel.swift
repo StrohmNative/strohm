@@ -35,7 +35,7 @@ open class PrimitiveViewModel<T: Decodable>: ViewModelBase<T> {
         }
     }
 
-    override func store(data: T) {
+    override open func store(data: T) {
         self.data = data
     }
 

@@ -45,7 +45,7 @@ open class KeyedArrayViewModel<EntryType: Codable>: ViewModelBase<[EntryType]> {
         }
     }
 
-    override func store(data: [EntryType]) {
+    override open func store(data: [EntryType]) {
         self.entries = data
     }
 
