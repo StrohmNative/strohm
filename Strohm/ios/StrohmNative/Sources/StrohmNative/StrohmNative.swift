@@ -1,6 +1,8 @@
 import Foundation
 import WebKit
 import Combine
+import AVFoundation
+import SwiftUI
 
 public class StrohmNative: NSObject, WKNavigationDelegate {
     public static var `default`: StrohmNative = {
@@ -9,7 +11,7 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
         return strohmNative
     }()
 
-    var webView: StrohmNativeWebView?
+    public private(set) var webView: StrohmNativeWebView?
     var webConfiguration: WKWebViewConfiguration!
     var _status = CurrentValueSubject<Status, Never>(.uninitialized)
     public lazy var status = _status.eraseToAnyPublisher()
@@ -209,7 +211,7 @@ public typealias HandlerFunction = (Prop) -> Void
 public typealias HandlerFunction2 = (String) -> Void
 public typealias ErrorHandler = (CLJSError) -> Void
 
-protocol StrohmNativeWebView {
+public protocol StrohmNativeWebView {
     var navigationDelegate: WKNavigationDelegate? { get set }
     func loadHTMLString(_ string: String, baseURL: URL?) -> WKNavigation?
     func evaluateJavaScript(_ javaScriptString: String, completionHandler: ((Any?, Error?) -> Void)?)
@@ -222,3 +224,16 @@ public enum CLJSError: Error {
     case nsError(wrappedError: NSError)
     case error(wrappedError: Error)
 }
+
+public struct StrohmWebView: UIViewRepresentable {
+    public init() {}
+
+    public func makeUIView(context: Context) -> WKWebView {
+        return StrohmNative.default.webView as! WKWebView
+    }
+
+    public func updateUIView(_ uiView: WKWebView, context: Context) {
+
+    }
+}
+
