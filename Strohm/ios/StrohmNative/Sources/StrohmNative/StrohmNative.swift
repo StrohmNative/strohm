@@ -37,6 +37,7 @@ public class StrohmNative: NSObject, WKNavigationDelegate {
         self.port = port
 
         webConfiguration = WKWebViewConfiguration()
+        webConfiguration.mediaTypesRequiringUserActionForPlayback = []
         webConfiguration.userContentController.add(comms, name: "jsToSwift")
 
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
