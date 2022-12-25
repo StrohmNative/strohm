@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "shadow-cljs": "2.19.0"
+    "shadow-cljs": "2.20.16"
   },
   "scripts": {
     "jar": "clj -X:jar :jar target/strohm-native.jar :sync-pom true",

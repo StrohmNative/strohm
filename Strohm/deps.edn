@@ -1,11 +1,11 @@
 {:paths ["src" "test" "resources"]
- :deps {thheller/shadow-cljs {:mvn/version "2.19.0"}
+ :deps {thheller/shadow-cljs {:mvn/version "2.20.16"}
         com.fulcrologic/guardrails {:mvn/version "1.1.11"}
         org.clojure/clojure {:mvn/version "1.11.1"}
         org.clojure/test.check {:mvn/version "1.1.1"}}
  :aliases {:clj-kondo-test {:extra-paths ["test-clj-kondo"]
                             :extra-deps  {fulcrologic/fulcro-spec {:mvn/version "3.1.12"}
-                                          clj-kondo/clj-kondo     {:mvn/version "2022.04.25"}}}
+                                          clj-kondo/clj-kondo     {:mvn/version "2022.12.10"}}}
            :runner {:extra-paths ["test"]
                     :extra-deps {io.github.cognitect-labs/test-runner
                                  {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
@@ -31,5 +31,5 @@
                                 :sign-key-id "C771518B366E0C7D0C4B4368B2741AC5AFC71E0A"
                                 :artifact "target/strohm-native.jar"}}
 
-           :outdated {:extra-deps {com.github.liquidz/antq {:mvn/version "1.6.774"}}
+           :outdated {:extra-deps {com.github.liquidz/antq {:mvn/version "2.2.970"}}
                       :main-opts ["-m" "antq.core"]}}}
