@@ -27,10 +27,10 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Cache things
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-m2
         with:
@@ -40,11 +40,11 @@ jobs:
             ~/.gradle/wrapper
             Strohm/.shadow-cljs
             Strohm/ios/Strohm/.build
-          key: ${{ runner.os }}-v2-build-${{ env.cache-name }}-${{ hashFiles('Strohm/**/deps.edn', 'Strohm/**/build.gradle', 'Strohm/**/Package.resolved') }}
+          key: ${{ runner.os }}-v3-build-${{ env.cache-name }}-${{ hashFiles('Strohm/**/deps.edn', 'Strohm/**/build.gradle', 'Strohm/**/Package.resolved') }}
           restore-keys: |
-            ${{ runner.os }}-v2-build-${{ env.cache-name }}-
-            ${{ runner.os }}-v2-build-
-            ${{ runner.os }}-v2-
+            ${{ runner.os }}-v3-build-${{ env.cache-name }}-
+            ${{ runner.os }}-v3-build-
+            ${{ runner.os }}-v3-
 
       - name: Install prerequisites
         run: brew install clojure/tools/clojure
