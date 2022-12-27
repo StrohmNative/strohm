@@ -46,6 +46,9 @@ jobs:
             ${{ runner.os }}-v3-build-
             ${{ runner.os }}-v3-
 
+      - name: Show java version
+        run: java -version
+
       - name: Install prerequisites
         run: brew install clojure/tools/clojure
 
