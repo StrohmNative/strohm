@@ -50,7 +50,11 @@ jobs:
         run: java -version
 
       - name: Install prerequisites
-        run: brew install clojure/tools/clojure
+        run: |
+          brew install openjdk clojure/tools/clojure
+          sudo ln -sfn $HOME/.homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+          echo "Java version is now:"
+          java -version
 
       - name: Prepare
         run: yarn install --frozen-lockfile
