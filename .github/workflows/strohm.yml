@@ -2,6 +2,8 @@
 
 name: CI
 
+env:
+  JAVA_HOME: $JAVA_HOME_17_X64
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
@@ -46,13 +48,16 @@ jobs:
             ${{ runner.os }}-v3-build-
             ${{ runner.os }}-v3-
 
-      - name: Show java version
-        run: java -version
+      - name: Show env and java version
+        run: |
+          env
+          java -version
 
       - name: Install prerequisites
         run: |
           brew install openjdk clojure/tools/clojure
           sudo ln -sfn $HOME/.homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+          echo "Java home: $JAVA_HOME"
           echo "Java version is now:"
           java -version
 
