@@ -2,8 +2,6 @@
 
 name: CI
 
-env:
-  JAVA_HOME: $JAVA_HOME_17_X64
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
@@ -48,18 +46,18 @@ jobs:
             ${{ runner.os }}-v3-build-
             ${{ runner.os }}-v3-
 
-      - name: Show env and java version
+      - name: Setup JAVA_HOME
         run: |
-          env
+          echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
+
+      - name: Show Java version
+        run: |
+          echo "Java home is: $JAVA_HOME"
           java -version
 
       - name: Install prerequisites
         run: |
-          brew install openjdk clojure/tools/clojure
-          sudo ln -sfn $HOME/.homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
-          echo "Java home: $JAVA_HOME"
-          echo "Java version is now:"
-          java -version
+          brew install clojure/tools/clojure
 
       - name: Prepare
         run: yarn install --frozen-lockfile
