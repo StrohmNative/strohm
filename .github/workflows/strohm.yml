@@ -48,7 +48,7 @@ jobs:
 
       - name: Setup JAVA_HOME
         run: |
-          echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
+          echo "JAVA_HOME=$JAVA_HOME_11_X64" >> $GITHUB_ENV
 
       - name: Show Java version
         run: |
